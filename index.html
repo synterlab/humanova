@@ -1359,69 +1359,84 @@
 </div>
 
 <!-- ── DASHBOARD PAGE ───────────────────── -->
-<div id="page-dashboard" class="page page-pad">
-  <!-- Dashboard Header -->
-  <div style="background:var(--red);padding:2rem 0 0;margin-bottom:0;">
+<div id="page-dashboard" class="page">
+  <!-- Dashboard Hero Header -->
+  <div style="background:linear-gradient(135deg,#1a0a0a 0%,#8a1010 55%,#b91c1c 100%);padding:2.5rem 0 0;">
     <div class="container">
-      <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:1rem;padding-bottom:1.5rem;">
-        <div style="display:flex;align-items:center;gap:1rem;">
-          <div id="dashAvatar" style="width:52px;height:52px;border-radius:50%;background:rgba(255,255,255,0.2);border:2px solid rgba(255,255,255,0.5);display:flex;align-items:center;justify-content:center;color:white;font-weight:800;font-size:1.3rem;">U</div>
+      <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:1rem;padding-bottom:2rem;">
+        <div style="display:flex;align-items:center;gap:1.1rem;">
+          <div id="dashAvatar" style="width:56px;height:56px;border-radius:50%;background:rgba(255,255,255,0.18);border:2px solid rgba(255,255,255,0.45);display:flex;align-items:center;justify-content:center;color:white;font-weight:800;font-size:1.4rem;letter-spacing:-0.02em;flex-shrink:0;">U</div>
           <div>
-            <div id="dashName" style="color:white;font-weight:700;font-size:1.1rem;">Welcome back</div>
-            <div id="dashEmail" style="color:rgba(255,255,255,0.75);font-size:0.82rem;margin-top:1px;"></div>
+            <div style="font-size:0.7rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:rgba(255,255,255,0.55);margin-bottom:0.2rem;">Welcome back</div>
+            <div id="dashName" style="color:white;font-weight:800;font-size:1.25rem;line-height:1.2;">Your Name</div>
+            <div id="dashEmail" style="color:rgba(255,255,255,0.6);font-size:0.8rem;margin-top:0.2rem;"></div>
           </div>
         </div>
-        <button onclick="signOut()" style="display:flex;align-items:center;gap:0.5rem;background:rgba(255,255,255,0.15);border:1.5px solid rgba(255,255,255,0.4);color:white;padding:0.5rem 1.1rem;border-radius:4px;font-size:0.875rem;font-weight:600;cursor:pointer;font-family:inherit;transition:background 0.2s;" onmouseover="this.style.background='rgba(255,255,255,0.25)'" onmouseout="this.style.background='rgba(255,255,255,0.15)'">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+        <button onclick="signOut()" style="display:flex;align-items:center;gap:0.45rem;background:rgba(0,0,0,0.25);border:1.5px solid rgba(255,255,255,0.25);color:rgba(255,255,255,0.85);padding:0.55rem 1.1rem;border-radius:4px;font-size:0.8rem;font-weight:600;cursor:pointer;font-family:inherit;transition:all 0.2s;" onmouseover="this.style.background='rgba(0,0,0,0.4)'" onmouseout="this.style.background='rgba(0,0,0,0.25)'">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
           Sign Out
         </button>
       </div>
-      <div class="dash-tabs" role="tablist" style="border-bottom:none;gap:0.25rem;">
-        <button class="dash-tab active" role="tab" onclick="switchDashTab('saved',this)" style="color:white;border-color:rgba(255,255,255,0.5);background:rgba(255,255,255,0.15);">All Toolkits</button>
-        <button class="dash-tab" role="tab" onclick="switchDashTab('settings',this)" style="color:rgba(255,255,255,0.75);border-color:transparent;">Settings</button>
+      <!-- Quick Stats Bar -->
+      <div style="display:flex;gap:0;border-top:1px solid rgba(255,255,255,0.12);padding-top:0;">
+        <div style="flex:1;padding:1rem 0.75rem;border-right:1px solid rgba(255,255,255,0.1);text-align:center;">
+          <div style="font-size:1.5rem;font-weight:900;color:white;line-height:1;">47</div>
+          <div style="font-size:0.68rem;font-weight:600;letter-spacing:0.06em;text-transform:uppercase;color:rgba(255,255,255,0.5);margin-top:0.25rem;">Toolkits</div>
+        </div>
+        <div style="flex:1;padding:1rem 0.75rem;border-right:1px solid rgba(255,255,255,0.1);text-align:center;">
+          <div style="font-size:1.5rem;font-weight:900;color:white;line-height:1;">8</div>
+          <div style="font-size:0.68rem;font-weight:600;letter-spacing:0.06em;text-transform:uppercase;color:rgba(255,255,255,0.5);margin-top:0.25rem;">Categories</div>
+        </div>
+        <div style="flex:1;padding:1rem 0.75rem;text-align:center;">
+          <div style="font-size:1.5rem;font-weight:900;color:white;line-height:1;">PDF</div>
+          <div style="font-size:0.68rem;font-weight:600;letter-spacing:0.06em;text-transform:uppercase;color:rgba(255,255,255,0.5);margin-top:0.25rem;">All Free</div>
+        </div>
+      </div>
+      <!-- Tabs -->
+      <div style="display:flex;gap:0;margin-top:0.5rem;">
+        <button class="dash-tab active" role="tab" onclick="switchDashTab('saved',this)" style="flex:none;padding:0.75rem 1.25rem;background:transparent;border:none;border-bottom:3px solid white;color:white;font-weight:700;font-size:0.85rem;cursor:pointer;font-family:inherit;letter-spacing:0.02em;">Toolkits</button>
+        <button class="dash-tab" role="tab" onclick="switchDashTab('settings',this)" style="flex:none;padding:0.75rem 1.25rem;background:transparent;border:none;border-bottom:3px solid transparent;color:rgba(255,255,255,0.55);font-weight:600;font-size:0.85rem;cursor:pointer;font-family:inherit;letter-spacing:0.02em;">Settings</button>
       </div>
     </div>
   </div>
 
-  <section class="section" style="padding-top:2rem;">
+  <!-- Dashboard Content -->
+  <div style="background:#f8f8f8;min-height:60vh;padding:1.75rem 0 3rem;">
     <div class="container">
       <div class="dash-panel active" id="dp-saved">
-        <div style="margin-bottom:1.5rem;">
-          <h2 style="font-size:1.3rem;font-weight:700;margin-bottom:0.35rem;">Download Any Toolkit</h2>
-          <p style="color:var(--medium-gray);font-size:0.9rem;">You have full access to all 47 toolkits. Download as a print-ready PDF or save to your device.</p>
+        <!-- Category Filter -->
+        <div style="display:flex;gap:0.5rem;flex-wrap:wrap;margin-bottom:1.5rem;padding-bottom:1.25rem;border-bottom:1px solid #e5e7eb;">
+          <button style="padding:0.4rem 0.9rem;border-radius:20px;font-size:0.78rem;font-weight:700;cursor:pointer;font-family:inherit;transition:all 0.15s;background:var(--red);color:white;border:none;" onclick="filterDashToolkits('all',this)">All</button>
+          <button style="padding:0.4rem 0.9rem;border-radius:20px;font-size:0.78rem;font-weight:600;cursor:pointer;font-family:inherit;background:white;border:1.5px solid #e5e7eb;color:#374151;transition:all 0.15s;" onclick="filterDashToolkits('look-ahead',this)">Look Ahead</button>
+          <button style="padding:0.4rem 0.9rem;border-radius:20px;font-size:0.78rem;font-weight:600;cursor:pointer;font-family:inherit;background:white;border:1.5px solid #e5e7eb;color:#374151;transition:all 0.15s;" onclick="filterDashToolkits('develop-plan',this)">Develop a Plan</button>
+          <button style="padding:0.4rem 0.9rem;border-radius:20px;font-size:0.78rem;font-weight:600;cursor:pointer;font-family:inherit;background:white;border:1.5px solid #e5e7eb;color:#374151;transition:all 0.15s;" onclick="filterDashToolkits('clarify',this)">Clarify</button>
+          <button style="padding:0.4rem 0.9rem;border-radius:20px;font-size:0.78rem;font-weight:600;cursor:pointer;font-family:inherit;background:white;border:1.5px solid #e5e7eb;color:#374151;transition:all 0.15s;" onclick="filterDashToolkits('collect-inputs',this)">Collect Inputs</button>
+          <button style="padding:0.4rem 0.9rem;border-radius:20px;font-size:0.78rem;font-weight:600;cursor:pointer;font-family:inherit;background:white;border:1.5px solid #e5e7eb;color:#374151;transition:all 0.15s;" onclick="filterDashToolkits('know-people',this)">Know People</button>
+          <button style="padding:0.4rem 0.9rem;border-radius:20px;font-size:0.78rem;font-weight:600;cursor:pointer;font-family:inherit;background:white;border:1.5px solid #e5e7eb;color:#374151;transition:all 0.15s;" onclick="filterDashToolkits('generate-ideas',this)">Generate Ideas</button>
+          <button style="padding:0.4rem 0.9rem;border-radius:20px;font-size:0.78rem;font-weight:600;cursor:pointer;font-family:inherit;background:white;border:1.5px solid #e5e7eb;color:#374151;transition:all 0.15s;" onclick="filterDashToolkits('test-improve',this)">Test &amp; Improve</button>
+          <button style="padding:0.4rem 0.9rem;border-radius:20px;font-size:0.78rem;font-weight:600;cursor:pointer;font-family:inherit;background:white;border:1.5px solid #e5e7eb;color:#374151;transition:all 0.15s;" onclick="filterDashToolkits('sustain',this)">Sustain</button>
         </div>
-        <div style="display:flex;gap:0.75rem;flex-wrap:wrap;margin-bottom:1.5rem;" id="dashCatFilter">
-          <button class="tag-pill" style="background:var(--red);color:white;border-color:var(--red);cursor:pointer;" onclick="filterDashToolkits('all',this)">All</button>
-          <button class="tag-pill" style="cursor:pointer;" onclick="filterDashToolkits('look-ahead',this)">Look Ahead</button>
-          <button class="tag-pill" style="cursor:pointer;" onclick="filterDashToolkits('develop-plan',this)">Develop a Plan</button>
-          <button class="tag-pill" style="cursor:pointer;" onclick="filterDashToolkits('clarify',this)">Clarify</button>
-          <button class="tag-pill" style="cursor:pointer;" onclick="filterDashToolkits('collect-inputs',this)">Collect Inputs</button>
-          <button class="tag-pill" style="cursor:pointer;" onclick="filterDashToolkits('know-people',this)">Know People</button>
-          <button class="tag-pill" style="cursor:pointer;" onclick="filterDashToolkits('generate-ideas',this)">Generate Ideas</button>
-          <button class="tag-pill" style="cursor:pointer;" onclick="filterDashToolkits('test-improve',this)">Test & Improve</button>
-          <button class="tag-pill" style="cursor:pointer;" onclick="filterDashToolkits('sustain',this)">Sustain</button>
-        </div>
-        <div id="dashToolkitList" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:1rem;"></div>
+        <div id="dashToolkitList" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(290px,1fr));gap:1rem;"></div>
       </div>
 
       <div class="dash-panel" id="dp-settings">
-        <h2 style="font-size:1.25rem;font-weight:700;margin-bottom:1.5rem;">Account Settings</h2>
-        <div style="max-width:480px;">
+        <div style="max-width:480px;background:white;border-radius:8px;border:1px solid #e5e7eb;padding:1.75rem;">
+          <h2 style="font-size:1.1rem;font-weight:800;margin-bottom:1.5rem;letter-spacing:-0.01em;">Account Settings</h2>
           <div class="form-group"><label class="form-label">Full Name</label><input class="form-input" type="text" placeholder="Your full name" /></div>
           <div class="form-group"><label class="form-label">Organization</label><input class="form-input" type="text" placeholder="Your organization" /></div>
           <div class="form-group"><label class="form-label">Role</label><input class="form-input" type="text" placeholder="e.g. Programme Manager, Designer" /></div>
           <div class="form-group"><label class="form-label">Email</label><input class="form-input" type="email" id="settingsEmailDisplay" readonly style="background:#f9fafb;color:var(--medium-gray);" /></div>
-          <div style="display:flex;gap:0.75rem;flex-wrap:wrap;margin-top:1.25rem;">
+          <div style="display:flex;gap:0.75rem;flex-wrap:wrap;margin-top:1.5rem;padding-top:1.25rem;border-top:1px solid #f3f4f6;">
             <button class="btn btn-red" onclick="showToast('Profile saved!')">Save Changes</button>
             <button onclick="signOut()" style="display:flex;align-items:center;gap:0.4rem;background:none;border:1.5px solid #e5e7eb;color:#374151;padding:0.6rem 1rem;border-radius:4px;font-size:0.875rem;font-weight:600;cursor:pointer;font-family:inherit;">
-              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
               Sign Out
             </button>
           </div>
         </div>
       </div>
     </div>
-  </section>
+  </div>
 </div>
 
 <!-- ── ADMIN PAGE ───────────────────────── -->
@@ -1689,14 +1704,14 @@ function renderFindCategories() {
 
 // ─── CATEGORY COLOR SYSTEM ──────────────────────
 const CAT_COLORS = {
-  'look-ahead':    { a:'#0f172a', b:'#1e3a5f', c:'#3b82f6' },
-  'develop-plan':  { a:'#2e1065', b:'#5b21b6', c:'#a78bfa' },
-  'clarify':       { a:'#431407', b:'#9a3412', c:'#fb923c' },
-  'collect-inputs':{ a:'#042f2e', b:'#0f766e', c:'#2dd4bf' },
-  'know-people':   { a:'#052e16', b:'#15803d', c:'#4ade80' },
-  'generate-ideas':{ a:'#451a03', b:'#b45309', c:'#fbbf24' },
-  'test-improve':  { a:'#4a044e', b:'#a21caf', c:'#f0abfc' },
-  'sustain':       { a:'#450a0a', b:'#b91c1c', c:'#f87171' },
+  'look-ahead':    { a:'#091428', b:'#142d5a', c:'#5599ff' },
+  'develop-plan':  { a:'#160832', b:'#31107a', c:'#a880ff' },
+  'clarify':       { a:'#220800', b:'#7a2208', c:'#ff7840' },
+  'collect-inputs':{ a:'#011918', b:'#085c56', c:'#14e8d8' },
+  'know-people':   { a:'#031508', b:'#0a5c28', c:'#28e868' },
+  'generate-ideas':{ a:'#1e0c00', b:'#884008', c:'#ffba28' },
+  'test-improve':  { a:'#180228', b:'#620880', c:'#e050ff' },
+  'sustain':       { a:'#1c0404', b:'#8a1010', c:'#ff5050' },
 };
 
 const CAT_PATTERNS = {
@@ -1808,140 +1823,96 @@ const CAT_PATTERNS = {
     <line x1="0" y1="112" x2="400" y2="112" stroke="rgba(255,255,255,0.04)" stroke-width="1"/>`,
 };
 
-const CAT_PHOTOS = {
-  'look-ahead':    'https://images.unsplash.com/photo-1503945438517-f65904a52ce6?w=400&q=70',
-  'develop-plan':  'https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?w=400&q=70',
-  'clarify':       'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&q=70',
-  'collect-inputs':'https://images.unsplash.com/photo-1515187029135-18ee286d815b?w=400&q=70',
-  'know-people':   'https://images.unsplash.com/photo-1543269865-cbf427effbad?w=400&q=70',
-  'generate-ideas':'https://images.unsplash.com/photo-1495364141860-b0d03eccd065?w=400&q=70',
-  'test-improve':  'https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=400&q=70',
-  'sustain':       'https://images.unsplash.com/photo-1542601906897-fc28e46b0779?w=400&q=70',
-};
 function getCoverBg(category) {
-  const col = CAT_COLORS[category] || { a:'#1a1a1a', b:'#333' };
-  const photo = CAT_PHOTOS[category];
-  if (photo) {
-    return `linear-gradient(160deg, ${col.a}e8 0%, ${col.b}c8 60%, ${col.a}aa 100%), url('${photo}') center/cover no-repeat`;
-  }
-  return `linear-gradient(140deg, ${col.a} 0%, ${col.b} 100%)`;
+  const col = CAT_COLORS[category] || { a:'#1a1a1a', b:'#333', c:'#aaa' };
+  return `linear-gradient(145deg, ${col.a} 0%, ${col.b} 60%, ${col.a}cc 100%)`;
 }
 
 const CAT_ICONS = {
   'look-ahead': `
-    <text x="200" y="148" font-family="Inter,system-ui,sans-serif" font-size="72" font-weight="900" fill="rgba(255,255,255,0.1)" text-anchor="middle" dominant-baseline="middle" letter-spacing="-4">LOOK</text>
-    <!-- Binoculars: two big circles + bridge -->
-    <circle cx="168" cy="100" r="32" fill="none" stroke="rgba(255,255,255,0.9)" stroke-width="4"/>
-    <circle cx="232" cy="100" r="32" fill="none" stroke="rgba(255,255,255,0.9)" stroke-width="4"/>
-    <circle cx="168" cy="100" r="16" fill="COL_C" opacity="0.7"/>
-    <circle cx="232" cy="100" r="16" fill="COL_C" opacity="0.7"/>
-    <rect x="185" y="88" width="30" height="24" rx="4" fill="rgba(255,255,255,0.15)" stroke="rgba(255,255,255,0.4)" stroke-width="2"/>
-    <line x1="168" y1="132" x2="168" y2="150" stroke="rgba(255,255,255,0.5)" stroke-width="3" stroke-linecap="round"/>
-    <line x1="232" y1="132" x2="232" y2="150" stroke="rgba(255,255,255,0.5)" stroke-width="3" stroke-linecap="round"/>`,
+    <circle cx="168" cy="104" r="34" fill="none" stroke="rgba(255,255,255,0.9)" stroke-width="3.5"/>
+    <circle cx="232" cy="104" r="34" fill="none" stroke="rgba(255,255,255,0.9)" stroke-width="3.5"/>
+    <circle cx="168" cy="104" r="18" fill="COL_C" opacity="0.65"/>
+    <circle cx="232" cy="104" r="18" fill="COL_C" opacity="0.65"/>
+    <circle cx="168" cy="104" r="8" fill="rgba(255,255,255,0.35)"/>
+    <circle cx="232" cy="104" r="8" fill="rgba(255,255,255,0.35)"/>
+    <rect x="185" y="92" width="30" height="24" rx="4" fill="rgba(255,255,255,0.14)" stroke="rgba(255,255,255,0.4)" stroke-width="2"/>
+    <line x1="168" y1="138" x2="155" y2="155" stroke="rgba(255,255,255,0.5)" stroke-width="3" stroke-linecap="round"/>
+    <line x1="232" y1="138" x2="245" y2="155" stroke="rgba(255,255,255,0.5)" stroke-width="3" stroke-linecap="round"/>
+    <line x1="150" y1="155" x2="250" y2="155" stroke="rgba(255,255,255,0.3)" stroke-width="2.5" stroke-linecap="round"/>`,
 
   'develop-plan': `
-    <text x="200" y="148" font-family="Inter,system-ui,sans-serif" font-size="60" font-weight="900" fill="rgba(255,255,255,0.1)" text-anchor="middle" dominant-baseline="middle" letter-spacing="-3">PLAN</text>
-    <!-- Clipboard with checklist -->
-    <rect x="148" y="58" width="104" height="124" rx="6" fill="rgba(255,255,255,0.12)" stroke="rgba(255,255,255,0.6)" stroke-width="3"/>
-    <rect x="172" y="50" width="56" height="18" rx="9" fill="rgba(255,255,255,0.7)" stroke="rgba(255,255,255,0.9)" stroke-width="2"/>
-    <!-- Check rows -->
-    <circle cx="168" cy="95" r="6" fill="COL_C" opacity="0.9"/>
-    <polyline points="165,95 168,98 173,91" fill="none" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
-    <line x1="182" y1="95" x2="238" y2="95" stroke="rgba(255,255,255,0.8)" stroke-width="3" stroke-linecap="round"/>
-    <circle cx="168" cy="118" r="6" fill="COL_C" opacity="0.9"/>
-    <polyline points="165,118 168,121 173,114" fill="none" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
-    <line x1="182" y1="118" x2="230" y2="118" stroke="rgba(255,255,255,0.7)" stroke-width="3" stroke-linecap="round"/>
-    <circle cx="168" cy="141" r="6" fill="rgba(255,255,255,0.3)" stroke="rgba(255,255,255,0.5)" stroke-width="2"/>
-    <line x1="182" y1="141" x2="220" y2="141" stroke="rgba(255,255,255,0.4)" stroke-width="3" stroke-linecap="round"/>
-    <circle cx="168" cy="162" r="6" fill="rgba(255,255,255,0.3)" stroke="rgba(255,255,255,0.5)" stroke-width="2"/>
-    <line x1="182" y1="162" x2="225" y2="162" stroke="rgba(255,255,255,0.35)" stroke-width="3" stroke-linecap="round"/>`,
+    <rect x="148" y="60" width="104" height="122" rx="5" fill="rgba(255,255,255,0.1)" stroke="rgba(255,255,255,0.6)" stroke-width="3"/>
+    <rect x="172" y="52" width="56" height="18" rx="9" fill="rgba(255,255,255,0.7)" stroke="rgba(255,255,255,0.9)" stroke-width="2"/>
+    <circle cx="168" cy="98" r="6" fill="COL_C" opacity="0.95"/>
+    <polyline points="165,98 168,101 173,93" fill="none" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+    <line x1="182" y1="98" x2="238" y2="98" stroke="rgba(255,255,255,0.8)" stroke-width="2.5" stroke-linecap="round"/>
+    <circle cx="168" cy="121" r="6" fill="COL_C" opacity="0.95"/>
+    <polyline points="165,121 168,124 173,116" fill="none" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+    <line x1="182" y1="121" x2="228" y2="121" stroke="rgba(255,255,255,0.7)" stroke-width="2.5" stroke-linecap="round"/>
+    <circle cx="168" cy="144" r="6" fill="rgba(255,255,255,0.22)" stroke="rgba(255,255,255,0.42)" stroke-width="2"/>
+    <line x1="182" y1="144" x2="218" y2="144" stroke="rgba(255,255,255,0.32)" stroke-width="2.5" stroke-linecap="round"/>
+    <circle cx="168" cy="165" r="6" fill="rgba(255,255,255,0.18)" stroke="rgba(255,255,255,0.32)" stroke-width="2"/>
+    <line x1="182" y1="165" x2="222" y2="165" stroke="rgba(255,255,255,0.25)" stroke-width="2.5" stroke-linecap="round"/>`,
 
   'clarify': `
-    <text x="200" y="148" font-family="Inter,system-ui,sans-serif" font-size="55" font-weight="900" fill="rgba(255,255,255,0.09)" text-anchor="middle" dominant-baseline="middle" letter-spacing="-2">FOCUS</text>
-    <!-- Target/bullseye — large and bold -->
-    <circle cx="200" cy="100" r="60" fill="none" stroke="rgba(255,255,255,0.25)" stroke-width="2"/>
-    <circle cx="200" cy="100" r="44" fill="none" stroke="rgba(255,255,255,0.4)" stroke-width="3"/>
-    <circle cx="200" cy="100" r="28" fill="none" stroke="rgba(255,255,255,0.6)" stroke-width="3.5"/>
-    <circle cx="200" cy="100" r="13" fill="COL_C" opacity="0.9" stroke="rgba(255,255,255,0.9)" stroke-width="3"/>
-    <!-- Crosshair lines -->
-    <line x1="200" y1="52" x2="200" y2="72" stroke="rgba(255,255,255,0.7)" stroke-width="3" stroke-linecap="round"/>
-    <line x1="200" y1="128" x2="200" y2="148" stroke="rgba(255,255,255,0.7)" stroke-width="3" stroke-linecap="round"/>
-    <line x1="140" y1="100" x2="160" y2="100" stroke="rgba(255,255,255,0.7)" stroke-width="3" stroke-linecap="round"/>
-    <line x1="240" y1="100" x2="260" y2="100" stroke="rgba(255,255,255,0.7)" stroke-width="3" stroke-linecap="round"/>`,
+    <circle cx="200" cy="108" r="64" fill="none" stroke="rgba(255,255,255,0.18)" stroke-width="1.5"/>
+    <circle cx="200" cy="108" r="46" fill="none" stroke="rgba(255,255,255,0.34)" stroke-width="2.5"/>
+    <circle cx="200" cy="108" r="30" fill="none" stroke="rgba(255,255,255,0.56)" stroke-width="3"/>
+    <circle cx="200" cy="108" r="14" fill="COL_C" opacity="0.92" stroke="rgba(255,255,255,0.9)" stroke-width="2.5"/>
+    <line x1="200" y1="52" x2="200" y2="70" stroke="rgba(255,255,255,0.7)" stroke-width="2.5" stroke-linecap="round"/>
+    <line x1="200" y1="146" x2="200" y2="164" stroke="rgba(255,255,255,0.7)" stroke-width="2.5" stroke-linecap="round"/>
+    <line x1="136" y1="108" x2="154" y2="108" stroke="rgba(255,255,255,0.7)" stroke-width="2.5" stroke-linecap="round"/>
+    <line x1="246" y1="108" x2="264" y2="108" stroke="rgba(255,255,255,0.7)" stroke-width="2.5" stroke-linecap="round"/>`,
 
   'collect-inputs': `
-    <text x="200" y="155" font-family="Inter,system-ui,sans-serif" font-size="50" font-weight="900" fill="rgba(255,255,255,0.09)" text-anchor="middle" dominant-baseline="middle" letter-spacing="-2">INPUT</text>
-    <!-- Bold funnel -->
-    <path d="M130,55 L270,55 L230,105 L230,165 L170,150 L170,105 Z" fill="COL_C" fill-opacity="0.35" stroke="rgba(255,255,255,0.8)" stroke-width="3.5" stroke-linejoin="round"/>
-    <!-- Dots entering funnel top -->
-    <circle cx="155" cy="42" r="7" fill="rgba(255,255,255,0.7)"/>
-    <circle cx="200" cy="38" r="7" fill="rgba(255,255,255,0.8)"/>
-    <circle cx="245" cy="42" r="7" fill="rgba(255,255,255,0.7)"/>
-    <circle cx="175" cy="46" r="5" fill="rgba(255,255,255,0.5)"/>
-    <circle cx="225" cy="46" r="5" fill="rgba(255,255,255,0.5)"/>
-    <!-- Output dot at bottom -->
-    <circle cx="200" cy="178" r="9" fill="rgba(255,255,255,0.9)"/>
-    <line x1="200" y1="165" x2="200" y2="169" stroke="rgba(255,255,255,0.7)" stroke-width="3" stroke-linecap="round"/>`,
+    <path d="M126,52 L274,52 L232,108 L232,168 L168,152 L168,108 Z" fill="COL_C" fill-opacity="0.28" stroke="rgba(255,255,255,0.82)" stroke-width="3.5" stroke-linejoin="round"/>
+    <circle cx="152" cy="38" r="8" fill="rgba(255,255,255,0.72)"/>
+    <circle cx="200" cy="33" r="8" fill="rgba(255,255,255,0.88)"/>
+    <circle cx="248" cy="38" r="8" fill="rgba(255,255,255,0.72)"/>
+    <circle cx="174" cy="43" r="5" fill="rgba(255,255,255,0.48)"/>
+    <circle cx="226" cy="43" r="5" fill="rgba(255,255,255,0.48)"/>
+    <circle cx="200" cy="182" r="10" fill="rgba(255,255,255,0.92)"/>`,
 
   'know-people': `
-    <text x="200" y="170" font-family="Inter,system-ui,sans-serif" font-size="44" font-weight="900" fill="rgba(255,255,255,0.09)" text-anchor="middle" dominant-baseline="middle" letter-spacing="-2">PEOPLE</text>
-    <!-- Central large person -->
-    <circle cx="200" cy="76" r="22" fill="rgba(255,255,255,0.85)" stroke="rgba(255,255,255,0.95)" stroke-width="2"/>
-    <path d="M163,138 Q163,108 200,106 Q237,108 237,138" fill="rgba(255,255,255,0.85)" stroke="rgba(255,255,255,0.95)" stroke-width="2" stroke-linecap="round"/>
-    <!-- Left person -->
-    <circle cx="118" cy="95" r="16" fill="COL_C" fill-opacity="0.8" stroke="rgba(255,255,255,0.7)" stroke-width="2"/>
-    <path d="M92,140 Q92,120 118,119 Q144,120 144,140" fill="COL_C" fill-opacity="0.6" stroke="rgba(255,255,255,0.5)" stroke-width="2" stroke-linecap="round"/>
-    <!-- Right person -->
-    <circle cx="282" cy="95" r="16" fill="COL_C" fill-opacity="0.8" stroke="rgba(255,255,255,0.7)" stroke-width="2"/>
-    <path d="M256,140 Q256,120 282,119 Q308,120 308,140" fill="COL_C" fill-opacity="0.6" stroke="rgba(255,255,255,0.5)" stroke-width="2" stroke-linecap="round"/>
-    <!-- Connection lines -->
-    <line x1="143" y1="112" x2="178" y2="95" stroke="rgba(255,255,255,0.5)" stroke-width="2.5" stroke-linecap="round"/>
-    <line x1="257" y1="112" x2="222" y2="95" stroke="rgba(255,255,255,0.5)" stroke-width="2.5" stroke-linecap="round"/>`,
+    <circle cx="200" cy="78" r="24" fill="rgba(255,255,255,0.88)" stroke="rgba(255,255,255,0.95)" stroke-width="2"/>
+    <path d="M161,142 Q161,110 200,108 Q239,110 239,142" fill="rgba(255,255,255,0.88)" stroke="rgba(255,255,255,0.95)" stroke-width="2" stroke-linecap="round"/>
+    <circle cx="116" cy="98" r="17" fill="COL_C" fill-opacity="0.82" stroke="rgba(255,255,255,0.72)" stroke-width="2"/>
+    <path d="M89,145 Q89,123 116,122 Q143,123 143,145" fill="COL_C" fill-opacity="0.62" stroke="rgba(255,255,255,0.52)" stroke-width="2" stroke-linecap="round"/>
+    <circle cx="284" cy="98" r="17" fill="COL_C" fill-opacity="0.82" stroke="rgba(255,255,255,0.72)" stroke-width="2"/>
+    <path d="M257,145 Q257,123 284,122 Q311,123 311,145" fill="COL_C" fill-opacity="0.62" stroke="rgba(255,255,255,0.52)" stroke-width="2" stroke-linecap="round"/>
+    <line x1="142" y1="115" x2="177" y2="97" stroke="rgba(255,255,255,0.52)" stroke-width="2.5" stroke-linecap="round"/>
+    <line x1="258" y1="115" x2="223" y2="97" stroke="rgba(255,255,255,0.52)" stroke-width="2.5" stroke-linecap="round"/>`,
 
   'generate-ideas': `
-    <text x="200" y="165" font-family="Inter,system-ui,sans-serif" font-size="44" font-weight="900" fill="rgba(255,255,255,0.09)" text-anchor="middle" dominant-baseline="middle" letter-spacing="-2">IDEAS</text>
-    <!-- Large bold lightbulb -->
-    <path d="M200,40 C170,40 146,62 146,88 C146,108 158,126 176,134 L176,158 L224,158 L224,134 C242,126 254,108 254,88 C254,62 230,40 200,40 Z" fill="none" stroke="rgba(255,255,255,0.88)" stroke-width="4" stroke-linejoin="round"/>
-    <!-- Base bands -->
-    <line x1="180" y1="161" x2="220" y2="161" stroke="rgba(255,255,255,0.7)" stroke-width="3.5" stroke-linecap="round"/>
-    <line x1="184" y1="170" x2="216" y2="170" stroke="rgba(255,255,255,0.5)" stroke-width="3" stroke-linecap="round"/>
-    <line x1="190" y1="179" x2="210" y2="179" stroke="rgba(255,255,255,0.3)" stroke-width="2.5" stroke-linecap="round"/>
-    <!-- Inner glow fill -->
-    <path d="M200,50 C176,50 156,68 156,88 C156,104 166,118 180,126 L180,150 L220,150 L220,126 C234,118 244,104 244,88 C244,68 224,50 200,50 Z" fill="COL_C" fill-opacity="0.4"/>
-    <!-- Rays above -->
-    <line x1="200" y1="24" x2="200" y2="34" stroke="COL_C" stroke-width="3.5" stroke-linecap="round"/>
-    <line x1="172" y1="30" x2="177" y2="40" stroke="COL_C" stroke-width="3" stroke-linecap="round" opacity="0.8"/>
-    <line x1="228" y1="30" x2="223" y2="40" stroke="COL_C" stroke-width="3" stroke-linecap="round" opacity="0.8"/>
-    <line x1="152" y1="46" x2="160" y2="54" stroke="rgba(255,255,255,0.4)" stroke-width="2.5" stroke-linecap="round"/>
-    <line x1="248" y1="46" x2="240" y2="54" stroke="rgba(255,255,255,0.4)" stroke-width="2.5" stroke-linecap="round"/>`,
+    <path d="M200,42 C169,42 144,65 144,92 C144,113 157,132 176,140 L176,162 L224,162 L224,140 C243,132 256,113 256,92 C256,65 231,42 200,42 Z" fill="none" stroke="rgba(255,255,255,0.88)" stroke-width="4" stroke-linejoin="round"/>
+    <line x1="180" y1="165" x2="220" y2="165" stroke="rgba(255,255,255,0.72)" stroke-width="3.5" stroke-linecap="round"/>
+    <line x1="184" y1="174" x2="216" y2="174" stroke="rgba(255,255,255,0.52)" stroke-width="3" stroke-linecap="round"/>
+    <line x1="190" y1="182" x2="210" y2="182" stroke="rgba(255,255,255,0.32)" stroke-width="2.5" stroke-linecap="round"/>
+    <path d="M200,52 C175,52 154,72 154,92 C154,109 165,124 180,132 L180,154 L220,154 L220,132 C235,124 246,109 246,92 C246,72 225,52 200,52 Z" fill="COL_C" fill-opacity="0.38"/>
+    <line x1="200" y1="24" x2="200" y2="36" stroke="COL_C" stroke-width="3.5" stroke-linecap="round"/>
+    <line x1="170" y1="31" x2="176" y2="42" stroke="COL_C" stroke-width="3" stroke-linecap="round" opacity="0.82"/>
+    <line x1="230" y1="31" x2="224" y2="42" stroke="COL_C" stroke-width="3" stroke-linecap="round" opacity="0.82"/>
+    <line x1="152" y1="47" x2="160" y2="55" stroke="rgba(255,255,255,0.35)" stroke-width="2.5" stroke-linecap="round"/>
+    <line x1="248" y1="47" x2="240" y2="55" stroke="rgba(255,255,255,0.35)" stroke-width="2.5" stroke-linecap="round"/>`,
 
   'test-improve': `
-    <text x="200" y="165" font-family="Inter,system-ui,sans-serif" font-size="44" font-weight="900" fill="rgba(255,255,255,0.09)" text-anchor="middle" dominant-baseline="middle" letter-spacing="-2">TEST</text>
-    <!-- Bold circular refresh arrow -->
-    <path d="M200,50 A62,62 0 1,1 148,144" fill="none" stroke="rgba(255,255,255,0.85)" stroke-width="5" stroke-linecap="round"/>
-    <!-- Arrowhead -->
-    <polygon points="134,128 134,162 158,145" fill="rgba(255,255,255,0.85)"/>
-    <!-- Center improvement dot -->
-    <circle cx="200" cy="112" r="18" fill="COL_C" fill-opacity="0.8" stroke="rgba(255,255,255,0.8)" stroke-width="3"/>
-    <polyline points="192,112 198,118 210,104" fill="none" stroke="rgba(255,255,255,0.95)" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"/>
-    <!-- Up-trend line -->
-    <polyline points="144,168 165,155 188,160 212,146 236,138 260,126" fill="none" stroke="COL_C" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" opacity="0.75"/>
-    <circle cx="260" cy="126" r="5" fill="rgba(255,255,255,0.8)"/>`,
+    <path d="M200,50 A64,64 0 1,1 146,148" fill="none" stroke="rgba(255,255,255,0.86)" stroke-width="5" stroke-linecap="round"/>
+    <polygon points="130,130 132,166 160,146" fill="rgba(255,255,255,0.86)"/>
+    <circle cx="200" cy="112" r="20" fill="COL_C" fill-opacity="0.82" stroke="rgba(255,255,255,0.8)" stroke-width="3"/>
+    <polyline points="191,112 198,119 212,103" fill="none" stroke="rgba(255,255,255,0.96)" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"/>
+    <polyline points="142,170 164,158 188,163 212,149 236,140 260,128" fill="none" stroke="COL_C" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" opacity="0.72"/>
+    <circle cx="260" cy="128" r="5" fill="rgba(255,255,255,0.82)"/>`,
 
   'sustain': `
-    <text x="200" y="170" font-family="Inter,system-ui,sans-serif" font-size="40" font-weight="900" fill="rgba(255,255,255,0.09)" text-anchor="middle" dominant-baseline="middle" letter-spacing="-2">SUSTAIN</text>
-    <!-- Bold upward arrow -->
-    <line x1="200" y1="170" x2="200" y2="55" stroke="rgba(255,255,255,0.8)" stroke-width="5" stroke-linecap="round"/>
-    <polygon points="182,72 200,40 218,72" fill="rgba(255,255,255,0.88)"/>
-    <!-- Left leaf -->
-    <path d="M200,120 C200,120 160,112 148,78 C170,72 200,96 200,120 Z" fill="COL_C" fill-opacity="0.6" stroke="rgba(255,255,255,0.55)" stroke-width="2.5" stroke-linejoin="round"/>
-    <!-- Right leaf -->
-    <path d="M200,100 C200,100 240,92 252,58 C230,52 200,78 200,100 Z" fill="COL_C" fill-opacity="0.7" stroke="rgba(255,255,255,0.65)" stroke-width="2.5" stroke-linejoin="round"/>
-    <!-- Trend dots at base -->
-    <circle cx="120" cy="170" r="5" fill="rgba(255,255,255,0.4)"/>
-    <circle cx="148" cy="162" r="5" fill="rgba(255,255,255,0.45)"/>
-    <circle cx="176" cy="152" r="5" fill="rgba(255,255,255,0.5)"/>
-    <line x1="118" y1="170" x2="198" y2="152" stroke="rgba(255,255,255,0.3)" stroke-width="2" stroke-linecap="round"/>`,
+    <line x1="200" y1="172" x2="200" y2="55" stroke="rgba(255,255,255,0.82)" stroke-width="5" stroke-linecap="round"/>
+    <polygon points="181,74 200,40 219,74" fill="rgba(255,255,255,0.9)"/>
+    <path d="M200,122 C200,122 157,113 144,76 C168,70 200,98 200,122 Z" fill="COL_C" fill-opacity="0.62" stroke="rgba(255,255,255,0.58)" stroke-width="2.5" stroke-linejoin="round"/>
+    <path d="M200,100 C200,100 243,91 256,54 C232,48 200,78 200,100 Z" fill="COL_C" fill-opacity="0.72" stroke="rgba(255,255,255,0.68)" stroke-width="2.5" stroke-linejoin="round"/>
+    <circle cx="118" cy="172" r="5" fill="rgba(255,255,255,0.42)"/>
+    <circle cx="146" cy="163" r="5" fill="rgba(255,255,255,0.48)"/>
+    <circle cx="174" cy="153" r="5" fill="rgba(255,255,255,0.54)"/>
+    <line x1="116" y1="172" x2="198" y2="153" stroke="rgba(255,255,255,0.28)" stroke-width="2" stroke-linecap="round"/>`,
 };
 
 function getCoverSVG(category) {
@@ -2867,25 +2838,48 @@ function renderDashToolkits(filter) {
     ? TOOLKITS
     : TOOLKITS.filter(t => t.category === _dashCurrentFilter);
 
+  if (filtered.length === 0) {
+    list.innerHTML = `<div style="grid-column:1/-1;text-align:center;padding:3rem 1rem;color:var(--medium-gray);">
+      <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" style="margin:0 auto 0.75rem;display:block;opacity:0.3;"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+      <p style="font-size:0.9rem;">No toolkits in this category yet.</p>
+    </div>`;
+    return;
+  }
+
   list.innerHTML = filtered.map(t => {
     const col = (CAT_COLORS && CAT_COLORS[t.category]) || { a:'#1a1a1a', b:'#333', c:'#aaa' };
-    return `<div style="background:white;border:1px solid #e5e7eb;border-radius:6px;padding:1rem 1.1rem;display:flex;flex-direction:column;gap:0.6rem;box-shadow:0 1px 4px rgba(0,0,0,0.04);">
-      <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:0.5rem;">
-        <div>
-          <div style="font-weight:700;font-size:0.95rem;line-height:1.3;margin-bottom:0.25rem;">${t.title}</div>
-          <span style="display:inline-block;font-size:0.7rem;font-weight:700;letter-spacing:0.04em;padding:0.18rem 0.55rem;border-radius:3px;background:${col.a};color:white;">${t.catName}</span>
+    const diffColor = t.difficulty === 'Beginner' ? '#065f46' : t.difficulty === 'Advanced' ? '#991b1b' : '#374151';
+    const diffBg = t.difficulty === 'Beginner' ? '#d1fae5' : t.difficulty === 'Advanced' ? '#fee2e2' : '#f3f4f6';
+    const topTags = (t.tags || []).slice(0, 2).map(tag =>
+      `<span style="font-size:0.68rem;padding:0.15rem 0.5rem;background:#f3f4f6;color:#6b7280;border-radius:3px;">${tag}</span>`
+    ).join('');
+    return `<div style="background:white;border:1px solid #e5e7eb;border-radius:8px;overflow:hidden;box-shadow:0 1px 3px rgba(0,0,0,0.05);display:flex;flex-direction:column;transition:box-shadow 0.2s;" onmouseover="this.style.boxShadow='0 4px 16px rgba(0,0,0,0.1)'" onmouseout="this.style.boxShadow='0 1px 3px rgba(0,0,0,0.05)'">
+      <div style="height:4px;background:linear-gradient(90deg,${col.a},${col.b},${col.c});"></div>
+      <div style="padding:1rem 1.1rem;flex:1;display:flex;flex-direction:column;gap:0.6rem;">
+        <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:0.5rem;">
+          <div style="font-weight:800;font-size:0.92rem;line-height:1.3;color:#111;flex:1;">${t.title}</div>
+          <span style="flex-shrink:0;font-size:0.68rem;font-weight:700;padding:0.2rem 0.55rem;border-radius:12px;background:${diffBg};color:${diffColor};letter-spacing:0.02em;">${t.difficulty}</span>
         </div>
-        <span style="font-size:0.75rem;color:var(--medium-gray);white-space:nowrap;padding-top:0.1rem;">${t.difficulty}</span>
-      </div>
-      <p style="font-size:0.82rem;color:#374151;line-height:1.5;margin:0;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;">${t.desc}</p>
-      <div style="display:flex;gap:0.5rem;margin-top:0.25rem;flex-wrap:wrap;">
-        <button onclick="downloadToolkitPDF(${t.id})" style="display:flex;align-items:center;gap:0.35rem;background:var(--red);color:white;border:none;border-radius:4px;padding:0.45rem 0.85rem;font-size:0.8rem;font-weight:700;cursor:pointer;font-family:inherit;">
-          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
-          Download PDF
-        </button>
-        <button onclick="openToolForDash(${t.id})" style="background:none;border:1.5px solid #e5e7eb;color:#374151;border-radius:4px;padding:0.45rem 0.85rem;font-size:0.8rem;font-weight:600;cursor:pointer;font-family:inherit;">
-          View Toolkit
-        </button>
+        <div style="display:flex;align-items:center;gap:0.4rem;">
+          <span style="width:8px;height:8px;border-radius:50%;background:${col.b};flex-shrink:0;"></span>
+          <span style="font-size:0.72rem;font-weight:700;letter-spacing:0.04em;color:${col.b};text-transform:uppercase;">${t.catName}</span>
+        </div>
+        <p style="font-size:0.82rem;color:#6b7280;line-height:1.55;margin:0;flex:1;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;">${t.desc}</p>
+        ${topTags ? `<div style="display:flex;gap:0.35rem;flex-wrap:wrap;">${topTags}</div>` : ''}
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-top:auto;padding-top:0.5rem;border-top:1px solid #f3f4f6;">
+          <div style="display:flex;align-items:center;gap:0.35rem;font-size:0.75rem;color:#9ca3af;">
+            <span>⭐ ${t.rating ? t.rating.toFixed(1) : '—'}</span>
+            <span style="opacity:0.4;">·</span>
+            <span>⬇ ${t.downloads || 0}</span>
+          </div>
+          <div style="display:flex;gap:0.4rem;">
+            <button onclick="openToolForDash(${t.id})" style="background:none;border:1.5px solid #e5e7eb;color:#374151;border-radius:5px;padding:0.38rem 0.7rem;font-size:0.76rem;font-weight:600;cursor:pointer;font-family:inherit;transition:border-color 0.15s;" onmouseover="this.style.borderColor='#9ca3af'" onmouseout="this.style.borderColor='#e5e7eb'">View</button>
+            <button onclick="downloadToolkitPDF(${t.id})" style="display:flex;align-items:center;gap:0.3rem;background:${col.b};color:white;border:none;border-radius:5px;padding:0.38rem 0.8rem;font-size:0.76rem;font-weight:700;cursor:pointer;font-family:inherit;transition:opacity 0.15s;" onmouseover="this.style.opacity='0.85'" onmouseout="this.style.opacity='1'">
+              <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+              PDF
+            </button>
+          </div>
+        </div>
       </div>
     </div>`;
   }).join('');
