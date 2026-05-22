@@ -922,7 +922,7 @@
         </a>
       </div>
       <h1>Built for practitioners who need to think clearly, move fast, and create work that actually lands</h1>
-      <p>30 field-tested toolkits rooted in innovation, design thinking, and social development. Pick one. Use it today.</p>
+      <p>47 field-tested toolkits rooted in innovation, design thinking, and social development. Pick one. Use it today.</p>
       <a href="#" class="btn btn-outline" onclick="showPage('tools');return false;">EXPLORE ALL TOOLS</a>
     </div>
   </section>
@@ -932,7 +932,7 @@
     <div class="stats-grid">
       <div>
         <div class="stat-icon">🛠</div>
-        <div class="stat-number">30</div>
+        <div class="stat-number">47</div>
         <div class="stat-label">Toolkits</div>
       </div>
       <div>
@@ -1050,7 +1050,7 @@
         </div>
       </div>
       <div class="footer-bottom">
-        Licensed under Creative Commons CC BY-NC-SA 4.0 · © 2025 Humanova
+        Licensed under Creative Commons CC BY-NC-SA 4.0 · © 2026 Humanova
         <br/><span style="opacity:0.45;display:block;margin-top:0.35rem;">Built by Humanova Foundation with Solana &middot; <a href="mailto:build@humanova.run" style="color:rgba(255,255,255,0.45);text-decoration:none;">build@humanova.run</a></span>
       </div>
     </div>
@@ -1062,7 +1062,7 @@
   <section class="section">
     <div class="container">
       <h1 style="font-size:2rem;font-weight:800;margin-bottom:0.25rem;">Tools</h1>
-      <p style="color:var(--medium-gray);margin-bottom:1.5rem;" id="toolsCount">30 toolkits available</p>
+      <p style="color:var(--medium-gray);margin-bottom:1.5rem;" id="toolsCount">47 toolkits available</p>
       <div class="tools-page-layout">
         <aside class="filters-sidebar">
           <h3 style="font-weight:700;margin-bottom:1rem;">Filters</h3>
@@ -1153,9 +1153,9 @@
         </div>
         <div class="about-visual">
           <div class="about-visual-inner">
-            <div class="about-visual-num">30</div>
+            <div class="about-visual-num">47</div>
             <ul class="about-visual-facts">
-              <li><span>30</span> field-tested toolkits, free to use</li>
+              <li><span>47</span> field-tested toolkits, free to use</li>
               <li><span>8</span> practitioner intent categories</li>
               <li><span>54</span> organizations already using them</li>
               <li><span>CC</span> Creative Commons licensed throughout</li>
@@ -1421,7 +1421,7 @@
         <main>
           <div id="ap-adash">
             <div class="admin-stat-cards">
-              <div class="admin-stat-card"><div class="admin-stat-num">30</div><div class="admin-stat-label">Total Toolkits</div></div>
+              <div class="admin-stat-card"><div class="admin-stat-num">47</div><div class="admin-stat-label">Total Toolkits</div></div>
               <div class="admin-stat-card"><div class="admin-stat-num">3</div><div class="admin-stat-label">Pending Review</div></div>
               <div class="admin-stat-card"><div class="admin-stat-num">120</div><div class="admin-stat-label">Total Users</div></div>
               <div class="admin-stat-card"><div class="admin-stat-num">8.4K</div><div class="admin-stat-label">Downloads</div></div>
@@ -1788,267 +1788,140 @@ const CAT_PATTERNS = {
     <line x1="0" y1="112" x2="400" y2="112" stroke="rgba(255,255,255,0.04)" stroke-width="1"/>`,
 };
 
+const CAT_PHOTOS = {
+  'look-ahead':    'https://images.unsplash.com/photo-1503945438517-f65904a52ce6?w=400&q=70',
+  'develop-plan':  'https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?w=400&q=70',
+  'clarify':       'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&q=70',
+  'collect-inputs':'https://images.unsplash.com/photo-1515187029135-18ee286d815b?w=400&q=70',
+  'know-people':   'https://images.unsplash.com/photo-1543269865-cbf427effbad?w=400&q=70',
+  'generate-ideas':'https://images.unsplash.com/photo-1495364141860-b0d03eccd065?w=400&q=70',
+  'test-improve':  'https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=400&q=70',
+  'sustain':       'https://images.unsplash.com/photo-1542601906897-fc28e46b0779?w=400&q=70',
+};
 function getCoverBg(category) {
   const col = CAT_COLORS[category] || { a:'#1a1a1a', b:'#333' };
+  const photo = CAT_PHOTOS[category];
+  if (photo) {
+    return `linear-gradient(160deg, ${col.a}e8 0%, ${col.b}c8 60%, ${col.a}aa 100%), url('${photo}') center/cover no-repeat`;
+  }
   return `linear-gradient(140deg, ${col.a} 0%, ${col.b} 100%)`;
 }
 
 const CAT_ICONS = {
   'look-ahead': `
-    <!-- Horizon + binoculars + data constellation -->
-    <ellipse cx="200" cy="185" rx="160" ry="18" fill="rgba(255,255,255,0.04)"/>
-    <path d="M40,175 Q120,140 200,148 Q280,156 360,130" fill="none" stroke="rgba(255,255,255,0.18)" stroke-width="1.5" stroke-linecap="round"/>
-    <path d="M40,185 Q120,155 200,162 Q280,168 360,145" fill="none" stroke="rgba(255,255,255,0.1)" stroke-width="1" stroke-linecap="round"/>
-    <!-- Binoculars body -->
-    <rect x="164" y="78" width="26" height="34" rx="8" fill="none" stroke="rgba(255,255,255,0.55)" stroke-width="2.5"/>
-    <rect x="210" y="78" width="26" height="34" rx="8" fill="none" stroke="rgba(255,255,255,0.55)" stroke-width="2.5"/>
-    <rect x="190" y="84" width="20" height="22" rx="3" fill="rgba(255,255,255,0.08)" stroke="rgba(255,255,255,0.2)" stroke-width="1.5"/>
-    <!-- Lenses -->
-    <circle cx="177" cy="95" r="9" fill="COL_C" fill-opacity="0.35" stroke="COL_C" stroke-width="2"/>
-    <circle cx="177" cy="95" r="4" fill="rgba(255,255,255,0.5)"/>
-    <circle cx="223" cy="95" r="9" fill="COL_C" fill-opacity="0.35" stroke="COL_C" stroke-width="2"/>
-    <circle cx="223" cy="95" r="4" fill="rgba(255,255,255,0.5)"/>
-    <!-- Sight lines to horizon -->
-    <line x1="174" y1="112" x2="130" y2="155" stroke="COL_C" stroke-width="1.5" stroke-dasharray="4,3" opacity="0.6" stroke-linecap="round"/>
-    <line x1="226" y1="112" x2="270" y2="148" stroke="COL_C" stroke-width="1.5" stroke-dasharray="4,3" opacity="0.6" stroke-linecap="round"/>
-    <!-- Constellation / data points in sky -->
-    <circle cx="110" cy="55" r="2.5" fill="rgba(255,255,255,0.6)"/>
-    <circle cx="140" cy="42" r="2" fill="rgba(255,255,255,0.45)"/>
-    <circle cx="170" cy="48" r="1.5" fill="rgba(255,255,255,0.35)"/>
-    <circle cx="260" cy="40" r="2.5" fill="rgba(255,255,255,0.6)"/>
-    <circle cx="290" cy="52" r="2" fill="rgba(255,255,255,0.45)"/>
-    <circle cx="315" cy="38" r="1.5" fill="rgba(255,255,255,0.35)"/>
-    <circle cx="240" cy="58" r="1.5" fill="COL_C" opacity="0.8"/>
-    <circle cx="155" cy="60" r="1.5" fill="COL_C" opacity="0.7"/>
-    <line x1="110" y1="55" x2="140" y2="42" stroke="rgba(255,255,255,0.15)" stroke-width="1"/>
-    <line x1="140" y1="42" x2="170" y2="48" stroke="rgba(255,255,255,0.12)" stroke-width="1"/>
-    <line x1="260" y1="40" x2="290" y2="52" stroke="rgba(255,255,255,0.15)" stroke-width="1"/>
-    <line x1="290" y1="52" x2="315" y2="38" stroke="rgba(255,255,255,0.12)" stroke-width="1"/>
-    <!-- Sun/target on horizon -->
-    <circle cx="200" cy="148" r="12" fill="COL_C" opacity="0.45"/>
-    <circle cx="200" cy="148" r="6" fill="COL_C" opacity="0.7"/>`,
+    <text x="200" y="148" font-family="Inter,system-ui,sans-serif" font-size="72" font-weight="900" fill="rgba(255,255,255,0.1)" text-anchor="middle" dominant-baseline="middle" letter-spacing="-4">LOOK</text>
+    <!-- Binoculars: two big circles + bridge -->
+    <circle cx="168" cy="100" r="32" fill="none" stroke="rgba(255,255,255,0.9)" stroke-width="4"/>
+    <circle cx="232" cy="100" r="32" fill="none" stroke="rgba(255,255,255,0.9)" stroke-width="4"/>
+    <circle cx="168" cy="100" r="16" fill="COL_C" opacity="0.7"/>
+    <circle cx="232" cy="100" r="16" fill="COL_C" opacity="0.7"/>
+    <rect x="185" y="88" width="30" height="24" rx="4" fill="rgba(255,255,255,0.15)" stroke="rgba(255,255,255,0.4)" stroke-width="2"/>
+    <line x1="168" y1="132" x2="168" y2="150" stroke="rgba(255,255,255,0.5)" stroke-width="3" stroke-linecap="round"/>
+    <line x1="232" y1="132" x2="232" y2="150" stroke="rgba(255,255,255,0.5)" stroke-width="3" stroke-linecap="round"/>`,
 
   'develop-plan': `
-    <!-- Gantt/roadmap with milestones -->
-    <rect x="80" y="52" width="240" height="128" rx="6" fill="rgba(255,255,255,0.05)" stroke="rgba(255,255,255,0.12)" stroke-width="1.5"/>
-    <!-- Header row -->
-    <rect x="80" y="52" width="240" height="22" rx="6" fill="rgba(255,255,255,0.08)"/>
-    <line x1="80" y1="74" x2="320" y2="74" stroke="rgba(255,255,255,0.1)" stroke-width="1"/>
-    <!-- Row lines -->
-    <line x1="80" y1="98" x2="320" y2="98" stroke="rgba(255,255,255,0.06)" stroke-width="1"/>
-    <line x1="80" y1="122" x2="320" y2="122" stroke="rgba(255,255,255,0.06)" stroke-width="1"/>
-    <line x1="80" y1="146" x2="320" y2="146" stroke="rgba(255,255,255,0.06)" stroke-width="1"/>
-    <!-- Col lines -->
-    <line x1="140" y1="52" x2="140" y2="180" stroke="rgba(255,255,255,0.06)" stroke-width="1"/>
-    <line x1="200" y1="52" x2="200" y2="180" stroke="rgba(255,255,255,0.06)" stroke-width="1"/>
-    <line x1="260" y1="52" x2="260" y2="180" stroke="rgba(255,255,255,0.06)" stroke-width="1"/>
-    <!-- Gantt bars -->
-    <rect x="95" y="80" width="90" height="12" rx="3" fill="COL_C" opacity="0.8"/>
-    <rect x="155" y="104" width="110" height="12" rx="3" fill="COL_C" opacity="0.6"/>
-    <rect x="95" y="128" width="60" height="12" rx="3" fill="rgba(255,255,255,0.25)"/>
-    <rect x="165" y="128" width="80" height="12" rx="3" fill="COL_C" opacity="0.4"/>
-    <rect x="95" y="152" width="180" height="12" rx="3" fill="rgba(255,255,255,0.15)"/>
-    <!-- Milestone diamonds -->
-    <polygon points="185,86 191,92 185,98 179,92" fill="rgba(255,255,255,0.9)"/>
-    <polygon points="265,110 271,116 265,122 259,116" fill="rgba(255,255,255,0.7)"/>
-    <polygon points="155,134 161,140 155,146 149,140" fill="rgba(255,255,255,0.5)"/>
-    <!-- Today line -->
-    <line x1="200" y1="74" x2="200" y2="180" stroke="COL_C" stroke-width="2" stroke-dasharray="4,3" opacity="0.7"/>
-    <circle cx="200" cy="74" r="4" fill="COL_C" opacity="0.9"/>`,
+    <text x="200" y="148" font-family="Inter,system-ui,sans-serif" font-size="60" font-weight="900" fill="rgba(255,255,255,0.1)" text-anchor="middle" dominant-baseline="middle" letter-spacing="-3">PLAN</text>
+    <!-- Clipboard with checklist -->
+    <rect x="148" y="58" width="104" height="124" rx="6" fill="rgba(255,255,255,0.12)" stroke="rgba(255,255,255,0.6)" stroke-width="3"/>
+    <rect x="172" y="50" width="56" height="18" rx="9" fill="rgba(255,255,255,0.7)" stroke="rgba(255,255,255,0.9)" stroke-width="2"/>
+    <!-- Check rows -->
+    <circle cx="168" cy="95" r="6" fill="COL_C" opacity="0.9"/>
+    <polyline points="165,95 168,98 173,91" fill="none" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+    <line x1="182" y1="95" x2="238" y2="95" stroke="rgba(255,255,255,0.8)" stroke-width="3" stroke-linecap="round"/>
+    <circle cx="168" cy="118" r="6" fill="COL_C" opacity="0.9"/>
+    <polyline points="165,118 168,121 173,114" fill="none" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+    <line x1="182" y1="118" x2="230" y2="118" stroke="rgba(255,255,255,0.7)" stroke-width="3" stroke-linecap="round"/>
+    <circle cx="168" cy="141" r="6" fill="rgba(255,255,255,0.3)" stroke="rgba(255,255,255,0.5)" stroke-width="2"/>
+    <line x1="182" y1="141" x2="220" y2="141" stroke="rgba(255,255,255,0.4)" stroke-width="3" stroke-linecap="round"/>
+    <circle cx="168" cy="162" r="6" fill="rgba(255,255,255,0.3)" stroke="rgba(255,255,255,0.5)" stroke-width="2"/>
+    <line x1="182" y1="162" x2="225" y2="162" stroke="rgba(255,255,255,0.35)" stroke-width="3" stroke-linecap="round"/>`,
 
   'clarify': `
-    <!-- 2x2 priority matrix with items -->
-    <rect x="110" y="48" width="180" height="130" rx="4" fill="rgba(255,255,255,0.04)" stroke="rgba(255,255,255,0.15)" stroke-width="1.5"/>
-    <!-- Axes -->
-    <line x1="200" y1="48" x2="200" y2="178" stroke="rgba(255,255,255,0.35)" stroke-width="2"/>
-    <line x1="110" y1="113" x2="290" y2="113" stroke="rgba(255,255,255,0.35)" stroke-width="2"/>
-    <!-- Quadrant labels (tiny) -->
-    <text x="125" y="68" font-family="system-ui" font-size="8" fill="rgba(255,255,255,0.4)" font-weight="600">URGENT</text>
-    <text x="214" y="68" font-family="system-ui" font-size="8" fill="rgba(255,255,255,0.4)" font-weight="600">HIGH IMPACT</text>
-    <!-- Items in quadrants -->
-    <circle cx="145" cy="86" r="10" fill="COL_C" opacity="0.85"/>
-    <circle cx="172" cy="97" r="8" fill="COL_C" opacity="0.55"/>
-    <circle cx="152" cy="104" r="6" fill="rgba(255,255,255,0.3)"/>
-    <circle cx="245" cy="80" r="12" fill="COL_C" opacity="0.9"/>
-    <circle cx="265" cy="96" r="8" fill="COL_C" opacity="0.65"/>
-    <circle cx="220" cy="92" r="7" fill="rgba(255,255,255,0.4)"/>
-    <circle cx="145" cy="142" r="7" fill="rgba(255,255,255,0.18)"/>
-    <circle cx="168" cy="155" r="5" fill="rgba(255,255,255,0.12)"/>
-    <circle cx="255" cy="138" r="8" fill="rgba(255,255,255,0.2)"/>
-    <circle cx="232" cy="152" r="6" fill="rgba(255,255,255,0.14)"/>
-    <!-- Priority star -->
-    <polygon points="245,74 248,81 255,81 250,86 252,93 245,89 238,93 240,86 235,81 242,81" fill="rgba(255,255,255,0.9)" opacity="0.85"/>
-    <!-- Axis arrows -->
-    <polyline points="286,113 290,110 294,113" fill="none" stroke="rgba(255,255,255,0.35)" stroke-width="1.5" stroke-linecap="round"/>
-    <polyline points="197,52 200,48 203,52" fill="none" stroke="rgba(255,255,255,0.35)" stroke-width="1.5" stroke-linecap="round"/>`,
+    <text x="200" y="148" font-family="Inter,system-ui,sans-serif" font-size="55" font-weight="900" fill="rgba(255,255,255,0.09)" text-anchor="middle" dominant-baseline="middle" letter-spacing="-2">FOCUS</text>
+    <!-- Target/bullseye — large and bold -->
+    <circle cx="200" cy="100" r="60" fill="none" stroke="rgba(255,255,255,0.25)" stroke-width="2"/>
+    <circle cx="200" cy="100" r="44" fill="none" stroke="rgba(255,255,255,0.4)" stroke-width="3"/>
+    <circle cx="200" cy="100" r="28" fill="none" stroke="rgba(255,255,255,0.6)" stroke-width="3.5"/>
+    <circle cx="200" cy="100" r="13" fill="COL_C" opacity="0.9" stroke="rgba(255,255,255,0.9)" stroke-width="3"/>
+    <!-- Crosshair lines -->
+    <line x1="200" y1="52" x2="200" y2="72" stroke="rgba(255,255,255,0.7)" stroke-width="3" stroke-linecap="round"/>
+    <line x1="200" y1="128" x2="200" y2="148" stroke="rgba(255,255,255,0.7)" stroke-width="3" stroke-linecap="round"/>
+    <line x1="140" y1="100" x2="160" y2="100" stroke="rgba(255,255,255,0.7)" stroke-width="3" stroke-linecap="round"/>
+    <line x1="240" y1="100" x2="260" y2="100" stroke="rgba(255,255,255,0.7)" stroke-width="3" stroke-linecap="round"/>`,
 
   'collect-inputs': `
-    <!-- Multiple sources flowing into central collector -->
-    <!-- Source nodes -->
-    <circle cx="88" cy="60" r="18" fill="rgba(255,255,255,0.1)" stroke="rgba(255,255,255,0.3)" stroke-width="2"/>
-    <path d="M82,57 Q88,52 94,57 L94,68 Q88,73 82,68 Z" fill="rgba(255,255,255,0.5)" stroke="none"/>
-    <circle cx="88" cy="59" r="4" fill="rgba(255,255,255,0.8)"/>
-
-    <circle cx="88" cy="113" r="18" fill="rgba(255,255,255,0.08)" stroke="rgba(255,255,255,0.25)" stroke-width="2"/>
-    <rect x="80" y="106" width="16" height="14" rx="2" fill="none" stroke="rgba(255,255,255,0.5)" stroke-width="1.5"/>
-    <line x1="82" y1="110" x2="94" y2="110" stroke="rgba(255,255,255,0.4)" stroke-width="1.5"/>
-    <line x1="82" y1="114" x2="90" y2="114" stroke="rgba(255,255,255,0.3)" stroke-width="1.5"/>
-
-    <circle cx="88" cy="165" r="18" fill="rgba(255,255,255,0.06)" stroke="rgba(255,255,255,0.2)" stroke-width="2"/>
-    <path d="M82,165 L88,158 L94,165 L91,165 L91,172 L85,172 L85,165 Z" fill="rgba(255,255,255,0.4)"/>
-
-    <circle cx="312" cy="60" r="18" fill="rgba(255,255,255,0.1)" stroke="rgba(255,255,255,0.3)" stroke-width="2"/>
-    <circle cx="306" cy="58" r="5" fill="rgba(255,255,255,0.5)"/>
-    <circle cx="318" cy="58" r="5" fill="rgba(255,255,255,0.4)"/>
-    <path d="M300,68 Q312,62 324,68" fill="none" stroke="rgba(255,255,255,0.5)" stroke-width="2" stroke-linecap="round"/>
-
-    <circle cx="312" cy="165" r="18" fill="rgba(255,255,255,0.06)" stroke="rgba(255,255,255,0.2)" stroke-width="2"/>
-    <circle cx="312" cy="162" r="6" fill="none" stroke="rgba(255,255,255,0.4)" stroke-width="1.5"/>
-    <line x1="312" y1="157" x2="312" y2="153" stroke="rgba(255,255,255,0.4)" stroke-width="1.5"/>
-    <line x1="305" y1="170" x2="319" y2="170" stroke="rgba(255,255,255,0.35)" stroke-width="1.5"/>
-
-    <!-- Flow lines -->
-    <path d="M106,65 Q150,75 175,105" fill="none" stroke="COL_C" stroke-width="1.8" stroke-dasharray="5,3" opacity="0.7" stroke-linecap="round"/>
-    <path d="M106,113 L175,113" fill="none" stroke="COL_C" stroke-width="1.8" stroke-dasharray="5,3" opacity="0.8" stroke-linecap="round"/>
-    <path d="M106,162 Q150,152 175,125" fill="none" stroke="COL_C" stroke-width="1.8" stroke-dasharray="5,3" opacity="0.7" stroke-linecap="round"/>
-    <path d="M294,65 Q255,78 225,105" fill="none" stroke="COL_C" stroke-width="1.8" stroke-dasharray="5,3" opacity="0.7" stroke-linecap="round"/>
-    <path d="M294,162 Q255,150 225,125" fill="none" stroke="COL_C" stroke-width="1.8" stroke-dasharray="5,3" opacity="0.7" stroke-linecap="round"/>
-
-    <!-- Central collector -->
-    <circle cx="200" cy="113" r="28" fill="COL_C" opacity="0.25" stroke="COL_C" stroke-width="2.5"/>
-    <circle cx="200" cy="113" r="16" fill="COL_C" opacity="0.5"/>
-    <circle cx="200" cy="113" r="7" fill="rgba(255,255,255,0.9)"/>`,
+    <text x="200" y="155" font-family="Inter,system-ui,sans-serif" font-size="50" font-weight="900" fill="rgba(255,255,255,0.09)" text-anchor="middle" dominant-baseline="middle" letter-spacing="-2">INPUT</text>
+    <!-- Bold funnel -->
+    <path d="M130,55 L270,55 L230,105 L230,165 L170,150 L170,105 Z" fill="COL_C" fill-opacity="0.35" stroke="rgba(255,255,255,0.8)" stroke-width="3.5" stroke-linejoin="round"/>
+    <!-- Dots entering funnel top -->
+    <circle cx="155" cy="42" r="7" fill="rgba(255,255,255,0.7)"/>
+    <circle cx="200" cy="38" r="7" fill="rgba(255,255,255,0.8)"/>
+    <circle cx="245" cy="42" r="7" fill="rgba(255,255,255,0.7)"/>
+    <circle cx="175" cy="46" r="5" fill="rgba(255,255,255,0.5)"/>
+    <circle cx="225" cy="46" r="5" fill="rgba(255,255,255,0.5)"/>
+    <!-- Output dot at bottom -->
+    <circle cx="200" cy="178" r="9" fill="rgba(255,255,255,0.9)"/>
+    <line x1="200" y1="165" x2="200" y2="169" stroke="rgba(255,255,255,0.7)" stroke-width="3" stroke-linecap="round"/>`,
 
   'know-people': `
-    <!-- Network of people silhouettes -->
-    <!-- Central person -->
-    <circle cx="200" cy="82" r="14" fill="rgba(255,255,255,0.55)" stroke="rgba(255,255,255,0.7)" stroke-width="2"/>
-    <circle cx="200" cy="79" r="6" fill="rgba(255,255,255,0.8)"/>
-    <path d="M183,102 Q183,88 200,87 Q217,88 217,102" fill="none" stroke="rgba(255,255,255,0.7)" stroke-width="2" stroke-linecap="round"/>
-
+    <text x="200" y="170" font-family="Inter,system-ui,sans-serif" font-size="44" font-weight="900" fill="rgba(255,255,255,0.09)" text-anchor="middle" dominant-baseline="middle" letter-spacing="-2">PEOPLE</text>
+    <!-- Central large person -->
+    <circle cx="200" cy="76" r="22" fill="rgba(255,255,255,0.85)" stroke="rgba(255,255,255,0.95)" stroke-width="2"/>
+    <path d="M163,138 Q163,108 200,106 Q237,108 237,138" fill="rgba(255,255,255,0.85)" stroke="rgba(255,255,255,0.95)" stroke-width="2" stroke-linecap="round"/>
     <!-- Left person -->
-    <circle cx="120" cy="105" r="12" fill="rgba(255,255,255,0.3)" stroke="COL_C" stroke-width="2"/>
-    <circle cx="120" cy="102" r="5" fill="rgba(255,255,255,0.6)"/>
-    <path d="M106,122 Q106,111 120,110 Q134,111 134,122" fill="none" stroke="COL_C" stroke-width="1.8" stroke-linecap="round" opacity="0.8"/>
-
+    <circle cx="118" cy="95" r="16" fill="COL_C" fill-opacity="0.8" stroke="rgba(255,255,255,0.7)" stroke-width="2"/>
+    <path d="M92,140 Q92,120 118,119 Q144,120 144,140" fill="COL_C" fill-opacity="0.6" stroke="rgba(255,255,255,0.5)" stroke-width="2" stroke-linecap="round"/>
     <!-- Right person -->
-    <circle cx="280" cy="105" r="12" fill="rgba(255,255,255,0.3)" stroke="COL_C" stroke-width="2"/>
-    <circle cx="280" cy="102" r="5" fill="rgba(255,255,255,0.6)"/>
-    <path d="M266,122 Q266,111 280,110 Q294,111 294,122" fill="none" stroke="COL_C" stroke-width="1.8" stroke-linecap="round" opacity="0.8"/>
-
-    <!-- Bottom-left person -->
-    <circle cx="145" cy="160" r="11" fill="rgba(255,255,255,0.2)" stroke="rgba(255,255,255,0.4)" stroke-width="1.5"/>
-    <circle cx="145" cy="157" r="4.5" fill="rgba(255,255,255,0.5)"/>
-    <path d="M133,174 Q133,165 145,164 Q157,165 157,174" fill="none" stroke="rgba(255,255,255,0.4)" stroke-width="1.5" stroke-linecap="round"/>
-
-    <!-- Bottom-right person -->
-    <circle cx="255" cy="160" r="11" fill="rgba(255,255,255,0.2)" stroke="rgba(255,255,255,0.4)" stroke-width="1.5"/>
-    <circle cx="255" cy="157" r="4.5" fill="rgba(255,255,255,0.5)"/>
-    <path d="M243,174 Q243,165 255,164 Q267,165 267,174" fill="none" stroke="rgba(255,255,255,0.4)" stroke-width="1.5" stroke-linecap="round"/>
-
+    <circle cx="282" cy="95" r="16" fill="COL_C" fill-opacity="0.8" stroke="rgba(255,255,255,0.7)" stroke-width="2"/>
+    <path d="M256,140 Q256,120 282,119 Q308,120 308,140" fill="COL_C" fill-opacity="0.6" stroke="rgba(255,255,255,0.5)" stroke-width="2" stroke-linecap="round"/>
     <!-- Connection lines -->
-    <line x1="188" y1="92" x2="132" y2="103" stroke="COL_C" stroke-width="1.8" opacity="0.7"/>
-    <line x1="212" y1="92" x2="268" y2="103" stroke="COL_C" stroke-width="1.8" opacity="0.7"/>
-    <line x1="130" y1="117" x2="145" y2="149" stroke="rgba(255,255,255,0.3)" stroke-width="1.5"/>
-    <line x1="270" y1="117" x2="255" y2="149" stroke="rgba(255,255,255,0.3)" stroke-width="1.5"/>
-    <line x1="156" y1="161" x2="244" y2="161" stroke="rgba(255,255,255,0.2)" stroke-width="1.5" stroke-dasharray="4,3"/>
-    <line x1="200" y1="96" x2="200" y2="130" stroke="rgba(255,255,255,0.15)" stroke-width="1"/>
-
-    <!-- Connection dots -->
-    <circle cx="160" cy="97" r="3" fill="COL_C" opacity="0.8"/>
-    <circle cx="240" cy="97" r="3" fill="COL_C" opacity="0.8"/>`,
+    <line x1="143" y1="112" x2="178" y2="95" stroke="rgba(255,255,255,0.5)" stroke-width="2.5" stroke-linecap="round"/>
+    <line x1="257" y1="112" x2="222" y2="95" stroke="rgba(255,255,255,0.5)" stroke-width="2.5" stroke-linecap="round"/>`,
 
   'generate-ideas': `
-    <!-- Lightbulb with mind-map branches radiating out -->
-    <!-- Outer glow -->
-    <circle cx="200" cy="100" r="50" fill="COL_C" fill-opacity="0.08"/>
-    <circle cx="200" cy="100" r="35" fill="COL_C" fill-opacity="0.1"/>
-    <!-- Lightbulb shape -->
-    <path d="M200,50 C174,50 153,68 153,90 C153,107 163,121 178,130 L178,148 L222,148 L222,130 C237,121 247,107 247,90 C247,68 226,50 200,50 Z" fill="none" stroke="rgba(255,255,255,0.65)" stroke-width="2.5" stroke-linejoin="round"/>
-    <!-- Base rings -->
-    <line x1="183" y1="151" x2="217" y2="151" stroke="rgba(255,255,255,0.5)" stroke-width="2.5" stroke-linecap="round"/>
-    <line x1="187" y1="158" x2="213" y2="158" stroke="rgba(255,255,255,0.35)" stroke-width="2" stroke-linecap="round"/>
-    <line x1="193" y1="165" x2="207" y2="165" stroke="rgba(255,255,255,0.2)" stroke-width="1.5" stroke-linecap="round"/>
-    <!-- Inner filament/network -->
-    <path d="M200,68 L200,95" stroke="COL_C" stroke-width="2" stroke-linecap="round" opacity="0.7"/>
-    <path d="M200,95 L182,110" stroke="COL_C" stroke-width="1.8" stroke-linecap="round" opacity="0.6"/>
-    <path d="M200,95 L218,110" stroke="COL_C" stroke-width="1.8" stroke-linecap="round" opacity="0.6"/>
-    <path d="M200,95 L200,120" stroke="COL_C" stroke-width="1.8" stroke-linecap="round" opacity="0.5"/>
-    <circle cx="200" cy="68" r="3.5" fill="rgba(255,255,255,0.9)"/>
-    <circle cx="182" cy="110" r="3" fill="COL_C" opacity="0.9"/>
-    <circle cx="218" cy="110" r="3" fill="COL_C" opacity="0.9"/>
-    <circle cx="200" cy="120" r="3" fill="rgba(255,255,255,0.6)"/>
-    <!-- Rays of inspiration -->
-    <line x1="200" y1="36" x2="200" y2="44" stroke="COL_C" stroke-width="2.5" stroke-linecap="round" opacity="0.9"/>
-    <line x1="170" y1="43" x2="175" y2="51" stroke="COL_C" stroke-width="2" stroke-linecap="round" opacity="0.7"/>
-    <line x1="230" y1="43" x2="225" y2="51" stroke="COL_C" stroke-width="2" stroke-linecap="round" opacity="0.7"/>
-    <line x1="150" y1="60" x2="157" y2="66" stroke="rgba(255,255,255,0.4)" stroke-width="1.5" stroke-linecap="round"/>
-    <line x1="250" y1="60" x2="243" y2="66" stroke="rgba(255,255,255,0.4)" stroke-width="1.5" stroke-linecap="round"/>
-    <line x1="140" y1="88" x2="149" y2="90" stroke="rgba(255,255,255,0.3)" stroke-width="1.5" stroke-linecap="round"/>
-    <line x1="260" y1="88" x2="251" y2="90" stroke="rgba(255,255,255,0.3)" stroke-width="1.5" stroke-linecap="round"/>
-    <!-- Floating idea dots -->
-    <circle cx="108" cy="72" r="5" fill="COL_C" opacity="0.5"/>
-    <circle cx="292" cy="68" r="4" fill="COL_C" opacity="0.4"/>
-    <circle cx="100" cy="110" r="3" fill="rgba(255,255,255,0.3)"/>
-    <circle cx="300" cy="105" r="3" fill="rgba(255,255,255,0.3)"/>`,
+    <text x="200" y="165" font-family="Inter,system-ui,sans-serif" font-size="44" font-weight="900" fill="rgba(255,255,255,0.09)" text-anchor="middle" dominant-baseline="middle" letter-spacing="-2">IDEAS</text>
+    <!-- Large bold lightbulb -->
+    <path d="M200,40 C170,40 146,62 146,88 C146,108 158,126 176,134 L176,158 L224,158 L224,134 C242,126 254,108 254,88 C254,62 230,40 200,40 Z" fill="none" stroke="rgba(255,255,255,0.88)" stroke-width="4" stroke-linejoin="round"/>
+    <!-- Base bands -->
+    <line x1="180" y1="161" x2="220" y2="161" stroke="rgba(255,255,255,0.7)" stroke-width="3.5" stroke-linecap="round"/>
+    <line x1="184" y1="170" x2="216" y2="170" stroke="rgba(255,255,255,0.5)" stroke-width="3" stroke-linecap="round"/>
+    <line x1="190" y1="179" x2="210" y2="179" stroke="rgba(255,255,255,0.3)" stroke-width="2.5" stroke-linecap="round"/>
+    <!-- Inner glow fill -->
+    <path d="M200,50 C176,50 156,68 156,88 C156,104 166,118 180,126 L180,150 L220,150 L220,126 C234,118 244,104 244,88 C244,68 224,50 200,50 Z" fill="COL_C" fill-opacity="0.4"/>
+    <!-- Rays above -->
+    <line x1="200" y1="24" x2="200" y2="34" stroke="COL_C" stroke-width="3.5" stroke-linecap="round"/>
+    <line x1="172" y1="30" x2="177" y2="40" stroke="COL_C" stroke-width="3" stroke-linecap="round" opacity="0.8"/>
+    <line x1="228" y1="30" x2="223" y2="40" stroke="COL_C" stroke-width="3" stroke-linecap="round" opacity="0.8"/>
+    <line x1="152" y1="46" x2="160" y2="54" stroke="rgba(255,255,255,0.4)" stroke-width="2.5" stroke-linecap="round"/>
+    <line x1="248" y1="46" x2="240" y2="54" stroke="rgba(255,255,255,0.4)" stroke-width="2.5" stroke-linecap="round"/>`,
 
   'test-improve': `
-    <!-- Iterative loop with versions A→B with improvement markers -->
-    <!-- Main loop arrow -->
-    <path d="M200,60 A65,65 0 1,1 142,170" fill="none" stroke="rgba(255,255,255,0.45)" stroke-width="3" stroke-linecap="round"/>
-    <path d="M142,170 L200,170" fill="none" stroke="rgba(255,255,255,0.45)" stroke-width="3" stroke-linecap="round"/>
+    <text x="200" y="165" font-family="Inter,system-ui,sans-serif" font-size="44" font-weight="900" fill="rgba(255,255,255,0.09)" text-anchor="middle" dominant-baseline="middle" letter-spacing="-2">TEST</text>
+    <!-- Bold circular refresh arrow -->
+    <path d="M200,50 A62,62 0 1,1 148,144" fill="none" stroke="rgba(255,255,255,0.85)" stroke-width="5" stroke-linecap="round"/>
     <!-- Arrowhead -->
-    <polygon points="196,160 204,160 200,172" fill="rgba(255,255,255,0.45)"/>
-    <!-- Version A box -->
-    <rect x="115" y="72" width="52" height="38" rx="5" fill="rgba(255,255,255,0.1)" stroke="rgba(255,255,255,0.35)" stroke-width="2"/>
-    <text x="141" y="96" font-family="system-ui" font-size="14" font-weight="800" fill="rgba(255,255,255,0.7)" text-anchor="middle">A</text>
-    <line x1="120" y1="84" x2="162" y2="84" stroke="rgba(255,255,255,0.15)" stroke-width="1"/>
-    <rect x="121" y="88" width="20" height="6" rx="2" fill="rgba(255,255,255,0.15)"/>
-    <rect x="145" y="88" width="12" height="6" rx="2" fill="rgba(255,255,255,0.1)"/>
-    <!-- Version B box (improved) -->
-    <rect x="233" y="72" width="52" height="38" rx="5" fill="COL_C" fill-opacity="0.3" stroke="COL_C" stroke-width="2"/>
-    <text x="259" y="96" font-family="system-ui" font-size="14" font-weight="800" fill="rgba(255,255,255,0.9)" text-anchor="middle">B</text>
-    <line x1="238" y1="84" x2="280" y2="84" stroke="rgba(255,255,255,0.25)" stroke-width="1"/>
-    <rect x="239" y="88" width="28" height="6" rx="2" fill="COL_C" opacity="0.6"/>
-    <rect x="271" y="88" width="8" height="6" rx="2" fill="rgba(255,255,255,0.2)"/>
-    <!-- Improvement arrow A→B -->
-    <path d="M167,91 L200,91 L233,91" fill="none" stroke="COL_C" stroke-width="2" stroke-linecap="round" stroke-dasharray="5,3" opacity="0.8"/>
-    <polygon points="229,87 237,91 229,95" fill="COL_C" opacity="0.8"/>
-    <!-- Checkmarks for completed cycles -->
-    <circle cx="310" cy="130" r="12" fill="rgba(255,255,255,0.1)" stroke="rgba(255,255,255,0.25)" stroke-width="1.5"/>
-    <polyline points="304,130 308,134 316,125" fill="none" stroke="rgba(255,255,255,0.6)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-    <circle cx="90" cy="130" r="12" fill="rgba(255,255,255,0.06)" stroke="rgba(255,255,255,0.15)" stroke-width="1.5"/>
-    <polyline points="84,130 88,134 96,125" fill="none" stroke="rgba(255,255,255,0.3)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-    <!-- Data improvement line -->
-    <polyline points="115,158 140,148 165,152 190,140 215,135 240,128 265,120" fill="none" stroke="COL_C" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" opacity="0.65"/>
-    <circle cx="190" cy="140" r="3.5" fill="rgba(255,255,255,0.8)"/>
-    <circle cx="265" cy="120" r="3.5" fill="COL_C" opacity="0.9"/>`,
+    <polygon points="134,128 134,162 158,145" fill="rgba(255,255,255,0.85)"/>
+    <!-- Center improvement dot -->
+    <circle cx="200" cy="112" r="18" fill="COL_C" fill-opacity="0.8" stroke="rgba(255,255,255,0.8)" stroke-width="3"/>
+    <polyline points="192,112 198,118 210,104" fill="none" stroke="rgba(255,255,255,0.95)" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"/>
+    <!-- Up-trend line -->
+    <polyline points="144,168 165,155 188,160 212,146 236,138 260,126" fill="none" stroke="COL_C" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" opacity="0.75"/>
+    <circle cx="260" cy="126" r="5" fill="rgba(255,255,255,0.8)"/>`,
 
   'sustain': `
-    <!-- Upward growth with tree/plant metaphor + trend line -->
-    <!-- Ground -->
-    <ellipse cx="200" cy="185" rx="100" ry="10" fill="rgba(255,255,255,0.06)"/>
-    <!-- Stem/trunk -->
-    <line x1="200" y1="185" x2="200" y2="100" stroke="rgba(255,255,255,0.45)" stroke-width="3" stroke-linecap="round"/>
-    <!-- Left branches -->
-    <path d="M200,140 Q172,120 155,125" fill="none" stroke="rgba(255,255,255,0.4)" stroke-width="2.5" stroke-linecap="round"/>
-    <path d="M200,120 Q165,95 148,98" fill="none" stroke="rgba(255,255,255,0.35)" stroke-width="2" stroke-linecap="round"/>
-    <path d="M200,155 Q178,148 168,152" fill="none" stroke="rgba(255,255,255,0.25)" stroke-width="1.5" stroke-linecap="round"/>
-    <!-- Right branches -->
-    <path d="M200,135 Q228,115 245,120" fill="none" stroke="COL_C" stroke-width="2.5" stroke-linecap="round" opacity="0.8"/>
-    <path d="M200,115 Q235,88 252,92" fill="none" stroke="COL_C" stroke-width="2" stroke-linecap="round" opacity="0.7"/>
-    <path d="M200,150 Q222,142 232,146" fill="none" stroke="COL_C" stroke-width="1.5" stroke-linecap="round" opacity="0.6"/>
-    <!-- Leaf clusters -->
-    <circle cx="148" cy="124" r="14" fill="rgba(255,255,255,0.12)" stroke="rgba(255,255,255,0.25)" stroke-width="1.5"/>
-    <circle cx="142" cy="97" r="12" fill="rgba(255,255,255,0.1)" stroke="rgba(255,255,255,0.2)" stroke-width="1.5"/>
-    <circle cx="245" cy="119" r="16" fill="COL_C" fill-opacity="0.35" stroke="COL_C" stroke-width="2"/>
-    <circle cx="252" cy="91" r="14" fill="COL_C" fill-opacity="0.45" stroke="COL_C" stroke-width="2"/>
-    <!-- Crown -->
-    <circle cx="200" cy="88" r="18" fill="COL_C" fill-opacity="0.4" stroke="COL_C" stroke-width="2.5"/>
-    <circle cx="200" cy="88" r="9" fill="rgba(255,255,255,0.6)"/>
-    <!-- Trend arrow in background -->
-    <polyline points="85,175 115,158 148,152 182,138 220,125 258,108 290,92 315,78" fill="none" stroke="rgba(255,255,255,0.12)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-    <polyline points="305,70 315,78 307,86" fill="none" stroke="rgba(255,255,255,0.12)" stroke-width="2" stroke-linecap="round"/>`,
+    <text x="200" y="170" font-family="Inter,system-ui,sans-serif" font-size="40" font-weight="900" fill="rgba(255,255,255,0.09)" text-anchor="middle" dominant-baseline="middle" letter-spacing="-2">SUSTAIN</text>
+    <!-- Bold upward arrow -->
+    <line x1="200" y1="170" x2="200" y2="55" stroke="rgba(255,255,255,0.8)" stroke-width="5" stroke-linecap="round"/>
+    <polygon points="182,72 200,40 218,72" fill="rgba(255,255,255,0.88)"/>
+    <!-- Left leaf -->
+    <path d="M200,120 C200,120 160,112 148,78 C170,72 200,96 200,120 Z" fill="COL_C" fill-opacity="0.6" stroke="rgba(255,255,255,0.55)" stroke-width="2.5" stroke-linejoin="round"/>
+    <!-- Right leaf -->
+    <path d="M200,100 C200,100 240,92 252,58 C230,52 200,78 200,100 Z" fill="COL_C" fill-opacity="0.7" stroke="rgba(255,255,255,0.65)" stroke-width="2.5" stroke-linejoin="round"/>
+    <!-- Trend dots at base -->
+    <circle cx="120" cy="170" r="5" fill="rgba(255,255,255,0.4)"/>
+    <circle cx="148" cy="162" r="5" fill="rgba(255,255,255,0.45)"/>
+    <circle cx="176" cy="152" r="5" fill="rgba(255,255,255,0.5)"/>
+    <line x1="118" y1="170" x2="198" y2="152" stroke="rgba(255,255,255,0.3)" stroke-width="2" stroke-linecap="round"/>`,
 };
 
 function getCoverSVG(category) {
@@ -2056,20 +1929,8 @@ function getCoverSVG(category) {
   const pat = CAT_PATTERNS[category] || '';
   const icon = (CAT_ICONS[category] || CAT_ICONS['sustain']).replace(/COL_C/g, col.c);
   return `<svg viewBox="0 0 400 225" xmlns="http://www.w3.org/2000/svg" style="position:absolute;inset:0;width:100%;height:100%;display:block;" preserveAspectRatio="xMidYMid slice" overflow="hidden">
-    <defs>
-      <linearGradient id="cvOverlay_${category}" x1="0%" y1="0%" x2="100%" y2="100%">
-        <stop offset="0%" stop-color="rgba(0,0,0,0.12)"/>
-        <stop offset="100%" stop-color="rgba(0,0,0,0.0)"/>
-      </linearGradient>
-      <linearGradient id="cvBottom_${category}" x1="0%" y1="0%" x2="0%" y2="100%">
-        <stop offset="50%" stop-color="transparent"/>
-        <stop offset="100%" stop-color="rgba(0,0,0,0.28)"/>
-      </linearGradient>
-    </defs>
     ${pat}
     ${icon}
-    <rect width="400" height="225" fill="url(#cvOverlay_${category})"/>
-    <rect width="400" height="225" fill="url(#cvBottom_${category})"/>
   </svg>`;
 }
 
