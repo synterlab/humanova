@@ -780,15 +780,15 @@
 
     /* ─── FADE-UP REVEAL ─────────────────────────── */
     @keyframes fadeUp {
-      from { opacity: 0; transform: translateY(18px); }
+      from { opacity: 0; transform: translateY(14px); }
       to   { opacity: 1; transform: translateY(0); }
     }
-    .reveal { opacity: 0; }
-    .reveal.visible { animation: fadeUp 0.45s ease both; }
-    .reveal-d1.visible { animation-delay: 0.06s; }
-    .reveal-d2.visible { animation-delay: 0.12s; }
-    .reveal-d3.visible { animation-delay: 0.18s; }
-    .reveal-d4.visible { animation-delay: 0.24s; }
+    .js-ready .reveal { opacity: 0; }
+    .js-ready .reveal.visible { animation: fadeUp 0.4s ease both; opacity: 1; }
+    .js-ready .reveal-d1.visible { animation-delay: 0.04s; }
+    .js-ready .reveal-d2.visible { animation-delay: 0.1s; }
+    .js-ready .reveal-d3.visible { animation-delay: 0.16s; }
+    .js-ready .reveal-d4.visible { animation-delay: 0.22s; }
 
     /* ─── HERO SOCIAL ICONS ──────────────────────── */
     .hero-social {
@@ -1776,9 +1776,6 @@ function renderHome() {
   // Recent tools (last 3)
   const recent = TOOLKITS.slice(-3);
   document.getElementById('recentTools').innerHTML = recent.map(t => renderToolCard(t)).join('');
-
-  // Trigger reveal for dynamically added elements
-  setTimeout(initReveal, 50);
 }
 
 // ─── TOOLS PAGE ────────────────────────────────
@@ -2245,6 +2242,7 @@ document.addEventListener('keydown', (e) => {
 
 // ─── SCROLL REVEAL ─────────────────────────────
 function initReveal() {
+  document.body.classList.add('js-ready');
   if (!('IntersectionObserver' in window)) {
     document.querySelectorAll('.reveal').forEach(el => el.classList.add('visible'));
     return;
@@ -2253,14 +2251,14 @@ function initReveal() {
     entries.forEach(e => {
       if (e.isIntersecting) { e.target.classList.add('visible'); obs.unobserve(e.target); }
     });
-  }, { threshold: 0.06, rootMargin: '0px 0px -20px 0px' });
+  }, { threshold: 0.04, rootMargin: '0px 0px 0px 0px' });
   document.querySelectorAll('.reveal:not(.visible)').forEach(el => obs.observe(el));
 }
 
 // ─── INIT ──────────────────────────────────────
 document.addEventListener('DOMContentLoaded', () => {
   renderHome();
-  setTimeout(initReveal, 80);
+  requestAnimationFrame(() => requestAnimationFrame(initReveal));
 });
 </script>
 </body>
