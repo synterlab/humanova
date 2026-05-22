@@ -1261,22 +1261,22 @@
   <div class="auth-page">
     <div class="auth-card">
       <span class="auth-logo">Humanova</span>
-      <h1 class="auth-title">Masuk ke Humanova</h1>
-      <p style="font-size:0.875rem;color:var(--medium-gray);text-align:center;margin-bottom:1.75rem;">Masukkan email Anda — kami kirim link login langsung ke inbox, tanpa password.</p>
+      <h1 class="auth-title">Sign in to Humanova</h1>
+      <p style="font-size:0.875rem;color:var(--medium-gray);text-align:center;margin-bottom:1.75rem;">Enter your email — we'll send a login link straight to your inbox. No password needed.</p>
       <div class="form-group">
-        <label class="form-label" for="magicEmail">Alamat Email</label>
-        <input class="form-input" type="email" id="magicEmail" placeholder="nama@gmail.com" aria-label="Email" autocomplete="email" />
+        <label class="form-label" for="magicEmail">Email address</label>
+        <input class="form-input" type="email" id="magicEmail" placeholder="you@example.com" aria-label="Email" autocomplete="email" />
       </div>
       <button class="btn btn-red btn-full" id="magicLinkBtn" onclick="sendMagicLink()" style="font-size:1rem;padding:0.875rem;">
         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="margin-right:0.5rem;"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
-        Kirim Magic Link ke Email
+        Send Magic Link
       </button>
       <div id="magicLinkSent" style="display:none;text-align:center;margin-top:1.25rem;padding:1rem 1.25rem;background:#D1FAE5;border-radius:6px;color:#065F46;">
         <div style="font-size:1.5rem;margin-bottom:0.5rem;">✉️</div>
-        <strong style="display:block;margin-bottom:0.25rem;">Link dikirim!</strong>
-        <span style="font-size:0.85rem;">Cek inbox email Anda dan klik link untuk masuk. Cek juga folder spam.</span>
+        <strong style="display:block;margin-bottom:0.25rem;">Check your inbox!</strong>
+        <span style="font-size:0.85rem;">We sent a login link to your email. Also check your spam folder.</span>
       </div>
-      <p style="margin-top:1.5rem;font-size:0.75rem;color:var(--medium-gray);text-align:center;line-height:1.5;">Magic link berlaku 1 jam. Dengan masuk, Anda setuju dengan <a href="#" style="color:var(--red);">Syarat Layanan</a> kami.</p>
+      <p style="margin-top:1.5rem;font-size:0.75rem;color:var(--medium-gray);text-align:center;line-height:1.5;">Link expires in 1 hour. By signing in, you agree to our <a href="#" style="color:var(--red);">Terms of Service</a>.</p>
     </div>
   </div>
 </div>
@@ -1286,20 +1286,20 @@
   <div class="auth-page">
     <div class="auth-card">
       <span class="auth-logo">Humanova</span>
-      <h1 class="auth-title">Bergabung dengan Humanova</h1>
-      <p style="font-size:0.875rem;color:var(--medium-gray);text-align:center;margin-bottom:1.75rem;">Daftar gratis untuk mengakses semua toolkit download. Tidak perlu password.</p>
+      <h1 class="auth-title">Join Humanova</h1>
+      <p style="font-size:0.875rem;color:var(--medium-gray);text-align:center;margin-bottom:1.75rem;">Sign up free to access all toolkit downloads. No password required.</p>
       <div class="form-group">
-        <label class="form-label" for="regMagicEmail">Alamat Email</label>
-        <input class="form-input" type="email" id="regMagicEmail" placeholder="nama@gmail.com" aria-label="Email" autocomplete="email" />
+        <label class="form-label" for="regMagicEmail">Email address</label>
+        <input class="form-input" type="email" id="regMagicEmail" placeholder="you@example.com" aria-label="Email" autocomplete="email" />
       </div>
       <button class="btn btn-red btn-full" onclick="sendMagicLinkReg()" style="font-size:1rem;padding:0.875rem;">
         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="margin-right:0.5rem;"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
-        Daftar & Kirim Magic Link
+        Create Account &amp; Send Magic Link
       </button>
       <div id="regMagicLinkSent" style="display:none;text-align:center;margin-top:1.25rem;padding:1rem 1.25rem;background:#D1FAE5;border-radius:6px;color:#065F46;">
-        <strong>Link dikirim!</strong> Cek inbox email Anda.
+        <strong>Check your inbox!</strong> We sent a login link to your email.
       </div>
-      <p class="auth-link" style="margin-top:1rem;">Sudah punya akun? <a href="#" onclick="showPage('auth-login')">Masuk</a></p>
+      <p class="auth-link" style="margin-top:1rem;">Already have an account? <a href="#" onclick="showPage('auth-login')">Sign in</a></p>
     </div>
   </div>
 </div>
@@ -1309,14 +1309,14 @@
   <div class="auth-page">
     <div class="auth-card">
       <span class="auth-logo">Humanova</span>
-      <h1 class="auth-title">Magic Link Login</h1>
-      <p style="font-size:0.875rem;color:var(--medium-gray);margin-bottom:1.5rem;">Masukkan email Anda dan kami akan kirim link login langsung.</p>
+      <h1 class="auth-title">Sign in with Magic Link</h1>
+      <p style="font-size:0.875rem;color:var(--medium-gray);margin-bottom:1.5rem;">Enter your email and we'll send a login link directly to your inbox.</p>
       <div class="form-group">
-        <label class="form-label" for="forgotEmail">Email</label>
+        <label class="form-label" for="forgotEmail">Email address</label>
         <input class="form-input" type="email" id="forgotEmail" placeholder="you@example.com" aria-label="Email" />
       </div>
-      <button class="btn btn-red btn-full" onclick="sendMagicLinkForgot()">Kirim Magic Link</button>
-      <p class="auth-link"><a href="#" onclick="showPage('auth-login')">← Kembali ke Login</a></p>
+      <button class="btn btn-red btn-full" onclick="sendMagicLinkForgot()">Send Magic Link</button>
+      <p class="auth-link"><a href="#" onclick="showPage('auth-login')">← Back to Sign In</a></p>
     </div>
   </div>
 </div>
@@ -1917,14 +1917,14 @@ function openToolDetail(slug) {
       </button>
       <div class="download-options" id="downloadOptions">
         <div id="downloadLoginWall" style="display:none;padding:0.75rem 0.25rem;">
-          <p style="color:var(--near-black);font-weight:700;margin-bottom:0.5rem;font-size:0.9rem;">Login untuk mendownload</p>
-          <p style="color:var(--medium-gray);font-size:0.8rem;margin-bottom:0.75rem;">Kami kirim magic link ke email Anda.</p>
+          <p style="color:var(--near-black);font-weight:700;margin-bottom:0.5rem;font-size:0.9rem;">Sign in to download</p>
+          <p style="color:var(--medium-gray);font-size:0.8rem;margin-bottom:0.75rem;">We'll send a magic link to your email.</p>
           <div style="display:flex;gap:0.5rem;">
-            <input type="email" id="dlMagicEmail" class="form-input" placeholder="email@anda.com" style="flex:1;padding:0.5rem 0.75rem;font-size:0.85rem;" />
-            <button class="btn btn-red" id="dlMagicBtn" onclick="sendDownloadMagicLink()" style="padding:0.5rem 0.875rem;font-size:0.8rem;white-space:nowrap;">Kirim Link</button>
+            <input type="email" id="dlMagicEmail" class="form-input" placeholder="you@example.com" style="flex:1;padding:0.5rem 0.75rem;font-size:0.85rem;" />
+            <button class="btn btn-red" id="dlMagicBtn" onclick="sendDownloadMagicLink()" style="padding:0.5rem 0.875rem;font-size:0.8rem;white-space:nowrap;">Send Link</button>
           </div>
           <div id="dlMagicSent" style="display:none;margin-top:0.6rem;padding:0.6rem 0.75rem;background:#D1FAE5;border-radius:4px;color:#065F46;font-size:0.8rem;">
-            ✓ Link dikirim! Cek inbox Anda.
+            ✓ Link sent! Check your inbox.
           </div>
         </div>
         <div id="downloadContent">
