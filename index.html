@@ -220,10 +220,10 @@
       padding-left: 1rem; padding-right: 1rem;
     }
     .scroll-row::-webkit-scrollbar { display: none; }
-    .scroll-row .tool-card { min-width: 260px; flex-shrink: 0; }
+    .scroll-row .tool-card { width: 260px; max-width: calc(100vw - 2.5rem); flex-shrink: 0; }
     @media (min-width: 1024px) {
       .scroll-row { display: grid; grid-template-columns: repeat(3,1fr); overflow: visible; margin-left: 0; margin-right: 0; padding-left: 0; padding-right: 0; }
-      .scroll-row .tool-card { min-width: unset; }
+      .scroll-row .tool-card { width: auto; max-width: unset; }
     }
 
     /* ─── CATEGORY CARDS ────────────────────────── */
@@ -1563,7 +1563,6 @@ function renderFindCategories() {
     const tools = TOOLKITS.filter(t => t.category === cat.id);
     return `<div class="find-category">
       <div class="find-cat-header">
-        <div class="find-cat-icon" aria-hidden="true">${cat.icon}</div>
         <div class="find-cat-name">${cat.name}</div>
       </div>
       <div class="find-sep"></div>
@@ -1603,31 +1602,74 @@ function getCoverBg(category) {
   return `linear-gradient(140deg, ${col.a} 0%, ${col.b} 100%)`;
 }
 
-function wrapTitleLines(title) {
-  const words = title.split(' ');
-  const lines = ['', ''];
-  let li = 0;
-  for (const w of words) {
-    if (li === 0 && (lines[0] + ' ' + w).trim().length > 14) li = 1;
-    if (li === 1 && (lines[1] + ' ' + w).trim().length > 14) { lines[1] += '…'; break; }
-    lines[li] = (lines[li] + ' ' + w).trim();
-  }
-  return lines.filter(Boolean);
-}
+const CAT_ICONS = {
+  'look-ahead': `
+    <circle cx="200" cy="112" r="68" fill="none" stroke="rgba(255,255,255,0.07)" stroke-width="1"/>
+    <circle cx="200" cy="112" r="44" fill="none" stroke="rgba(255,255,255,0.07)" stroke-width="1"/>
+    <line x1="118" y1="84" x2="200" y2="84" stroke="rgba(255,255,255,0.14)" stroke-width="1.5" stroke-linecap="round"/>
+    <line x1="118" y1="140" x2="200" y2="140" stroke="rgba(255,255,255,0.14)" stroke-width="1.5" stroke-linecap="round"/>
+    <path d="M195,68 L248,112 L195,156" fill="none" stroke="rgba(255,255,255,0.65)" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"/>
+    <line x1="152" y1="112" x2="245" y2="112" stroke="rgba(255,255,255,0.65)" stroke-width="3" stroke-linecap="round"/>
+    <circle cx="200" cy="112" r="6" fill="rgba(255,255,255,0.55)"/>`,
+  'develop-plan': `
+    <rect x="150" y="58" width="100" height="110" rx="5" fill="none" stroke="rgba(255,255,255,0.18)" stroke-width="1.5"/>
+    <rect x="176" y="50" width="48" height="14" rx="3" fill="none" stroke="rgba(255,255,255,0.3)" stroke-width="1.5"/>
+    <line x1="150" y1="80" x2="250" y2="80" stroke="rgba(255,255,255,0.1)" stroke-width="1"/>
+    <circle cx="168" cy="100" r="5" fill="rgba(255,255,255,0.65)"/>
+    <line x1="180" y1="100" x2="228" y2="100" stroke="rgba(255,255,255,0.55)" stroke-width="2.5" stroke-linecap="round"/>
+    <circle cx="168" cy="120" r="5" fill="rgba(255,255,255,0.4)"/>
+    <line x1="180" y1="120" x2="235" y2="120" stroke="rgba(255,255,255,0.35)" stroke-width="2.5" stroke-linecap="round"/>
+    <circle cx="168" cy="140" r="5" fill="rgba(255,255,255,0.22)"/>
+    <line x1="180" y1="140" x2="218" y2="140" stroke="rgba(255,255,255,0.2)" stroke-width="2.5" stroke-linecap="round"/>`,
+  'clarify': `
+    <circle cx="200" cy="112" r="70" fill="none" stroke="rgba(255,255,255,0.1)" stroke-width="1.5"/>
+    <circle cx="200" cy="112" r="48" fill="none" stroke="rgba(255,255,255,0.18)" stroke-width="2"/>
+    <circle cx="200" cy="112" r="26" fill="none" stroke="rgba(255,255,255,0.42)" stroke-width="2.5"/>
+    <circle cx="200" cy="112" r="9" fill="rgba(255,255,255,0.7)"/>`,
+  'collect-inputs': `
+    <path d="M148,62 L252,62 L226,112 L174,112 Z" fill="none" stroke="rgba(255,255,255,0.55)" stroke-width="2.5" stroke-linejoin="round"/>
+    <line x1="200" y1="112" x2="200" y2="158" stroke="rgba(255,255,255,0.55)" stroke-width="2.5" stroke-linecap="round"/>
+    <circle cx="200" cy="163" r="6" fill="rgba(255,255,255,0.55)"/>
+    <circle cx="170" cy="48" r="4" fill="rgba(255,255,255,0.3)"/>
+    <circle cx="200" cy="44" r="4" fill="rgba(255,255,255,0.3)"/>
+    <circle cx="230" cy="48" r="4" fill="rgba(255,255,255,0.3)"/>
+    <line x1="170" y1="52" x2="174" y2="60" stroke="rgba(255,255,255,0.22)" stroke-width="1.5" stroke-linecap="round"/>
+    <line x1="200" y1="48" x2="200" y2="60" stroke="rgba(255,255,255,0.22)" stroke-width="1.5" stroke-linecap="round"/>
+    <line x1="230" y1="52" x2="226" y2="60" stroke="rgba(255,255,255,0.22)" stroke-width="1.5" stroke-linecap="round"/>`,
+  'know-people': `
+    <circle cx="200" cy="78" r="24" fill="none" stroke="rgba(255,255,255,0.6)" stroke-width="2.5"/>
+    <circle cx="200" cy="78" r="10" fill="rgba(255,255,255,0.3)"/>
+    <path d="M160,150 Q160,122 200,120 Q240,122 240,150" fill="none" stroke="rgba(255,255,255,0.6)" stroke-width="2.5" stroke-linecap="round"/>
+    <circle cx="155" cy="102" r="17" fill="none" stroke="rgba(255,255,255,0.22)" stroke-width="1.5"/>
+    <circle cx="245" cy="102" r="17" fill="none" stroke="rgba(255,255,255,0.22)" stroke-width="1.5"/>
+    <line x1="172" y1="102" x2="183" y2="102" stroke="rgba(255,255,255,0.14)" stroke-width="1.5"/>
+    <line x1="217" y1="102" x2="228" y2="102" stroke="rgba(255,255,255,0.14)" stroke-width="1.5"/>`,
+  'generate-ideas': `
+    <path d="M200,58 C178,58 162,74 162,94 C162,110 171,122 184,130 L184,150 L216,150 L216,130 C229,122 238,110 238,94 C238,74 222,58 200,58 Z" fill="none" stroke="rgba(255,255,255,0.6)" stroke-width="2.5" stroke-linejoin="round"/>
+    <line x1="187" y1="154" x2="213" y2="154" stroke="rgba(255,255,255,0.42)" stroke-width="2.5" stroke-linecap="round"/>
+    <line x1="191" y1="161" x2="209" y2="161" stroke="rgba(255,255,255,0.25)" stroke-width="2" stroke-linecap="round"/>
+    <line x1="200" y1="44" x2="200" y2="52" stroke="rgba(255,255,255,0.35)" stroke-width="2" stroke-linecap="round"/>
+    <line x1="177" y1="50" x2="181" y2="58" stroke="rgba(255,255,255,0.22)" stroke-width="1.5" stroke-linecap="round"/>
+    <line x1="223" y1="50" x2="219" y2="58" stroke="rgba(255,255,255,0.22)" stroke-width="1.5" stroke-linecap="round"/>`,
+  'test-improve': `
+    <path d="M200,68 A44,44 0 1,1 156,112" fill="none" stroke="rgba(255,255,255,0.6)" stroke-width="2.5" stroke-linecap="round"/>
+    <polygon points="151,103 151,121 139,112" fill="rgba(255,255,255,0.6)"/>
+    <path d="M200,92 A20,20 0 1,1 180,112" fill="none" stroke="rgba(255,255,255,0.22)" stroke-width="1.5" stroke-linecap="round"/>
+    <circle cx="200" cy="112" r="6" fill="rgba(255,255,255,0.4)"/>`,
+  'sustain': `
+    <line x1="200" y1="168" x2="200" y2="88" stroke="rgba(255,255,255,0.42)" stroke-width="2.5" stroke-linecap="round"/>
+    <path d="M200,122 C200,122 168,116 158,88 C174,82 200,102 200,122 Z" fill="rgba(255,255,255,0.15)" stroke="rgba(255,255,255,0.5)" stroke-width="2" stroke-linejoin="round"/>
+    <path d="M200,106 C200,106 232,100 242,72 C226,66 200,86 200,106 Z" fill="rgba(255,255,255,0.12)" stroke="rgba(255,255,255,0.38)" stroke-width="2" stroke-linejoin="round"/>
+    <ellipse cx="200" cy="82" rx="9" ry="11" fill="rgba(255,255,255,0.35)" stroke="rgba(255,255,255,0.55)" stroke-width="1.5"/>
+    <line x1="174" y1="168" x2="226" y2="168" stroke="rgba(255,255,255,0.18)" stroke-width="1.5" stroke-linecap="round"/>`,
+};
 
-function getCoverSVG(category, title) {
+function getCoverSVG(category) {
   const pat = CAT_PATTERNS[category] || '';
-  const init = title.split(' ').slice(0,2).map(w => w[0]).join('').toUpperCase();
-  const lines = wrapTitleLines(title);
-  const l1 = lines[0] || '';
-  const l2 = lines[1] || '';
-  return `<svg viewBox="0 0 400 250" xmlns="http://www.w3.org/2000/svg" style="position:absolute;inset:0;width:100%;height:100%;display:block;" preserveAspectRatio="xMidYMid slice">
+  const icon = CAT_ICONS[category] || CAT_ICONS['sustain'];
+  return `<svg viewBox="0 0 400 225" xmlns="http://www.w3.org/2000/svg" style="position:absolute;inset:0;width:100%;height:100%;display:block;" preserveAspectRatio="xMidYMid slice" overflow="hidden">
     ${pat}
-    <text x="24" y="148" font-family="Inter,system-ui,sans-serif" font-size="130" font-weight="900" fill="rgba(255,255,255,0.07)" letter-spacing="-6">${init}</text>
-    <line x1="24" y1="60" x2="100" y2="60" stroke="rgba(255,255,255,0.25)" stroke-width="2"/>
-    <text x="24" y="96" font-family="Inter,system-ui,sans-serif" font-size="28" font-weight="800" fill="rgba(255,255,255,0.95)" letter-spacing="-0.5">${l1}</text>
-    ${l2 ? `<text x="24" y="128" font-family="Inter,system-ui,sans-serif" font-size="28" font-weight="800" fill="rgba(255,255,255,0.95)" letter-spacing="-0.5">${l2}</text>` : ''}
-    <text x="24" y="44" font-family="Inter,system-ui,sans-serif" font-size="11" font-weight="700" fill="rgba(255,255,255,0.4)" letter-spacing="2.5">HUMANOVA TOOLKIT</text>
+    ${icon}
   </svg>`;
 }
 
@@ -1636,7 +1678,7 @@ function renderToolCard(t, clickable = true) {
   const onclick = clickable ? `onclick="openToolDetail('${t.slug}')"` : '';
   return `<article class="tool-card" ${onclick} role="${clickable ? 'button' : 'article'}" tabindex="${clickable ? '0' : '-1'}">
     <div class="tool-card-cover-wrap" style="background:${getCoverBg(t.category)};">
-      ${getCoverSVG(t.category, t.title)}
+      ${getCoverSVG(t.category)}
       <div class="tool-card-badge-wrap"><span class="badge badge-red">${t.catName}</span></div>
     </div>
     <div class="tool-card-body">
@@ -1753,7 +1795,7 @@ function openToolDetail(slug) {
     <h1 class="tool-title">${tool.title}</h1>
 
     <div class="tool-cover-placeholder" style="padding:0;border-radius:4px;overflow:hidden;aspect-ratio:16/9;width:100%;margin-bottom:1.5rem;position:relative;background:${getCoverBg(tool.category)};">
-      ${getCoverSVG(tool.category, tool.title)}
+      ${getCoverSVG(tool.category)}
     </div>
 
     <div class="download-section">
@@ -1887,7 +1929,7 @@ function renderCaseStudies() {
   grid.innerHTML = CASE_STUDIES.map(cs => `
     <div class="case-card" onclick="showToast('Full case study coming soon!')" role="button" tabindex="0">
       <div class="case-card-img" style="position:relative;background:${getCoverBg(cs.toolkitCategory || 'sustain')};">
-        ${getCoverSVG(cs.toolkitCategory || 'sustain', cs.title)}
+        ${getCoverSVG(cs.toolkitCategory || 'sustain')}
       </div>
       <div class="case-card-body">
         <span class="badge badge-red">${cs.toolkit}</span>
