@@ -11,6 +11,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
@@ -242,10 +243,27 @@
     .cat-card:hover { transform: translateY(-5px); box-shadow: 0 12px 28px rgba(0,0,0,0.1); }
     .cat-card:active { transform: translateY(-2px); transition-duration: 0.08s; }
     .cat-card-visual {
-      height: 80px; display: flex; align-items: center; justify-content: center;
+      height: 120px; display: flex; align-items: center; justify-content: center;
       position: relative; overflow: hidden;
     }
-    .cat-card-visual svg { width: 32px; height: 32px; position: relative; z-index: 1; }
+    .cat-card-visual::before {
+      content: ''; position: absolute; inset: 0;
+      background: radial-gradient(ellipse at 80% 20%, rgba(255,255,255,0.13) 0%, transparent 65%);
+      pointer-events: none;
+    }
+    .cat-card-visual::after {
+      content: ''; position: absolute; bottom: -18px; right: -18px;
+      width: 90px; height: 90px; border-radius: 50%;
+      background: rgba(255,255,255,0.05);
+      pointer-events: none;
+    }
+    .cat-card-visual svg { width: 44px; height: 44px; position: relative; z-index: 1; filter: drop-shadow(0 2px 8px rgba(0,0,0,0.25)); }
+    .cat-card-visual .cat-bg-label {
+      position: absolute; bottom: 8px; right: 10px; z-index: 1;
+      font-size: 2.8rem; font-weight: 800; color: rgba(255,255,255,0.07);
+      line-height: 1; letter-spacing: -2px; pointer-events: none;
+      font-family: 'Inter', sans-serif;
+    }
     .cat-card-body { padding: 0.875rem 0.875rem 0.75rem; }
     .cat-card-name { font-weight: 700; font-size: 0.85rem; line-height: 1.3; margin-bottom: 0.25rem; color: var(--near-black); }
     .cat-card-count { color: var(--medium-gray); font-size: 0.7rem; font-weight: 500; margin-bottom: 0.5rem; }
@@ -824,9 +842,10 @@
       <button class="navbar-icon-btn" onclick="showPage('search')" aria-label="Search">
         <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
       </button>
-      <button class="navbar-icon-btn mobile-only" onclick="showPage('auth-login')" aria-label="Login">
+      <button class="navbar-icon-btn mobile-only" id="navMobileLoginBtn" onclick="showPage('auth-login')" aria-label="Login">
         <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
       </button>
+      <div id="navUserInfo" style="display:none;align-items:center;"></div>
     </div>
   </div>
 </nav>
@@ -874,6 +893,9 @@
         </a>
         <a class="hero-social-btn" href="https://youtube.com/@humanovarun" target="_blank" rel="noopener" aria-label="YouTube">
           <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg>
+        </a>
+        <a class="hero-social-btn" href="https://t.me/humanovarun" target="_blank" rel="noopener" aria-label="Telegram">
+          <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M11.944 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0a12 12 0 0 0-.056 0zm4.962 7.224c.1-.002.321.023.465.14a.506.506 0 0 1 .171.325c.016.093.036.306.02.472-.18 1.898-.962 6.502-1.36 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.48.33-.913.49-1.302.48-.428-.008-1.252-.241-1.865-.44-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635z"/></svg>
         </a>
       </div>
       <h1>Built for practitioners who need to think clearly, move fast, and create work that actually lands</h1>
@@ -1239,26 +1261,24 @@
   <div class="auth-page">
     <div class="auth-card">
       <span class="auth-logo">Humanova</span>
-      <h1 class="auth-title">Welcome back</h1>
-      <div class="form-group">
-        <label class="form-label" for="loginEmail">Email</label>
-        <input class="form-input" type="email" id="loginEmail" placeholder="you@example.com" aria-label="Email" />
-      </div>
-      <div class="form-group">
-        <label class="form-label" for="loginPw">Password</label>
-        <div class="pw-input-wrap">
-          <input class="form-input" type="password" id="loginPw" placeholder="••••••••" aria-label="Password" />
-          <button class="pw-toggle" onclick="togglePw('loginPw',this)" type="button">Show</button>
-        </div>
-      </div>
-      <a href="#" style="font-size:0.8rem;color:var(--red);display:block;margin-bottom:1rem;text-align:right;" onclick="showPage('auth-forgot')">Forgot password?</a>
-      <button class="btn btn-red btn-full" onclick="showToast('Demo mode, auth not connected yet.')">Log In</button>
-      <div class="auth-divider">or</div>
-      <button class="btn btn-full" style="border:1px solid #D1D5DB;background:var(--white);" onclick="showToast('Google auth coming soon!')">
+      <h1 class="auth-title">Sign in to download</h1>
+      <p style="font-size:0.875rem;color:var(--medium-gray);text-align:center;margin-bottom:1.5rem;">Login dengan akun Google untuk mengakses semua toolkit download.</p>
+      <button class="btn btn-full" id="googleSignInBtn" style="border:1px solid #D1D5DB;background:var(--white);margin-bottom:1rem;" onclick="signInWithGoogle()">
         <svg width="18" height="18" viewBox="0 0 24 24" style="margin-right:0.5rem;"><path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/><path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/><path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l3.66-2.84z"/><path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/></svg>
         Continue with Google
       </button>
-      <p class="auth-link">Don't have an account? <a href="#" onclick="showPage('auth-register')">Sign up</a></p>
+      <div class="auth-divider">atau</div>
+      <div id="magicLinkSection">
+        <div class="form-group" style="margin-top:1rem;">
+          <label class="form-label" for="magicEmail">Email</label>
+          <input class="form-input" type="email" id="magicEmail" placeholder="you@example.com" aria-label="Email" />
+        </div>
+        <button class="btn btn-red btn-full" id="magicLinkBtn" onclick="sendMagicLink()">Kirim Magic Link</button>
+        <div id="magicLinkSent" style="display:none;text-align:center;margin-top:1rem;padding:1rem;background:#D1FAE5;border-radius:4px;color:#065F46;font-size:0.875rem;">
+          <strong>Link dikirim!</strong> Cek email Anda dan klik link untuk login.
+        </div>
+      </div>
+      <p class="auth-link" style="margin-top:1.5rem;font-size:0.75rem;color:var(--medium-gray);text-align:center;">Dengan login, Anda setuju dengan <a href="#" style="color:var(--red);">Terms of Service</a> kami.</p>
     </div>
   </div>
 </div>
@@ -1268,43 +1288,13 @@
   <div class="auth-page">
     <div class="auth-card">
       <span class="auth-logo">Humanova</span>
-      <h1 class="auth-title">Create your account</h1>
-      <div class="form-group">
-        <label class="form-label" for="regName">Full Name</label>
-        <input class="form-input" type="text" id="regName" placeholder="Your full name" aria-label="Full name" />
-      </div>
-      <div class="form-group">
-        <label class="form-label" for="regUsername">Username</label>
-        <input class="form-input" type="text" id="regUsername" placeholder="@username" aria-label="Username" />
-      </div>
-      <div class="form-group">
-        <label class="form-label" for="regEmail">Email</label>
-        <input class="form-input" type="email" id="regEmail" placeholder="you@example.com" aria-label="Email" />
-      </div>
-      <div class="form-group">
-        <label class="form-label" for="regPw">Password</label>
-        <div class="pw-input-wrap">
-          <input class="form-input" type="password" id="regPw" placeholder="••••••••" aria-label="Password" />
-          <button class="pw-toggle" onclick="togglePw('regPw',this)" type="button">Show</button>
-        </div>
-      </div>
-      <div class="form-group">
-        <label class="form-label" for="regOrg">Organization (optional)</label>
-        <input class="form-input" type="text" id="regOrg" placeholder="Your organization" aria-label="Organization" />
-      </div>
-      <div class="form-group">
-        <label class="form-label">Role</label>
-        <div class="radio-group">
-          <label class="radio-option"><input type="radio" name="regRole" value="creative" checked /> Creative Industry</label>
-          <label class="radio-option"><input type="radio" name="regRole" value="ngo" /> NGO</label>
-          <label class="radio-option"><input type="radio" name="regRole" value="both" /> Both</label>
-        </div>
-      </div>
-      <label class="filter-item" style="margin-bottom:1rem;font-size:0.875rem;">
-        <input type="checkbox" /> <span>I agree to the Terms of Service and Privacy Policy</span>
-      </label>
-      <button class="btn btn-red btn-full" onclick="showToast('Demo mode, auth not connected yet.')">Create Account</button>
-      <p class="auth-link">Already have an account? <a href="#" onclick="showPage('auth-login')">Log in</a></p>
+      <h1 class="auth-title">Join Humanova</h1>
+      <p style="font-size:0.875rem;color:var(--medium-gray);text-align:center;margin-bottom:1.5rem;">Buat akun untuk mengakses semua toolkit download.</p>
+      <button class="btn btn-full" style="border:1px solid #D1D5DB;background:var(--white);margin-bottom:1rem;" onclick="signInWithGoogle()">
+        <svg width="18" height="18" viewBox="0 0 24 24" style="margin-right:0.5rem;"><path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/><path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/><path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l3.66-2.84z"/><path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/></svg>
+        Daftar dengan Google
+      </button>
+      <p class="auth-link">Sudah punya akun? <a href="#" onclick="showPage('auth-login')">Log in</a></p>
     </div>
   </div>
 </div>
@@ -1314,14 +1304,14 @@
   <div class="auth-page">
     <div class="auth-card">
       <span class="auth-logo">Humanova</span>
-      <h1 class="auth-title">Reset Password</h1>
-      <p style="font-size:0.875rem;color:var(--medium-gray);margin-bottom:1.5rem;">Enter your email and we'll send you a reset link.</p>
+      <h1 class="auth-title">Magic Link Login</h1>
+      <p style="font-size:0.875rem;color:var(--medium-gray);margin-bottom:1.5rem;">Masukkan email Anda dan kami akan kirim link login langsung.</p>
       <div class="form-group">
         <label class="form-label" for="forgotEmail">Email</label>
         <input class="form-input" type="email" id="forgotEmail" placeholder="you@example.com" aria-label="Email" />
       </div>
-      <button class="btn btn-red btn-full" onclick="showToast('Reset link sent! Check your email.')">Send Reset Link</button>
-      <p class="auth-link"><a href="#" onclick="showPage('auth-login')">← Back to Login</a></p>
+      <button class="btn btn-red btn-full" onclick="sendMagicLinkForgot()">Kirim Magic Link</button>
+      <p class="auth-link"><a href="#" onclick="showPage('auth-login')">← Kembali ke Login</a></p>
     </div>
   </div>
 </div>
@@ -1818,8 +1808,10 @@ function renderHome() {
     const count = TOOLKITS.filter(t => t.category === cat.id).length;
     const col = CAT_COLORS[cat.id] || { a:'#1a1a1a', b:'#333' };
     const icon = CAT_CARD_ICONS[cat.id] || CAT_CARD_ICONS['sustain'];
+    const shortLabel = cat.name.split(' ').slice(0,2).join(' ').toUpperCase();
     return `<div class="cat-card reveal reveal-d${(i % 4) + 1}" onclick="showPage('categories')" role="button" tabindex="0" aria-label="${cat.name}: ${count} toolkits">
-      <div class="cat-card-visual" style="background:linear-gradient(135deg,${col.a} 0%,${col.b} 100%);">
+      <div class="cat-card-visual" style="background:linear-gradient(145deg,${col.a} 0%,${col.b} 60%,${col.c || col.b} 100%);">
+        <span class="cat-bg-label">${shortLabel}</span>
         ${icon}
       </div>
       <div class="cat-card-body">
@@ -1915,20 +1907,29 @@ function openToolDetail(slug) {
     </div>
 
     <div class="download-section">
-      <button class="download-btn" onclick="toggleDownload()" aria-expanded="false" id="dlBtn">
+      <button class="download-btn" onclick="handleDownloadClick()" aria-expanded="false" id="dlBtn">
         ⬇ DOWNLOAD TOOLKIT <span id="dlArrow">▾</span>
       </button>
       <div class="download-options" id="downloadOptions">
-        <p>English Version</p>
-        <div class="download-links">
-          <a class="download-link" href="#" onclick="showToast('Downloading A4 PDF…');return false;">A4</a>
-          <a class="download-link" href="#" onclick="showToast('Downloading A3 PDF…');return false;">A3</a>
-          <a class="download-link" href="#" onclick="showToast('Downloading A2 PDF…');return false;">A2</a>
-          <a class="download-link" href="#" onclick="showToast('Downloading A1 PDF…');return false;">A1</a>
+        <div id="downloadLoginWall" style="display:none;text-align:center;padding:1rem 0.5rem;">
+          <p style="color:var(--near-black);font-weight:600;margin-bottom:0.75rem;font-size:0.95rem;">Login untuk mendownload toolkit</p>
+          <button class="btn btn-full" style="border:1px solid #D1D5DB;background:var(--white);margin-bottom:0.5rem;" onclick="signInWithGoogle()">
+            <svg width="16" height="16" viewBox="0 0 24 24" style="margin-right:0.4rem;"><path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/><path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/><path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l3.66-2.84z"/><path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/></svg>
+            Continue with Google
+          </button>
         </div>
-        <p style="margin-top:0.75rem;">Digital Worksheet</p>
-        <div class="download-links">
-          <a class="download-link" href="#" onclick="showToast('Opening Miro board…');return false;">Open in Miro</a>
+        <div id="downloadContent">
+          <p>English Version</p>
+          <div class="download-links">
+            <a class="download-link" href="#" onclick="trackDownload('A4');return false;">A4</a>
+            <a class="download-link" href="#" onclick="trackDownload('A3');return false;">A3</a>
+            <a class="download-link" href="#" onclick="trackDownload('A2');return false;">A2</a>
+            <a class="download-link" href="#" onclick="trackDownload('A1');return false;">A1</a>
+          </div>
+          <p style="margin-top:0.75rem;">Digital Worksheet</p>
+          <div class="download-links">
+            <a class="download-link" href="#" onclick="trackDownload('Miro');return false;">Open in Miro</a>
+          </div>
         </div>
       </div>
     </div>
@@ -2004,11 +2005,28 @@ function openToolDetail(slug) {
   `;
 }
 
-function toggleDownload() {
+function handleDownloadClick() {
   const opts = document.getElementById('downloadOptions');
   const arrow = document.getElementById('dlArrow');
+  const loginWall = document.getElementById('downloadLoginWall');
+  const downloadContent = document.getElementById('downloadContent');
+
   opts.classList.toggle('open');
   arrow.textContent = opts.classList.contains('open') ? '▴' : '▾';
+
+  if (opts.classList.contains('open')) {
+    if (currentUser) {
+      if (loginWall) loginWall.style.display = 'none';
+      if (downloadContent) downloadContent.style.display = 'block';
+    } else {
+      if (loginWall) loginWall.style.display = 'block';
+      if (downloadContent) downloadContent.style.display = 'none';
+    }
+  }
+}
+
+function trackDownload(format) {
+  showToast('Downloading ' + format + ' PDF…');
 }
 
 function rateToolkit(rating) {
@@ -2314,10 +2332,109 @@ function initReveal() {
   document.querySelectorAll('.reveal:not(.visible)').forEach(el => obs.observe(el));
 }
 
+// ─── SUPABASE AUTH ──────────────────────────────
+const SUPABASE_URL = 'https://uqyxvgtheisvtwtvizys.supabase.co';
+const SUPABASE_ANON_KEY = 'sb_publishable_2UQfRmhEXDVbfWEhwxbfCA_jUEqns_A';
+const _supabase = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+let currentUser = null;
+
+async function initAuth() {
+  const { data: { session } } = await _supabase.auth.getSession();
+  if (session) {
+    currentUser = session.user;
+    updateNavbarForUser(currentUser);
+  }
+
+  _supabase.auth.onAuthStateChange((event, session) => {
+    currentUser = session?.user || null;
+    updateNavbarForUser(currentUser);
+    if (event === 'SIGNED_IN') {
+      showToast('Login berhasil! Selamat datang.');
+      showPage('home');
+    }
+    if (event === 'SIGNED_OUT') {
+      showToast('Anda telah logout.');
+      updateNavbarForUser(null);
+    }
+  });
+}
+
+function updateNavbarForUser(user) {
+  const mobileLoginBtn = document.getElementById('navMobileLoginBtn');
+  const navUserInfo = document.getElementById('navUserInfo');
+  if (!mobileLoginBtn) return;
+  if (user) {
+    const initials = (user.user_metadata?.full_name || user.email || 'U').charAt(0).toUpperCase();
+    mobileLoginBtn.style.display = 'none';
+    if (navUserInfo) {
+      navUserInfo.style.display = 'flex';
+      navUserInfo.innerHTML = `
+        <div style="width:32px;height:32px;border-radius:50%;background:rgba(255,255,255,0.2);display:flex;align-items:center;justify-content:center;color:white;font-weight:700;font-size:0.85rem;cursor:pointer;" onclick="signOut()" title="Logout: ${user.email}">${initials}</div>
+      `;
+    }
+  } else {
+    mobileLoginBtn.style.display = 'flex';
+    if (navUserInfo) navUserInfo.style.display = 'none';
+  }
+}
+
+async function signInWithGoogle() {
+  const redirectUrl = window.location.href.split('#')[0];
+  const { error } = await _supabase.auth.signInWithOAuth({
+    provider: 'google',
+    options: { redirectTo: redirectUrl }
+  });
+  if (error) showToast('Error: ' + error.message);
+}
+
+async function sendMagicLink() {
+  const email = document.getElementById('magicEmail')?.value?.trim();
+  if (!email || !email.includes('@')) { showToast('Masukkan email yang valid.'); return; }
+  const btn = document.getElementById('magicLinkBtn');
+  if (btn) { btn.disabled = true; btn.textContent = 'Mengirim…'; }
+  const { error } = await _supabase.auth.signInWithOtp({
+    email,
+    options: { emailRedirectTo: window.location.href.split('#')[0] }
+  });
+  if (btn) { btn.disabled = false; btn.textContent = 'Kirim Magic Link'; }
+  if (error) {
+    showToast('Error: ' + error.message);
+  } else {
+    const sentDiv = document.getElementById('magicLinkSent');
+    if (sentDiv) sentDiv.style.display = 'block';
+  }
+}
+
+async function sendMagicLinkForgot() {
+  const email = document.getElementById('forgotEmail')?.value?.trim();
+  if (!email || !email.includes('@')) { showToast('Masukkan email yang valid.'); return; }
+  const { error } = await _supabase.auth.signInWithOtp({
+    email,
+    options: { emailRedirectTo: window.location.href.split('#')[0] }
+  });
+  if (error) { showToast('Error: ' + error.message); }
+  else { showToast('Magic link dikirim! Cek email Anda.'); }
+}
+
+async function signOut() {
+  await _supabase.auth.signOut();
+}
+
+function requireLogin(callback) {
+  if (currentUser) {
+    callback();
+  } else {
+    showToast('Login dengan Google untuk mendownload toolkit.');
+    setTimeout(() => showPage('auth-login'), 800);
+  }
+}
+
 // ─── INIT ──────────────────────────────────────
 document.addEventListener('DOMContentLoaded', () => {
   renderHome();
   requestAnimationFrame(() => requestAnimationFrame(initReveal));
+  initAuth();
 });
 </script>
 </body>
