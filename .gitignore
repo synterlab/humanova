@@ -1,0 +1,41 @@
+# Environment & secrets — JANGAN PERNAH commit file ini
+.env
+.env.local
+.env.development
+.env.production
+.env.staging
+.env*.local
+*.env
+
+# Supabase local
+.supabase/
+supabase/.env
+
+# Credential & key files
+*.key
+*.pem
+*.p12
+*.pfx
+*.cert
+*.crt
+secrets.json
+credentials.json
+service-account*.json
+firebase-adminsdk*.json
+
+# OS & editor noise
+.DS_Store
+Thumbs.db
+desktop.ini
+.vscode/settings.json
+.idea/
+
+# Backup files (termasuk file bak yang kita buat tadi)
+*.bak
+*.backup
+*.orig
+*.tmp
+
+# Node (jika kelak ada build step)
+node_modules/
+.npm/
