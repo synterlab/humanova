@@ -2391,22 +2391,53 @@ function updateNavbarForUser(user) {
   }
 }
 
+const MAGIC_LINK_COOLDOWN_MS = 5 * 60 * 1000; // 5 menit
+let _otpLastSent = {};
+
+function _startCooldown(btnId, btnLabel) {
+  const btn = btnId ? document.getElementById(btnId) : null;
+  if (!btn) return;
+  const end = Date.now() + MAGIC_LINK_COOLDOWN_MS;
+  _otpLastSent[btnId] = end;
+  btn.disabled = true;
+  const interval = setInterval(() => {
+    const remaining = Math.ceil((end - Date.now()) / 1000);
+    if (remaining <= 0) {
+      clearInterval(interval);
+      btn.disabled = false;
+      btn.innerHTML = btnLabel;
+    } else {
+      const m = Math.floor(remaining / 60);
+      const s = remaining % 60;
+      btn.textContent = `Tunggu ${m}:${String(s).padStart(2,'0')}`;
+    }
+  }, 500);
+}
+
 async function _sendOtp(email, btnId, sentId, btnLabel) {
   if (!email || !email.includes('@')) { showToast('Masukkan email yang valid.'); return; }
+  if (btnId && _otpLastSent[btnId] && Date.now() < _otpLastSent[btnId]) {
+    const remaining = Math.ceil((_otpLastSent[btnId] - Date.now()) / 1000);
+    const m = Math.floor(remaining / 60);
+    const s = remaining % 60;
+    showToast(`Tunggu ${m}:${String(s).padStart(2,'0')} sebelum kirim ulang.`);
+    return;
+  }
   const btn = btnId ? document.getElementById(btnId) : null;
   if (btn) { btn.disabled = true; btn.textContent = 'Mengirim…'; }
   const { error } = await _supabase.auth.signInWithOtp({
     email,
     options: { emailRedirectTo: SITE_URL }
   });
-  if (btn) { btn.disabled = false; btn.innerHTML = btnLabel; }
   if (error) {
+    if (btn) { btn.disabled = false; btn.innerHTML = btnLabel; }
     if (error.message && (error.message.toLowerCase().includes('rate') || error.message.toLowerCase().includes('limit'))) {
       showToast('Terlalu banyak permintaan. Tunggu beberapa menit lalu coba lagi.');
     } else {
       showToast('Gagal mengirim link: ' + error.message);
     }
   } else {
+    _startCooldown(btnId, btnLabel);
     const sentDiv = sentId ? document.getElementById(sentId) : null;
     if (sentDiv) sentDiv.style.display = 'block';
   }
@@ -2426,36 +2457,61 @@ async function sendMagicLinkReg() {
 async function sendMagicLinkForgot() {
   const email = document.getElementById('forgotEmail')?.value?.trim();
   if (!email || !email.includes('@')) { showToast('Masukkan email yang valid.'); return; }
+  const btnId = 'forgotMagicBtn';
+  if (_otpLastSent[btnId] && Date.now() < _otpLastSent[btnId]) {
+    const remaining = Math.ceil((_otpLastSent[btnId] - Date.now()) / 1000);
+    const m = Math.floor(remaining / 60);
+    const s = remaining % 60;
+    showToast(`Tunggu ${m}:${String(s).padStart(2,'0')} sebelum kirim ulang.`);
+    return;
+  }
+  const btn = document.getElementById(btnId);
+  const btnLabel = btn ? btn.innerHTML : '';
+  if (btn) { btn.disabled = true; btn.textContent = 'Mengirim…'; }
   const { error } = await _supabase.auth.signInWithOtp({
     email,
     options: { emailRedirectTo: SITE_URL }
   });
   if (error) {
-    if (error.message && (error.message.toLowerCase().includes('rate') || error.message.toLowerCase().includes('limit'))) {
-      showToast('Terlalu banyak permintaan. Tunggu beberapa menit lalu coba lagi.');
-    } else {
-      showToast('Gagal mengirim link: ' + error.message);
-    }
-  } else { showToast('Magic link dikirim! Cek email Anda.'); }
-}
-
-async function sendDownloadMagicLink() {
-  const email = document.getElementById('dlMagicEmail')?.value?.trim();
-  const btn = document.getElementById('dlMagicBtn');
-  if (!email || !email.includes('@')) { showToast('Masukkan email yang valid.'); return; }
-  if (btn) { btn.disabled = true; btn.textContent = '…'; }
-  const { error } = await _supabase.auth.signInWithOtp({
-    email,
-    options: { emailRedirectTo: SITE_URL }
-  });
-  if (btn) { btn.disabled = false; btn.textContent = 'Kirim Link'; }
-  if (error) {
+    if (btn) { btn.disabled = false; btn.innerHTML = btnLabel; }
     if (error.message && (error.message.toLowerCase().includes('rate') || error.message.toLowerCase().includes('limit'))) {
       showToast('Terlalu banyak permintaan. Tunggu beberapa menit lalu coba lagi.');
     } else {
       showToast('Gagal mengirim link: ' + error.message);
     }
   } else {
+    _startCooldown(btnId, btnLabel);
+    showToast('Magic link dikirim! Cek email Anda.');
+  }
+}
+
+async function sendDownloadMagicLink() {
+  const email = document.getElementById('dlMagicEmail')?.value?.trim();
+  const btnId = 'dlMagicBtn';
+  const btn = document.getElementById(btnId);
+  const btnLabel = btn ? btn.innerHTML : 'Kirim Link';
+  if (!email || !email.includes('@')) { showToast('Masukkan email yang valid.'); return; }
+  if (_otpLastSent[btnId] && Date.now() < _otpLastSent[btnId]) {
+    const remaining = Math.ceil((_otpLastSent[btnId] - Date.now()) / 1000);
+    const m = Math.floor(remaining / 60);
+    const s = remaining % 60;
+    showToast(`Tunggu ${m}:${String(s).padStart(2,'0')} sebelum kirim ulang.`);
+    return;
+  }
+  if (btn) { btn.disabled = true; btn.textContent = 'Mengirim…'; }
+  const { error } = await _supabase.auth.signInWithOtp({
+    email,
+    options: { emailRedirectTo: SITE_URL }
+  });
+  if (error) {
+    if (btn) { btn.disabled = false; btn.innerHTML = btnLabel; }
+    if (error.message && (error.message.toLowerCase().includes('rate') || error.message.toLowerCase().includes('limit'))) {
+      showToast('Terlalu banyak permintaan. Tunggu beberapa menit lalu coba lagi.');
+    } else {
+      showToast('Gagal mengirim link: ' + error.message);
+    }
+  } else {
+    _startCooldown(btnId, btnLabel);
     const s = document.getElementById('dlMagicSent');
     if (s) s.style.display = 'block';
   }
