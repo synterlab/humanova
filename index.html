@@ -859,6 +859,7 @@
       <a href="#" onclick="showPage('case-studies')">Case Studies</a>
       <a href="#" onclick="showPage('about')">About</a>
       <a href="#" onclick="showPage('community')">Community</a>
+      <a href="#" id="navDesktopLoginLink" onclick="currentUser?showPage('dashboard'):showPage('auth-login')" style="font-weight:700;">Sign In</a>
     </nav>
     <div class="navbar-actions">
       <button class="navbar-icon-btn" onclick="showPage('search')" aria-label="Search">
@@ -1359,46 +1360,64 @@
 
 <!-- ── DASHBOARD PAGE ───────────────────── -->
 <div id="page-dashboard" class="page page-pad">
-  <section class="section">
+  <!-- Dashboard Header -->
+  <div style="background:var(--red);padding:2rem 0 0;margin-bottom:0;">
     <div class="container">
-      <h1 style="font-size:2rem;font-weight:800;margin-bottom:1.5rem;">My Dashboard</h1>
-      <div class="dash-tabs" role="tablist">
-        <button class="dash-tab active" role="tab" onclick="switchDashTab('saved',this)">Saved Toolkits</button>
-        <button class="dash-tab" role="tab" onclick="switchDashTab('submissions',this)">My Submissions</button>
-        <button class="dash-tab" role="tab" onclick="switchDashTab('activity',this)">Activity</button>
-        <button class="dash-tab" role="tab" onclick="switchDashTab('settings',this)">Settings</button>
+      <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:1rem;padding-bottom:1.5rem;">
+        <div style="display:flex;align-items:center;gap:1rem;">
+          <div id="dashAvatar" style="width:52px;height:52px;border-radius:50%;background:rgba(255,255,255,0.2);border:2px solid rgba(255,255,255,0.5);display:flex;align-items:center;justify-content:center;color:white;font-weight:800;font-size:1.3rem;">U</div>
+          <div>
+            <div id="dashName" style="color:white;font-weight:700;font-size:1.1rem;">Welcome back</div>
+            <div id="dashEmail" style="color:rgba(255,255,255,0.75);font-size:0.82rem;margin-top:1px;"></div>
+          </div>
+        </div>
+        <button onclick="signOut()" style="display:flex;align-items:center;gap:0.5rem;background:rgba(255,255,255,0.15);border:1.5px solid rgba(255,255,255,0.4);color:white;padding:0.5rem 1.1rem;border-radius:4px;font-size:0.875rem;font-weight:600;cursor:pointer;font-family:inherit;transition:background 0.2s;" onmouseover="this.style.background='rgba(255,255,255,0.25)'" onmouseout="this.style.background='rgba(255,255,255,0.15)'">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+          Sign Out
+        </button>
       </div>
+      <div class="dash-tabs" role="tablist" style="border-bottom:none;gap:0.25rem;">
+        <button class="dash-tab active" role="tab" onclick="switchDashTab('saved',this)" style="color:white;border-color:rgba(255,255,255,0.5);background:rgba(255,255,255,0.15);">All Toolkits</button>
+        <button class="dash-tab" role="tab" onclick="switchDashTab('settings',this)" style="color:rgba(255,255,255,0.75);border-color:transparent;">Settings</button>
+      </div>
+    </div>
+  </div>
+
+  <section class="section" style="padding-top:2rem;">
+    <div class="container">
       <div class="dash-panel active" id="dp-saved">
-        <div class="empty-state">
-          <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="m19 21-7-4-7 4V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v16z"/></svg>
-          <h3>No saved toolkits yet</h3>
-          <p>Bookmark tools you want to revisit later.</p>
-          <button class="btn btn-red" style="margin-top:1rem;" onclick="showPage('tools')">Browse Tools</button>
+        <div style="margin-bottom:1.5rem;">
+          <h2 style="font-size:1.3rem;font-weight:700;margin-bottom:0.35rem;">Download Any Toolkit</h2>
+          <p style="color:var(--medium-gray);font-size:0.9rem;">You have full access to all 47 toolkits. Download as a print-ready PDF or save to your device.</p>
         </div>
-      </div>
-      <div class="dash-panel" id="dp-submissions">
-        <div class="empty-state">
-          <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
-          <h3>No submissions yet</h3>
-          <p>Submit a toolkit to share with the community.</p>
-          <button class="btn btn-red" style="margin-top:1rem;" onclick="showPage('submit')">Submit a Toolkit</button>
+        <div style="display:flex;gap:0.75rem;flex-wrap:wrap;margin-bottom:1.5rem;" id="dashCatFilter">
+          <button class="tag-pill" style="background:var(--red);color:white;border-color:var(--red);cursor:pointer;" onclick="filterDashToolkits('all',this)">All</button>
+          <button class="tag-pill" style="cursor:pointer;" onclick="filterDashToolkits('look-ahead',this)">Look Ahead</button>
+          <button class="tag-pill" style="cursor:pointer;" onclick="filterDashToolkits('develop-plan',this)">Develop a Plan</button>
+          <button class="tag-pill" style="cursor:pointer;" onclick="filterDashToolkits('clarify',this)">Clarify</button>
+          <button class="tag-pill" style="cursor:pointer;" onclick="filterDashToolkits('collect-inputs',this)">Collect Inputs</button>
+          <button class="tag-pill" style="cursor:pointer;" onclick="filterDashToolkits('know-people',this)">Know People</button>
+          <button class="tag-pill" style="cursor:pointer;" onclick="filterDashToolkits('generate-ideas',this)">Generate Ideas</button>
+          <button class="tag-pill" style="cursor:pointer;" onclick="filterDashToolkits('test-improve',this)">Test & Improve</button>
+          <button class="tag-pill" style="cursor:pointer;" onclick="filterDashToolkits('sustain',this)">Sustain</button>
         </div>
+        <div id="dashToolkitList" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:1rem;"></div>
       </div>
-      <div class="dash-panel" id="dp-activity">
-        <div class="empty-state">
-          <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
-          <h3>No activity yet</h3>
-          <p>Your ratings, comments and saves will appear here.</p>
-        </div>
-      </div>
+
       <div class="dash-panel" id="dp-settings">
+        <h2 style="font-size:1.25rem;font-weight:700;margin-bottom:1.5rem;">Account Settings</h2>
         <div style="max-width:480px;">
           <div class="form-group"><label class="form-label">Full Name</label><input class="form-input" type="text" placeholder="Your full name" /></div>
-          <div class="form-group"><label class="form-label">Username</label><input class="form-input" type="text" placeholder="@username" /></div>
-          <div class="form-group"><label class="form-label">Bio</label><textarea class="form-textarea" placeholder="About you…" style="min-height:80px;"></textarea></div>
           <div class="form-group"><label class="form-label">Organization</label><input class="form-input" type="text" placeholder="Your organization" /></div>
-          <div class="form-group"><label class="form-label">Website</label><input class="form-input" type="url" placeholder="https://" /></div>
-          <button class="btn btn-red" onclick="showToast('Profile saved!')">Save Changes</button>
+          <div class="form-group"><label class="form-label">Role</label><input class="form-input" type="text" placeholder="e.g. Programme Manager, Designer" /></div>
+          <div class="form-group"><label class="form-label">Email</label><input class="form-input" type="email" id="settingsEmailDisplay" readonly style="background:#f9fafb;color:var(--medium-gray);" /></div>
+          <div style="display:flex;gap:0.75rem;flex-wrap:wrap;margin-top:1.25rem;">
+            <button class="btn btn-red" onclick="showToast('Profile saved!')">Save Changes</button>
+            <button onclick="signOut()" style="display:flex;align-items:center;gap:0.4rem;background:none;border:1.5px solid #e5e7eb;color:#374151;padding:0.6rem 1rem;border-radius:4px;font-size:0.875rem;font-weight:600;cursor:pointer;font-family:inherit;">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+              Sign Out
+            </button>
+          </div>
         </div>
       </div>
     </div>
@@ -1510,7 +1529,7 @@
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="16"/><line x1="8" y1="12" x2="16" y2="12"/></svg>
     Submit
   </button>
-  <button class="bottom-nav-item" onclick="showPage('auth-login');setActiveNav(this)" aria-label="Profile">
+  <button class="bottom-nav-item" onclick="currentUser?showPage('dashboard'):showPage('auth-login');setActiveNav(this)" aria-label="Profile">
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
     Profile
   </button>
@@ -1619,6 +1638,7 @@ const CONTRIBUTORS = [
 
 // ─── PAGE NAVIGATION ───────────────────────────
 function showPage(pageId) {
+  if (pageId === 'dashboard' && currentUser) { refreshDashboard(currentUser); }
   document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
   const pg = document.getElementById('page-' + pageId);
   if (pg) {
@@ -2553,9 +2573,11 @@ async function initAuth() {
     if (overlay) { overlay.style.display = 'none'; }
     currentUser = session?.user || null;
     updateNavbarForUser(currentUser);
+    if (currentUser) refreshDashboard(currentUser);
     if (event === 'SIGNED_IN') {
       showToast('Signed in! Welcome to Humanova.');
-      showPage('home');
+      refreshDashboard(session.user);
+      showPage('dashboard');
     }
     if (event === 'SIGNED_OUT') {
       showToast('You have been signed out.');
@@ -2642,14 +2664,34 @@ function updateNavbarForUser(user) {
   if (user) {
     const initials = (user.user_metadata?.full_name || user.email || 'U').charAt(0).toUpperCase();
     mobileLoginBtn.style.display = 'none';
+    const desktopLoginLink = document.getElementById('navDesktopLoginLink');
+    if (desktopLoginLink) desktopLoginLink.style.display = 'none';
     if (navUserInfo) {
       navUserInfo.style.display = 'flex';
       navUserInfo.innerHTML = `
-        <div style="width:32px;height:32px;border-radius:50%;background:rgba(255,255,255,0.2);display:flex;align-items:center;justify-content:center;color:white;font-weight:700;font-size:0.85rem;cursor:pointer;" onclick="signOut()" title="Logout: ${user.email}">${initials}</div>
+        <div style="position:relative;" id="navAvatarWrap">
+          <div style="width:34px;height:34px;border-radius:50%;background:rgba(255,255,255,0.2);border:2px solid rgba(255,255,255,0.4);display:flex;align-items:center;justify-content:center;color:white;font-weight:700;font-size:0.85rem;cursor:pointer;" onclick="toggleNavDropdown()" title="${user.email}">${initials}</div>
+          <div id="navDropdown" style="display:none;position:absolute;right:0;top:calc(100% + 8px);background:white;border:1px solid #e5e7eb;border-radius:6px;box-shadow:0 8px 24px rgba(0,0,0,0.12);min-width:180px;z-index:9999;overflow:hidden;">
+            <div style="padding:0.75rem 1rem;border-bottom:1px solid #f3f4f6;">
+              <div style="font-size:0.78rem;color:#6b7280;margin-bottom:1px;">Signed in as</div>
+              <div style="font-size:0.82rem;font-weight:600;color:#111;word-break:break-all;">${user.email}</div>
+            </div>
+            <button onclick="toggleNavDropdown();showPage('dashboard');" style="width:100%;text-align:left;padding:0.65rem 1rem;background:none;border:none;font-size:0.875rem;font-weight:600;color:#111;cursor:pointer;font-family:inherit;display:flex;align-items:center;gap:0.5rem;" onmouseover="this.style.background='#f9fafb'" onmouseout="this.style.background='none'">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
+              My Dashboard
+            </button>
+            <button onclick="signOut()" style="width:100%;text-align:left;padding:0.65rem 1rem;background:none;border:none;border-top:1px solid #f3f4f6;font-size:0.875rem;font-weight:600;color:#dc2626;cursor:pointer;font-family:inherit;display:flex;align-items:center;gap:0.5rem;" onmouseover="this.style.background='#fef2f2'" onmouseout="this.style.background='none'">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+              Sign Out
+            </button>
+          </div>
+        </div>
       `;
     }
   } else {
     mobileLoginBtn.style.display = 'flex';
+    const desktopLoginLink2 = document.getElementById('navDesktopLoginLink');
+    if (desktopLoginLink2) desktopLoginLink2.style.display = '';
     if (navUserInfo) navUserInfo.style.display = 'none';
   }
 }
@@ -2780,8 +2822,148 @@ async function sendDownloadMagicLink() {
   }
 }
 
+function refreshDashboard(user) {
+  if (!user) return;
+  const avatar = document.getElementById('dashAvatar');
+  const name = document.getElementById('dashName');
+  const email = document.getElementById('dashEmail');
+  const settingsEmail = document.getElementById('settingsEmailDisplay');
+  const initials = (user.user_metadata?.full_name || user.email || 'U').charAt(0).toUpperCase();
+  if (avatar) avatar.textContent = initials;
+  if (name) name.textContent = user.user_metadata?.full_name || 'Welcome back';
+  if (email) email.textContent = user.email || '';
+  if (settingsEmail) settingsEmail.value = user.email || '';
+  renderDashToolkits('all');
+}
+
 async function signOut() {
   await _supabase.auth.signOut();
+  showPage('home');
+}
+
+function toggleNavDropdown() {
+  const dd = document.getElementById('navDropdown');
+  if (!dd) return;
+  const isOpen = dd.style.display === 'block';
+  dd.style.display = isOpen ? 'none' : 'block';
+  if (!isOpen) {
+    const close = (e) => {
+      if (!document.getElementById('navAvatarWrap')?.contains(e.target)) {
+        dd.style.display = 'none';
+        document.removeEventListener('click', close);
+      }
+    };
+    setTimeout(() => document.addEventListener('click', close), 10);
+  }
+}
+
+let _dashCurrentFilter = 'all';
+
+function renderDashToolkits(filter) {
+  _dashCurrentFilter = filter || 'all';
+  const list = document.getElementById('dashToolkitList');
+  if (!list) return;
+  const filtered = _dashCurrentFilter === 'all'
+    ? TOOLKITS
+    : TOOLKITS.filter(t => t.category === _dashCurrentFilter);
+
+  list.innerHTML = filtered.map(t => {
+    const col = (CAT_COLORS && CAT_COLORS[t.category]) || { a:'#1a1a1a', b:'#333', c:'#aaa' };
+    return `<div style="background:white;border:1px solid #e5e7eb;border-radius:6px;padding:1rem 1.1rem;display:flex;flex-direction:column;gap:0.6rem;box-shadow:0 1px 4px rgba(0,0,0,0.04);">
+      <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:0.5rem;">
+        <div>
+          <div style="font-weight:700;font-size:0.95rem;line-height:1.3;margin-bottom:0.25rem;">${t.title}</div>
+          <span style="display:inline-block;font-size:0.7rem;font-weight:700;letter-spacing:0.04em;padding:0.18rem 0.55rem;border-radius:3px;background:${col.a};color:white;">${t.catName}</span>
+        </div>
+        <span style="font-size:0.75rem;color:var(--medium-gray);white-space:nowrap;padding-top:0.1rem;">${t.difficulty}</span>
+      </div>
+      <p style="font-size:0.82rem;color:#374151;line-height:1.5;margin:0;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;">${t.desc}</p>
+      <div style="display:flex;gap:0.5rem;margin-top:0.25rem;flex-wrap:wrap;">
+        <button onclick="downloadToolkitPDF(${t.id})" style="display:flex;align-items:center;gap:0.35rem;background:var(--red);color:white;border:none;border-radius:4px;padding:0.45rem 0.85rem;font-size:0.8rem;font-weight:700;cursor:pointer;font-family:inherit;">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+          Download PDF
+        </button>
+        <button onclick="openToolForDash(${t.id})" style="background:none;border:1.5px solid #e5e7eb;color:#374151;border-radius:4px;padding:0.45rem 0.85rem;font-size:0.8rem;font-weight:600;cursor:pointer;font-family:inherit;">
+          View Toolkit
+        </button>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+function filterDashToolkits(cat, btn) {
+  document.querySelectorAll('#dashCatFilter .tag-pill').forEach(b => {
+    b.style.background = '';
+    b.style.color = '';
+    b.style.borderColor = '';
+  });
+  if (btn) {
+    btn.style.background = 'var(--red)';
+    btn.style.color = 'white';
+    btn.style.borderColor = 'var(--red)';
+  }
+  renderDashToolkits(cat);
+}
+
+function openToolForDash(id) {
+  const tool = TOOLKITS.find(t => t.id === id);
+  if (!tool) return;
+  openToolDetail(tool);
+  showPage('tool-detail');
+}
+
+function downloadToolkitPDF(id) {
+  const tool = TOOLKITS.find(t => t.id === id);
+  if (!tool) return;
+  const col = (CAT_COLORS && CAT_COLORS[tool.category]) || { a:'#dc2626', b:'#991b1b' };
+  const win = window.open('', '_blank');
+  win.document.write(`<!DOCTYPE html><html><head>
+    <meta charset="UTF-8">
+    <title>${tool.title} — Humanova</title>
+    <style>
+      * { box-sizing:border-box; margin:0; padding:0; }
+      body { font-family:'Inter',system-ui,sans-serif; color:#111; background:#fff; padding:2.5cm 2cm; max-width:800px; margin:0 auto; }
+      .header { border-bottom:3px solid ${col.a}; padding-bottom:1.5rem; margin-bottom:2rem; }
+      .brand { font-size:0.75rem; font-weight:700; letter-spacing:0.1em; color:${col.a}; text-transform:uppercase; margin-bottom:0.5rem; }
+      h1 { font-size:2rem; font-weight:900; line-height:1.2; margin-bottom:0.75rem; }
+      .meta { display:flex; gap:1rem; font-size:0.8rem; color:#6b7280; flex-wrap:wrap; }
+      .badge { background:${col.a}; color:white; padding:0.2rem 0.6rem; border-radius:3px; font-weight:700; font-size:0.72rem; letter-spacing:0.05em; }
+      .intent { font-size:1rem; color:#374151; margin:1.5rem 0; padding:1rem 1.25rem; border-left:4px solid ${col.a}; background:#f9fafb; border-radius:0 4px 4px 0; line-height:1.6; }
+      h2 { font-size:1.1rem; font-weight:800; margin-bottom:0.75rem; margin-top:2rem; color:${col.a}; text-transform:uppercase; letter-spacing:0.04em; font-size:0.85rem; }
+      p { font-size:0.92rem; line-height:1.8; color:#374151; }
+      .footer { margin-top:3rem; padding-top:1rem; border-top:1px solid #e5e7eb; font-size:0.75rem; color:#9ca3af; display:flex; justify-content:space-between; }
+      .tags { display:flex; gap:0.4rem; flex-wrap:wrap; margin-top:1.5rem; }
+      .tag { background:#f3f4f6; color:#374151; padding:0.2rem 0.55rem; border-radius:3px; font-size:0.75rem; }
+      @media print {
+        body { padding:1.5cm 1.5cm; }
+        .no-print { display:none; }
+      }
+    </style>
+  </head><body>
+    <div class="header">
+      <div class="brand">Humanova · ${tool.catName}</div>
+      <h1>${tool.title}</h1>
+      <div class="meta">
+        <span class="badge">${tool.difficulty}</span>
+        <span>${tool.involvement}</span>
+        <span>⭐ ${tool.rating} (${tool.ratingCount} reviews)</span>
+      </div>
+    </div>
+    <p class="intent"><strong>Use this when you want to:</strong> ${tool.intent}</p>
+    <h2>What It Is</h2>
+    <p>${tool.descWhat}</p>
+    <h2>How To Use It</h2>
+    <p>${tool.descHow}</p>
+    <div class="tags">${(tool.tags||[]).map(t=>`<span class="tag">#${t}</span>`).join('')}</div>
+    <div class="footer">
+      <span>humanova.run · Licensed CC BY-NC-SA 4.0</span>
+      <span>Downloaded ${new Date().toLocaleDateString('en-GB',{day:'numeric',month:'long',year:'numeric'})}</span>
+    </div>
+    <p class="no-print" style="margin-top:2rem;text-align:center;">
+      <button onclick="window.print()" style="background:#dc2626;color:white;border:none;padding:0.75rem 2rem;border-radius:4px;font-size:1rem;font-weight:700;cursor:pointer;">Print / Save as PDF</button>
+    </p>
+  </body></html>`);
+  win.document.close();
 }
 
 function requireLogin(callback) {
