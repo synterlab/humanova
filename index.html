@@ -1275,6 +1275,10 @@
         <div style="font-size:1.5rem;margin-bottom:0.5rem;">✉️</div>
         <strong style="display:block;margin-bottom:0.25rem;">Check your inbox!</strong>
         <span style="font-size:0.85rem;">We sent a login link to your email. Also check your spam folder.</span>
+        <div id="magicLinkResend" style="margin-top:0.75rem;font-size:0.8rem;">
+          <span id="magicLinkCountdown" style="color:#047857;">Resend available in <strong id="magicLinkTimer">5:00</strong></span>
+          <button id="magicLinkResendBtn" onclick="resendMagicLink('login')" style="display:none;background:none;border:1px solid #047857;color:#047857;padding:0.3rem 0.75rem;border-radius:4px;font-size:0.8rem;font-weight:600;cursor:pointer;font-family:inherit;">Resend Link</button>
+        </div>
       </div>
       <p style="margin-top:1.5rem;font-size:0.75rem;color:var(--medium-gray);text-align:center;line-height:1.5;">Link expires in 1 hour. By signing in, you agree to our <a href="#" style="color:var(--red);">Terms of Service</a>.</p>
     </div>
@@ -1298,6 +1302,10 @@
       </button>
       <div id="regMagicLinkSent" style="display:none;text-align:center;margin-top:1.25rem;padding:1rem 1.25rem;background:#D1FAE5;border-radius:6px;color:#065F46;">
         <strong>Check your inbox!</strong> We sent a login link to your email.
+        <div id="regMagicLinkResend" style="margin-top:0.75rem;font-size:0.8rem;">
+          <span id="regMagicLinkCountdown" style="color:#047857;">Resend available in <strong id="regMagicLinkTimer">5:00</strong></span>
+          <button id="regMagicLinkResendBtn" onclick="resendMagicLink('register')" style="display:none;background:none;border:1px solid #047857;color:#047857;padding:0.3rem 0.75rem;border-radius:4px;font-size:0.8rem;font-weight:600;cursor:pointer;font-family:inherit;">Resend Link</button>
+        </div>
       </div>
       <p class="auth-link" style="margin-top:1rem;">Already have an account? <a href="#" onclick="showPage('auth-login')">Sign in</a></p>
     </div>
@@ -1315,7 +1323,7 @@
         <label class="form-label" for="forgotEmail">Email address</label>
         <input class="form-input" type="email" id="forgotEmail" placeholder="you@example.com" aria-label="Email" />
       </div>
-      <button class="btn btn-red btn-full" onclick="sendMagicLinkForgot()">Send Magic Link</button>
+      <button class="btn btn-red btn-full" id="forgotMagicBtn" onclick="sendMagicLinkForgot()">Send Magic Link</button>
       <p class="auth-link"><a href="#" onclick="showPage('auth-login')">← Back to Sign In</a></p>
     </div>
   </div>
@@ -1925,6 +1933,8 @@ function openToolDetail(slug) {
           </div>
           <div id="dlMagicSent" style="display:none;margin-top:0.6rem;padding:0.6rem 0.75rem;background:#D1FAE5;border-radius:4px;color:#065F46;font-size:0.8rem;">
             ✓ Link sent! Check your inbox.
+            <span id="dlMagicCountdown" style="margin-left:0.4rem;color:#047857;">(<strong id="dlMagicTimer">5:00</strong>)</span>
+            <button id="dlMagicResendBtn" onclick="resendMagicLink('download')" style="display:none;background:none;border:none;color:#047857;padding:0;font-size:0.8rem;font-weight:700;cursor:pointer;text-decoration:underline;font-family:inherit;margin-left:0.4rem;">Resend</button>
           </div>
         </div>
         <div id="downloadContent">
@@ -2352,13 +2362,33 @@ const SITE_URL = (window.location.hostname === 'localhost' || window.location.ho
 let currentUser = null;
 
 async function initAuth() {
+  // Deteksi magic link callback (PKCE ?code= atau hash #access_token=)
+  const urlParams = new URLSearchParams(window.location.search);
+  const isCallback = urlParams.has('code') || window.location.hash.includes('access_token');
+  if (isCallback) {
+    const overlay = document.getElementById('authLoadingOverlay');
+    if (overlay) { overlay.style.display = 'flex'; }
+  }
+
   const { data: { session } } = await _supabase.auth.getSession();
+
+  if (isCallback) {
+    const overlay = document.getElementById('authLoadingOverlay');
+    if (overlay) { overlay.style.display = 'none'; }
+    // Bersihkan URL setelah token diproses
+    if (window.history.replaceState) {
+      window.history.replaceState({}, document.title, window.location.pathname);
+    }
+  }
+
   if (session) {
     currentUser = session.user;
     updateNavbarForUser(currentUser);
   }
 
   _supabase.auth.onAuthStateChange((event, session) => {
+    const overlay = document.getElementById('authLoadingOverlay');
+    if (overlay) { overlay.style.display = 'none'; }
     currentUser = session?.user || null;
     updateNavbarForUser(currentUser);
     if (event === 'SIGNED_IN') {
@@ -2370,6 +2400,77 @@ async function initAuth() {
       updateNavbarForUser(null);
     }
   });
+}
+
+// ─── RESEND BUTTON COUNTDOWN ──────────────────
+function startResendCountdown(timerEl, countdownEl, resendBtnEl, durationMs) {
+  const end = Date.now() + durationMs;
+  const iv = setInterval(() => {
+    const remaining = Math.max(0, Math.ceil((end - Date.now()) / 1000));
+    const m = Math.floor(remaining / 60);
+    const s = remaining % 60;
+    const timer = document.getElementById(timerEl);
+    const countdown = document.getElementById(countdownEl);
+    const btn = document.getElementById(resendBtnEl);
+    if (!timer) { clearInterval(iv); return; }
+    if (remaining <= 0) {
+      clearInterval(iv);
+      if (countdown) countdown.style.display = 'none';
+      if (btn) btn.style.display = 'inline';
+    } else {
+      timer.textContent = `${m}:${String(s).padStart(2,'0')}`;
+    }
+  }, 500);
+}
+
+function showSentWithResend(type) {
+  if (type === 'login') {
+    const el = document.getElementById('magicLinkSent');
+    if (el) el.style.display = 'block';
+    startResendCountdown('magicLinkTimer','magicLinkCountdown','magicLinkResendBtn', MAGIC_LINK_COOLDOWN_MS);
+  } else if (type === 'register') {
+    const el = document.getElementById('regMagicLinkSent');
+    if (el) el.style.display = 'block';
+    startResendCountdown('regMagicLinkTimer','regMagicLinkCountdown','regMagicLinkResendBtn', MAGIC_LINK_COOLDOWN_MS);
+  } else if (type === 'download') {
+    const el = document.getElementById('dlMagicSent');
+    if (el) el.style.display = 'block';
+    startResendCountdown('dlMagicTimer','dlMagicCountdown','dlMagicResendBtn', MAGIC_LINK_COOLDOWN_MS);
+  }
+}
+
+async function resendMagicLink(type) {
+  let email = '';
+  let btnId = '';
+  let btnLabel = '';
+  if (type === 'login') {
+    email = document.getElementById('magicEmail')?.value?.trim();
+    btnId = 'magicLinkBtn';
+    btnLabel = document.getElementById(btnId)?.innerHTML || 'Send Magic Link';
+    document.getElementById('magicLinkResendBtn').style.display = 'none';
+    document.getElementById('magicLinkCountdown').style.display = 'inline';
+  } else if (type === 'register') {
+    email = document.getElementById('regMagicEmail')?.value?.trim();
+    btnId = 'magicLinkBtn'; // reuse cooldown key
+    btnLabel = '';
+    document.getElementById('regMagicLinkResendBtn').style.display = 'none';
+    document.getElementById('regMagicLinkCountdown').style.display = 'inline';
+  } else if (type === 'download') {
+    email = document.getElementById('dlMagicEmail')?.value?.trim();
+    btnId = 'dlMagicBtn';
+    btnLabel = document.getElementById(btnId)?.innerHTML || 'Send Link';
+    document.getElementById('dlMagicResendBtn').style.display = 'none';
+    document.getElementById('dlMagicCountdown').style.display = 'inline';
+  }
+  if (!email || !email.includes('@')) { showToast('Email tidak ditemukan. Masukkan email Anda dulu.'); return; }
+  const { error } = await _supabase.auth.signInWithOtp({ email, options: { emailRedirectTo: SITE_URL } });
+  if (error) {
+    showToast('Gagal mengirim ulang: ' + error.message);
+  } else {
+    showToast('Link baru dikirim! Cek inbox Anda.');
+    _otpLastSent[btnId] = Date.now() + MAGIC_LINK_COOLDOWN_MS;
+    showSentWithResend(type);
+  }
 }
 
 function updateNavbarForUser(user) {
@@ -2537,5 +2638,12 @@ document.addEventListener('DOMContentLoaded', () => {
   initAuth();
 });
 </script>
+
+<!-- ── AUTH LOADING OVERLAY ─────────────── -->
+<div id="authLoadingOverlay" style="display:none;position:fixed;inset:0;z-index:9999;background:rgba(255,255,255,0.95);display:none;align-items:center;justify-content:center;flex-direction:column;gap:1rem;">
+  <div style="width:40px;height:40px;border:3px solid #F2F2F2;border-top-color:var(--red);border-radius:50%;animation:spin 0.8s linear infinite;"></div>
+  <p style="font-weight:600;color:var(--near-black);font-size:0.95rem;">Verifying your magic link…</p>
+</div>
+<style>@keyframes spin{to{transform:rotate(360deg);}}</style>
 </body>
 </html>
