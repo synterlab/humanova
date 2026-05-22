@@ -2345,6 +2345,9 @@ function initReveal() {
 const SUPABASE_URL = 'https://uqyxvgtheisvtwtvizys.supabase.co';
 const SUPABASE_ANON_KEY = 'sb_publishable_2UQfRmhEXDVbfWEhwxbfCA_jUEqns_A';
 const _supabase = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+const SITE_URL = (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1')
+  ? 'https://humanova.run/'
+  : (window.location.origin + '/');
 
 let currentUser = null;
 
@@ -2394,7 +2397,7 @@ async function _sendOtp(email, btnId, sentId, btnLabel) {
   if (btn) { btn.disabled = true; btn.textContent = 'Mengirim…'; }
   const { error } = await _supabase.auth.signInWithOtp({
     email,
-    options: { emailRedirectTo: window.location.href.split('#')[0] }
+    options: { emailRedirectTo: SITE_URL }
   });
   if (btn) { btn.disabled = false; btn.innerHTML = btnLabel; }
   if (error) {
@@ -2421,7 +2424,7 @@ async function sendMagicLinkForgot() {
   if (!email || !email.includes('@')) { showToast('Masukkan email yang valid.'); return; }
   const { error } = await _supabase.auth.signInWithOtp({
     email,
-    options: { emailRedirectTo: window.location.href.split('#')[0] }
+    options: { emailRedirectTo: SITE_URL }
   });
   if (error) { showToast('Error: ' + error.message); }
   else { showToast('Magic link dikirim! Cek email Anda.'); }
@@ -2434,7 +2437,7 @@ async function sendDownloadMagicLink() {
   if (btn) { btn.disabled = true; btn.textContent = '…'; }
   const { error } = await _supabase.auth.signInWithOtp({
     email,
-    options: { emailRedirectTo: window.location.href.split('#')[0] }
+    options: { emailRedirectTo: SITE_URL }
   });
   if (btn) { btn.disabled = false; btn.textContent = 'Kirim Link'; }
   if (error) { showToast('Error: ' + error.message); }
