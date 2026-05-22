@@ -1,0 +1,1908 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Humanova — A DIY Toolkit platform for creative industry practitioners and NGOs. Browse, use, and submit toolkits." />
+  <meta property="og:title" content="Humanova — DIY Toolkit Platform" />
+  <meta property="og:description" content="Tools for practitioners to invent, adopt or adapt ideas that deliver better results." />
+  <meta property="og:url" content="https://humanova.run" />
+  <title>Humanova — DIY Toolkit Platform</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --red: #FF352A;
+      --red-dark: #E02D22;
+      --white: #FFFFFF;
+      --near-black: #1A1A1A;
+      --light-gray: #F2F2F2;
+      --medium-gray: #6B7280;
+      --overlay: rgba(0,0,0,0.65);
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      font-size: 16px;
+      line-height: 1.7;
+      color: var(--near-black);
+      background: var(--white);
+      overflow-x: hidden;
+    }
+
+    /* ─── UTILITIES ─────────────────────────────── */
+    .container { width: 100%; max-width: 1200px; margin: 0 auto; padding: 0 1rem; }
+    .btn {
+      display: inline-flex; align-items: center; justify-content: center;
+      padding: 0.75rem 1.5rem; font-family: 'Inter', sans-serif;
+      font-weight: 700; font-size: 0.875rem; letter-spacing: 0.08em;
+      text-transform: uppercase; text-decoration: none; border: none;
+      cursor: pointer; border-radius: 2px; transition: all 0.2s ease;
+      min-height: 44px;
+    }
+    .btn-red { background: var(--red); color: var(--white); }
+    .btn-red:hover { background: var(--red-dark); }
+    .btn-white { background: var(--white); color: var(--red); border: 2px solid var(--white); }
+    .btn-white:hover { background: transparent; color: var(--white); }
+    .btn-outline { background: transparent; color: var(--white); border: 2px solid var(--white); }
+    .btn-outline:hover { background: var(--white); color: var(--red); }
+    .btn-full { width: 100%; }
+
+    .badge {
+      display: inline-block; padding: 0.2rem 0.6rem;
+      font-size: 0.7rem; font-weight: 700; letter-spacing: 0.06em;
+      text-transform: uppercase; border-radius: 2px;
+    }
+    .badge-red { background: var(--red); color: var(--white); }
+    .badge-gray { background: #E5E7EB; color: var(--medium-gray); }
+    .badge-green { background: #D1FAE5; color: #065F46; }
+    .badge-yellow { background: #FEF3C7; color: #92400E; }
+
+    .section-title {
+      font-size: 1.5rem; font-weight: 700; margin-bottom: 1.5rem;
+      color: var(--near-black);
+    }
+    @media (min-width: 768px) { .section-title { font-size: 2rem; } }
+
+    /* ─── PAGE SYSTEM ───────────────────────────── */
+    .page { display: none; }
+    .page.active { display: block; }
+
+    /* ─── NAVBAR ────────────────────────────────── */
+    .navbar {
+      background: var(--red); position: sticky; top: 0; z-index: 1000;
+      padding: 0 1rem;
+    }
+    .navbar-inner {
+      display: flex; align-items: center; justify-content: space-between;
+      height: 56px; max-width: 1200px; margin: 0 auto;
+    }
+    .navbar-logo {
+      font-size: 1.25rem; font-weight: 800; color: var(--white);
+      text-decoration: none; letter-spacing: -0.02em;
+    }
+    .navbar-actions { display: flex; align-items: center; gap: 0.75rem; }
+    .navbar-icon-btn {
+      background: none; border: none; cursor: pointer;
+      color: var(--white); padding: 0.5rem; min-width: 44px; min-height: 44px;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .navbar-desktop-links {
+      display: none;
+    }
+    @media (min-width: 768px) {
+      .navbar-desktop-links {
+        display: flex; align-items: center; gap: 2rem;
+      }
+      .navbar-desktop-links a {
+        color: var(--white); text-decoration: none; font-size: 0.875rem;
+        font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase;
+        opacity: 0.9; transition: opacity 0.2s;
+      }
+      .navbar-desktop-links a:hover { opacity: 1; }
+      .navbar-icon-btn.mobile-only { display: none; }
+    }
+
+    /* ─── FIND YOUR TOOL BAR ─────────────────────── */
+    .find-bar {
+      background: var(--red-dark); width: 100%;
+      padding: 0.6rem 1rem; text-align: center; cursor: pointer;
+      position: sticky; top: 56px; z-index: 999; border: none;
+      transition: background 0.2s;
+    }
+    .find-bar:hover { background: #c42820; }
+    .find-bar span {
+      color: var(--white); font-weight: 700; font-size: 0.875rem;
+      letter-spacing: 0.1em; text-transform: uppercase;
+    }
+
+    /* ─── HERO ──────────────────────────────────── */
+    .hero {
+      min-height: 100vh; background: linear-gradient(var(--overlay), var(--overlay)),
+        url('https://images.unsplash.com/photo-1531482615713-2afd69097998?w=1600&q=80') center/cover no-repeat;
+      display: flex; align-items: center; justify-content: center; text-align: center;
+      padding: 5rem 1rem;
+    }
+    .hero-content { max-width: 800px; }
+    .hero-content h1 {
+      color: var(--white); font-size: 2rem; font-weight: 800; line-height: 1.2;
+      margin-bottom: 1.5rem;
+    }
+    @media (min-width: 768px) { .hero-content h1 { font-size: 3rem; } }
+    .hero-content p {
+      color: rgba(255,255,255,0.85); font-size: 1rem; margin-bottom: 2rem; line-height: 1.7;
+    }
+
+    /* ─── STATS BAR ─────────────────────────────── */
+    .stats-bar { background: var(--red); padding: 2rem 1rem; }
+    .stats-grid {
+      display: grid; grid-template-columns: 1fr 1fr;
+      gap: 1.5rem; max-width: 800px; margin: 0 auto; text-align: center;
+    }
+    @media (min-width: 640px) { .stats-grid { grid-template-columns: repeat(4,1fr); } }
+    .stat-number {
+      font-size: 2.5rem; font-weight: 800; color: var(--white); line-height: 1;
+    }
+    .stat-label {
+      font-size: 0.8rem; color: rgba(255,255,255,0.8); text-transform: uppercase;
+      letter-spacing: 0.06em; margin-top: 0.3rem;
+    }
+
+    /* ─── SECTION ───────────────────────────────── */
+    .section { padding: 3rem 1rem; }
+    .section-gray { background: var(--light-gray); }
+
+    /* ─── TOOL CARD GRID ────────────────────────── */
+    .tools-grid {
+      display: grid; grid-template-columns: 1fr;
+      gap: 1.25rem;
+    }
+    @media (min-width: 600px) { .tools-grid { grid-template-columns: 1fr 1fr; } }
+    @media (min-width: 1024px) { .tools-grid { grid-template-columns: repeat(3,1fr); } }
+
+    .tool-card {
+      background: var(--white); border: 1px solid #E5E7EB; border-radius: 4px;
+      overflow: hidden; cursor: pointer; transition: box-shadow 0.2s, transform 0.2s;
+    }
+    .tool-card:hover { box-shadow: 0 8px 24px rgba(0,0,0,0.1); transform: translateY(-2px); }
+    .tool-card-img {
+      width: 100%; aspect-ratio: 16/9; object-fit: cover; background: var(--light-gray);
+      display: flex; align-items: center; justify-content: center; position: relative;
+      overflow: hidden;
+    }
+    .tool-card-img-placeholder {
+      width: 100%; aspect-ratio: 16/9; background: var(--light-gray);
+      display: flex; align-items: center; justify-content: center; position: relative;
+    }
+    .tool-card-img-placeholder svg { opacity: 0.2; }
+    .tool-card-badge-wrap {
+      position: absolute; top: 0.75rem; left: 0.75rem;
+    }
+    .tool-card-body { padding: 1rem; }
+    .tool-card-name {
+      font-size: 1rem; font-weight: 700; color: var(--red);
+      text-transform: uppercase; letter-spacing: 0.08em; margin: 0.5rem 0 0.4rem;
+    }
+    .tool-card-desc {
+      font-size: 0.875rem; color: var(--medium-gray); line-height: 1.5;
+      display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+    .tool-card-tags { display: flex; flex-wrap: wrap; gap: 0.35rem; margin-top: 0.75rem; }
+    .tag-pill {
+      background: #F3F4F6; color: var(--medium-gray); font-size: 0.7rem;
+      padding: 0.2rem 0.5rem; border-radius: 999px;
+    }
+    .tool-card-footer {
+      display: flex; align-items: center; justify-content: space-between;
+      margin-top: 0.75rem; padding-top: 0.75rem; border-top: 1px solid #F3F4F6;
+    }
+    .tool-card-stats { display: flex; align-items: center; gap: 0.75rem; color: var(--medium-gray); font-size: 0.75rem; }
+    .tool-card-stat { display: flex; align-items: center; gap: 0.25rem; }
+    .bookmark-btn {
+      background: none; border: none; cursor: pointer; color: var(--medium-gray);
+      padding: 0.25rem; transition: color 0.2s;
+    }
+    .bookmark-btn:hover { color: var(--red); }
+
+    /* ─── HORIZONTAL SCROLL ─────────────────────── */
+    .scroll-row {
+      display: flex; gap: 1rem; overflow-x: auto; padding-bottom: 0.5rem;
+      scrollbar-width: none; -ms-overflow-style: none;
+    }
+    .scroll-row::-webkit-scrollbar { display: none; }
+    .scroll-row .tool-card { min-width: 280px; flex-shrink: 0; }
+    @media (min-width: 1024px) {
+      .scroll-row { display: grid; grid-template-columns: repeat(3,1fr); overflow: visible; }
+      .scroll-row .tool-card { min-width: unset; }
+    }
+
+    /* ─── CATEGORY CARDS ────────────────────────── */
+    .cat-grid {
+      display: grid; grid-template-columns: 1fr;
+      gap: 1rem;
+    }
+    @media (min-width: 600px) { .cat-grid { grid-template-columns: 1fr 1fr; } }
+    @media (min-width: 1024px) { .cat-grid { grid-template-columns: repeat(4,1fr); } }
+
+    .cat-card {
+      background: var(--white); border: 1px solid #E5E7EB; border-radius: 4px;
+      padding: 1.25rem; cursor: pointer; transition: all 0.2s;
+      border-left: 4px solid transparent;
+    }
+    .cat-card:hover { border-left-color: var(--red); box-shadow: 0 4px 12px rgba(0,0,0,0.08); }
+    .cat-card-icon { font-size: 1.75rem; margin-bottom: 0.5rem; }
+    .cat-card-name { font-weight: 700; font-size: 1rem; margin-bottom: 0.25rem; }
+    .cat-card-count { color: var(--medium-gray); font-size: 0.8rem; margin-bottom: 0.5rem; }
+    .cat-card-link { color: var(--red); font-size: 0.8rem; font-weight: 600; text-decoration: none; }
+
+    /* ─── HOW IT WORKS ──────────────────────────── */
+    .steps-grid {
+      display: grid; grid-template-columns: 1fr; gap: 2rem;
+    }
+    @media (min-width: 768px) { .steps-grid { grid-template-columns: repeat(3,1fr); } }
+    .step-item { text-align: center; padding: 1.5rem; }
+    .step-num {
+      width: 56px; height: 56px; background: var(--red); color: var(--white);
+      border-radius: 50%; display: flex; align-items: center; justify-content: center;
+      font-size: 1.25rem; font-weight: 800; margin: 0 auto 1rem;
+    }
+    .step-title { font-size: 1.1rem; font-weight: 700; margin-bottom: 0.5rem; }
+    .step-desc { font-size: 0.875rem; color: var(--medium-gray); line-height: 1.6; }
+
+    /* ─── SUBMIT CTA BANNER ─────────────────────── */
+    .cta-banner {
+      background: var(--red); padding: 3rem 1rem; text-align: center;
+    }
+    .cta-banner h2 { color: var(--white); font-size: 1.75rem; font-weight: 800; margin-bottom: 0.75rem; }
+    .cta-banner p { color: rgba(255,255,255,0.85); margin-bottom: 1.5rem; }
+
+    /* ─── FOOTER ────────────────────────────────── */
+    footer { background: var(--near-black); color: rgba(255,255,255,0.7); padding: 3rem 1rem 1.5rem; }
+    .footer-grid {
+      display: grid; grid-template-columns: 1fr;
+      gap: 2rem; margin-bottom: 2rem;
+    }
+    @media (min-width: 768px) { .footer-grid { grid-template-columns: 2fr 1fr 1fr 1fr 1fr; } }
+    .footer-logo { font-size: 1.25rem; font-weight: 800; color: var(--white); margin-bottom: 0.5rem; }
+    .footer-tagline { font-size: 0.85rem; opacity: 0.6; }
+    .footer-col-title { color: var(--white); font-weight: 700; font-size: 0.875rem; margin-bottom: 0.75rem; text-transform: uppercase; letter-spacing: 0.05em; }
+    .footer-col ul { list-style: none; }
+    .footer-col ul li { margin-bottom: 0.4rem; }
+    .footer-col ul li a { color: rgba(255,255,255,0.6); text-decoration: none; font-size: 0.875rem; transition: color 0.2s; }
+    .footer-col ul li a:hover { color: var(--white); }
+    .footer-bottom { border-top: 1px solid rgba(255,255,255,0.1); padding-top: 1.25rem; text-align: center; font-size: 0.75rem; opacity: 0.5; }
+
+    /* ─── BOTTOM NAV (MOBILE) ───────────────────── */
+    .bottom-nav {
+      position: fixed; bottom: 0; left: 0; right: 0; z-index: 998;
+      background: var(--white); border-top: 1px solid #E5E7EB;
+      display: flex; align-items: center; justify-content: space-around;
+      height: 64px; padding: 0 0.5rem;
+    }
+    @media (min-width: 768px) { .bottom-nav { display: none; } }
+    .bottom-nav-item {
+      display: flex; flex-direction: column; align-items: center; gap: 0.2rem;
+      cursor: pointer; background: none; border: none; min-width: 44px; min-height: 44px;
+      justify-content: center; color: var(--medium-gray); font-size: 0.65rem;
+      font-weight: 600; letter-spacing: 0.04em; text-transform: uppercase;
+      transition: color 0.2s; font-family: 'Inter', sans-serif;
+    }
+    .bottom-nav-item.active { color: var(--red); }
+    .bottom-nav-item svg { width: 22px; height: 22px; }
+    .page-pad { padding-bottom: 80px; }
+    @media (min-width: 768px) { .page-pad { padding-bottom: 0; } }
+
+    /* ─── TOOL DETAIL PAGE ──────────────────────── */
+    .breadcrumb {
+      font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.05em;
+      color: var(--medium-gray); display: flex; align-items: center; gap: 0.4rem;
+      flex-wrap: wrap; margin-bottom: 1rem;
+    }
+    .breadcrumb a { color: var(--medium-gray); text-decoration: none; }
+    .breadcrumb a:hover { color: var(--red); }
+    .breadcrumb-sep { opacity: 0.5; }
+    .intent-stmt { font-size: 1.25rem; line-height: 1.5; margin-bottom: 0.75rem; color: var(--near-black); }
+    @media (min-width: 768px) { .intent-stmt { font-size: 1.5rem; } }
+    .tool-title {
+      font-size: 1.5rem; font-weight: 800; color: var(--red);
+      text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 1.5rem;
+    }
+    @media (min-width: 768px) { .tool-title { font-size: 2rem; } }
+    .tool-cover {
+      width: 100%; aspect-ratio: 16/9; object-fit: cover;
+      background: var(--light-gray); border-radius: 4px; margin-bottom: 1.25rem;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .tool-cover-placeholder {
+      width: 100%; aspect-ratio: 16/9; background: var(--light-gray);
+      border-radius: 4px; margin-bottom: 1.25rem;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .download-section { margin-bottom: 1.5rem; }
+    .download-btn {
+      width: 100%; background: var(--red); color: var(--white);
+      border: none; padding: 1rem; font-size: 1rem; font-weight: 700;
+      letter-spacing: 0.08em; text-transform: uppercase; cursor: pointer;
+      display: flex; align-items: center; justify-content: center; gap: 0.5rem;
+      border-radius: 2px; transition: background 0.2s; font-family: 'Inter', sans-serif;
+    }
+    .download-btn:hover { background: var(--red-dark); }
+    .download-options {
+      border: 1px solid #E5E7EB; border-top: none; border-radius: 0 0 2px 2px;
+      display: none; padding: 1rem;
+    }
+    .download-options.open { display: block; }
+    .download-options p { font-size: 0.85rem; font-weight: 600; margin-bottom: 0.5rem; color: var(--medium-gray); text-transform: uppercase; letter-spacing: 0.05em; }
+    .download-links { display: flex; flex-wrap: wrap; gap: 0.5rem; }
+    .download-link {
+      display: inline-block; padding: 0.4rem 0.9rem; border: 1px solid var(--red);
+      color: var(--red); font-size: 0.8rem; font-weight: 600; text-decoration: none;
+      border-radius: 2px; transition: all 0.2s;
+    }
+    .download-link:hover { background: var(--red); color: var(--white); }
+    .tool-meta { margin-bottom: 1.5rem; }
+    .meta-row { display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.5rem; font-size: 0.875rem; }
+    .involvement-box {
+      background: var(--light-gray); border-radius: 4px; padding: 1rem; margin: 1rem 0;
+    }
+    .involvement-label { font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; font-size: 0.8rem; margin-bottom: 0.25rem; }
+    .content-section { margin-bottom: 2rem; }
+    .content-section h3 { font-size: 1.1rem; font-weight: 700; margin-bottom: 0.75rem; padding-bottom: 0.5rem; border-bottom: 2px solid var(--red); }
+    .content-section p { font-size: 0.9375rem; line-height: 1.7; color: #374151; margin-bottom: 0.75rem; }
+    .content-section ul { padding-left: 1.25rem; }
+    .content-section ul li { margin-bottom: 0.4rem; font-size: 0.9375rem; line-height: 1.6; color: #374151; }
+    .interaction-row { display: flex; align-items: center; gap: 1rem; flex-wrap: wrap; margin: 1.5rem 0; }
+    .stars { display: flex; gap: 0.2rem; }
+    .star { font-size: 1.25rem; cursor: pointer; color: #D1D5DB; transition: color 0.15s; }
+    .star.active { color: #F59E0B; }
+    .share-row { display: flex; gap: 0.5rem; flex-wrap: wrap; margin: 1rem 0; }
+    .share-btn {
+      padding: 0.5rem 1rem; border: 1px solid #E5E7EB; border-radius: 2px;
+      font-size: 0.8rem; font-weight: 600; cursor: pointer; background: var(--white);
+      color: var(--near-black); transition: all 0.2s; display: flex; align-items: center; gap: 0.4rem;
+    }
+    .share-btn:hover { border-color: var(--red); color: var(--red); }
+    .comments-section { margin-top: 2rem; }
+    .comment-form textarea {
+      width: 100%; min-height: 100px; padding: 0.75rem; border: 1px solid #D1D5DB;
+      border-radius: 4px; font-family: 'Inter', sans-serif; font-size: 0.9rem;
+      resize: vertical; margin-bottom: 0.5rem;
+    }
+    .comment-item { display: flex; gap: 0.75rem; margin-bottom: 1.25rem; }
+    .avatar {
+      width: 38px; height: 38px; border-radius: 50%; background: var(--red);
+      display: flex; align-items: center; justify-content: center;
+      color: var(--white); font-weight: 700; font-size: 0.875rem; flex-shrink: 0;
+    }
+    .comment-body { flex: 1; }
+    .comment-meta { font-size: 0.75rem; color: var(--medium-gray); margin-bottom: 0.25rem; }
+    .comment-meta strong { color: var(--near-black); }
+    .comment-text { font-size: 0.875rem; line-height: 1.6; }
+
+    /* ─── TOOLS PAGE ────────────────────────────── */
+    .tools-page-layout {
+      display: grid; grid-template-columns: 1fr;
+      gap: 1.5rem; align-items: start;
+    }
+    @media (min-width: 768px) {
+      .tools-page-layout { grid-template-columns: 260px 1fr; }
+    }
+    .filters-sidebar { background: var(--white); border: 1px solid #E5E7EB; border-radius: 4px; padding: 1.25rem; }
+    .filter-group { margin-bottom: 1.25rem; }
+    .filter-group-title { font-weight: 700; font-size: 0.85rem; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 0.6rem; color: var(--near-black); }
+    .filter-item { display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.4rem; }
+    .filter-item label { font-size: 0.875rem; cursor: pointer; }
+    .filter-item input { cursor: pointer; accent-color: var(--red); width: 16px; height: 16px; }
+    .filter-search {
+      width: 100%; padding: 0.6rem 0.75rem; border: 1px solid #D1D5DB;
+      border-radius: 4px; font-size: 0.875rem; font-family: 'Inter', sans-serif;
+      margin-bottom: 1rem;
+    }
+    .filter-search:focus { outline: none; border-color: var(--red); }
+    .clear-filters { color: var(--red); font-size: 0.8rem; font-weight: 600; cursor: pointer; border: none; background: none; font-family: 'Inter', sans-serif; padding: 0; }
+
+    /* ─── SUBMIT PAGE ───────────────────────────── */
+    .wizard-progress {
+      display: flex; align-items: center; margin-bottom: 2rem;
+    }
+    .wizard-step {
+      flex: 1; text-align: center; font-size: 0.75rem; font-weight: 600;
+      color: var(--medium-gray); position: relative;
+    }
+    .wizard-step::after {
+      content: ''; position: absolute; top: 14px; left: 60%; right: -40%;
+      height: 2px; background: #E5E7EB;
+    }
+    .wizard-step:last-child::after { display: none; }
+    .wizard-step.done::after { background: var(--red); }
+    .wizard-step-num {
+      width: 28px; height: 28px; border-radius: 50%; border: 2px solid #D1D5DB;
+      display: flex; align-items: center; justify-content: center;
+      margin: 0 auto 0.35rem; font-size: 0.75rem; background: var(--white);
+      position: relative; z-index: 1;
+    }
+    .wizard-step.active .wizard-step-num { background: var(--red); border-color: var(--red); color: var(--white); }
+    .wizard-step.done .wizard-step-num { background: var(--red); border-color: var(--red); color: var(--white); }
+    .form-group { margin-bottom: 1.25rem; }
+    .form-label { display: block; font-size: 0.875rem; font-weight: 600; margin-bottom: 0.4rem; }
+    .form-input, .form-select, .form-textarea {
+      width: 100%; padding: 0.75rem; border: 1px solid #D1D5DB;
+      border-radius: 4px; font-family: 'Inter', sans-serif; font-size: 1rem;
+      transition: border-color 0.2s;
+    }
+    .form-input:focus, .form-select:focus, .form-textarea:focus {
+      outline: none; border-color: var(--red);
+    }
+    .form-textarea { min-height: 120px; resize: vertical; }
+    .char-count { text-align: right; font-size: 0.75rem; color: var(--medium-gray); margin-top: 0.25rem; }
+    .radio-group { display: flex; flex-wrap: wrap; gap: 0.5rem; }
+    .radio-option {
+      display: flex; align-items: center; gap: 0.4rem; cursor: pointer;
+      padding: 0.5rem 0.75rem; border: 1px solid #D1D5DB; border-radius: 4px;
+      font-size: 0.875rem;
+    }
+    .radio-option input { accent-color: var(--red); }
+    .wizard-nav { display: flex; justify-content: space-between; margin-top: 2rem; }
+
+    /* ─── AUTH PAGES ────────────────────────────── */
+    .auth-page { min-height: 100vh; display: flex; align-items: center; justify-content: center; padding: 2rem 1rem; background: var(--light-gray); }
+    .auth-card { background: var(--white); border-radius: 4px; padding: 2rem; width: 100%; max-width: 420px; box-shadow: 0 4px 24px rgba(0,0,0,0.08); }
+    .auth-logo { font-size: 1.5rem; font-weight: 800; color: var(--red); text-align: center; margin-bottom: 1.5rem; display: block; }
+    .auth-title { font-size: 1.5rem; font-weight: 700; text-align: center; margin-bottom: 1.5rem; }
+    .auth-divider { text-align: center; margin: 1rem 0; color: var(--medium-gray); font-size: 0.875rem; position: relative; }
+    .auth-divider::before, .auth-divider::after {
+      content: ''; position: absolute; top: 50%; width: 42%; height: 1px; background: #E5E7EB;
+    }
+    .auth-divider::before { left: 0; }
+    .auth-divider::after { right: 0; }
+    .auth-link { text-align: center; margin-top: 1rem; font-size: 0.875rem; color: var(--medium-gray); }
+    .auth-link a { color: var(--red); font-weight: 600; text-decoration: none; }
+    .pw-input-wrap { position: relative; }
+    .pw-toggle { position: absolute; right: 0.75rem; top: 50%; transform: translateY(-50%); background: none; border: none; cursor: pointer; color: var(--medium-gray); font-size: 0.75rem; }
+
+    /* ─── FIND TOOL OVERLAY ─────────────────────── */
+    .find-overlay {
+      position: fixed; inset: 0; background: var(--white); z-index: 2000;
+      overflow-y: auto; display: none;
+    }
+    .find-overlay.open { display: block; }
+    .find-overlay-header {
+      background: var(--red); padding: 1rem 1.5rem;
+      display: flex; align-items: center; justify-content: space-between; position: sticky; top: 0;
+    }
+    .find-overlay-header h2 { color: var(--white); font-size: 1.25rem; font-weight: 800; }
+    .close-btn { background: none; border: none; cursor: pointer; color: var(--white); font-size: 1.5rem; min-width: 44px; min-height: 44px; display: flex; align-items: center; justify-content: center; }
+    .find-content { padding: 1.5rem; max-width: 800px; margin: 0 auto; }
+    .find-intro { font-size: 1.5rem; font-weight: 700; margin-bottom: 2rem; }
+    .find-intro span { color: var(--red); }
+    .find-category { margin-bottom: 2rem; }
+    .find-cat-header { display: flex; align-items: center; gap: 0.75rem; margin-bottom: 0.75rem; }
+    .find-cat-icon {
+      width: 40px; height: 40px; border-radius: 50%; background: var(--red);
+      display: flex; align-items: center; justify-content: center; color: var(--white); font-size: 1rem; flex-shrink: 0;
+    }
+    .find-cat-name { font-weight: 700; font-size: 1rem; }
+    .find-sep { height: 2px; background: var(--red); margin-bottom: 0.75rem; border-radius: 1px; }
+    .find-tool-item { padding: 0.5rem 0; cursor: pointer; transition: color 0.2s; }
+    .find-tool-item:hover .find-tool-name { color: var(--red-dark); }
+    .find-tool-intent { font-size: 0.875rem; color: var(--medium-gray); line-height: 1.4; }
+    .find-tool-name { font-weight: 700; font-size: 0.875rem; color: var(--red); text-transform: uppercase; letter-spacing: 0.08em; }
+
+    /* ─── ABOUT PAGE ────────────────────────────── */
+    .about-hero { background: var(--red); padding: 4rem 1rem; text-align: center; }
+    .about-hero h1 { color: var(--white); font-size: 2.5rem; font-weight: 800; margin-bottom: 0.75rem; }
+    .about-hero p { color: rgba(255,255,255,0.85); font-size: 1rem; }
+    .two-col { display: grid; grid-template-columns: 1fr; gap: 2rem; }
+    @media (min-width: 768px) { .two-col { grid-template-columns: 1fr 1fr; } }
+    .contact-form-section { background: var(--light-gray); padding: 3rem 1rem; }
+    .contact-form { max-width: 600px; margin: 0 auto; }
+
+    /* ─── PROFILE PAGE ──────────────────────────── */
+    .profile-banner { height: 160px; background: linear-gradient(135deg, #E5E7EB, #D1D5DB); }
+    .profile-header { padding: 0 1rem; }
+    .profile-avatar-wrap { margin-top: -40px; margin-bottom: 0.75rem; }
+    .profile-avatar { width: 80px; height: 80px; border-radius: 50%; background: var(--red); display: flex; align-items: center; justify-content: center; color: var(--white); font-size: 2rem; font-weight: 700; border: 4px solid var(--white); }
+    .profile-name { font-size: 1.5rem; font-weight: 800; }
+    .profile-username { color: var(--medium-gray); font-size: 0.875rem; }
+    .profile-stats { display: flex; gap: 2rem; margin: 1rem 0; flex-wrap: wrap; }
+    .profile-stat { text-align: center; }
+    .profile-stat-num { font-size: 1.5rem; font-weight: 800; color: var(--red); }
+    .profile-stat-label { font-size: 0.75rem; color: var(--medium-gray); text-transform: uppercase; letter-spacing: 0.04em; }
+
+    /* ─── DASHBOARD ─────────────────────────────── */
+    .dash-tabs { display: flex; border-bottom: 2px solid #E5E7EB; margin-bottom: 1.5rem; overflow-x: auto; }
+    .dash-tab {
+      padding: 0.75rem 1.25rem; font-size: 0.875rem; font-weight: 600;
+      cursor: pointer; white-space: nowrap; border-bottom: 2px solid transparent;
+      margin-bottom: -2px; color: var(--medium-gray); background: none; border-top: none; border-left: none; border-right: none;
+      font-family: 'Inter', sans-serif; transition: all 0.2s;
+    }
+    .dash-tab.active { color: var(--red); border-bottom-color: var(--red); }
+    .dash-panel { display: none; }
+    .dash-panel.active { display: block; }
+
+    /* ─── SEARCH PAGE ───────────────────────────── */
+    .search-hero { background: var(--light-gray); padding: 2rem 1rem; }
+    .search-big-input {
+      width: 100%; padding: 1rem 1.25rem; font-size: 1.25rem;
+      border: 2px solid #D1D5DB; border-radius: 4px; font-family: 'Inter', sans-serif;
+    }
+    .search-big-input:focus { outline: none; border-color: var(--red); }
+
+    /* ─── CATEGORIES PAGE ───────────────────────── */
+    .big-cat-card {
+      background: var(--white); border: 1px solid #E5E7EB; border-radius: 4px;
+      padding: 1.5rem; cursor: pointer; transition: all 0.2s;
+    }
+    .big-cat-card:hover { box-shadow: 0 8px 24px rgba(0,0,0,0.1); }
+    .big-cat-num { font-size: 3rem; font-weight: 800; color: var(--red); line-height: 1; margin-bottom: 0.5rem; }
+    .big-cat-name { font-size: 1.25rem; font-weight: 700; margin-bottom: 0.5rem; }
+    .big-cat-desc { font-size: 0.875rem; color: var(--medium-gray); margin-bottom: 1rem; }
+    .big-cat-tools { list-style: none; margin-bottom: 1rem; }
+    .big-cat-tools li { font-size: 0.8rem; padding: 0.2rem 0; color: var(--medium-gray); }
+    .big-cat-tools li a { color: var(--near-black); text-decoration: none; }
+    .big-cat-tools li a:hover { color: var(--red); }
+
+    /* ─── ADMIN ─────────────────────────────────── */
+    .admin-layout { display: grid; grid-template-columns: 1fr; gap: 1.5rem; align-items: start; }
+    @media (min-width: 768px) { .admin-layout { grid-template-columns: 220px 1fr; } }
+    .admin-sidebar { background: var(--near-black); border-radius: 4px; overflow: hidden; }
+    .admin-nav-item {
+      display: flex; align-items: center; gap: 0.6rem; padding: 0.875rem 1rem;
+      color: rgba(255,255,255,0.7); cursor: pointer; font-size: 0.875rem; font-weight: 500;
+      border: none; background: none; width: 100%; text-align: left; font-family: 'Inter', sans-serif;
+      transition: all 0.2s;
+    }
+    .admin-nav-item:hover, .admin-nav-item.active { background: rgba(255,255,255,0.1); color: var(--white); }
+    .admin-stat-cards { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1.5rem; }
+    @media (min-width: 600px) { .admin-stat-cards { grid-template-columns: repeat(4,1fr); } }
+    .admin-stat-card { background: var(--white); border: 1px solid #E5E7EB; border-radius: 4px; padding: 1rem; text-align: center; }
+    .admin-stat-num { font-size: 2rem; font-weight: 800; color: var(--red); }
+    .admin-stat-label { font-size: 0.75rem; color: var(--medium-gray); text-transform: uppercase; letter-spacing: 0.04em; }
+    .data-table { width: 100%; border-collapse: collapse; font-size: 0.875rem; }
+    .data-table th { text-align: left; padding: 0.75rem; font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.05em; color: var(--medium-gray); border-bottom: 2px solid #E5E7EB; }
+    .data-table td { padding: 0.75rem; border-bottom: 1px solid #F3F4F6; vertical-align: middle; }
+    .data-table tr:hover td { background: var(--light-gray); }
+    .table-wrap { overflow-x: auto; }
+
+    /* ─── COMMUNITY ─────────────────────────────── */
+    .leaderboard { list-style: none; }
+    .leaderboard li {
+      display: flex; align-items: center; gap: 1rem; padding: 0.875rem;
+      border-bottom: 1px solid #F3F4F6;
+    }
+    .leaderboard-rank { font-size: 1rem; font-weight: 800; color: var(--red); width: 28px; text-align: center; }
+    .leaderboard-info { flex: 1; }
+    .leaderboard-name { font-weight: 600; font-size: 0.9rem; }
+    .leaderboard-org { font-size: 0.75rem; color: var(--medium-gray); }
+    .leaderboard-stats { font-size: 0.75rem; color: var(--medium-gray); text-align: right; }
+
+    /* ─── CASE STUDIES ──────────────────────────── */
+    .case-card {
+      background: var(--white); border: 1px solid #E5E7EB; border-radius: 4px;
+      overflow: hidden; cursor: pointer; transition: box-shadow 0.2s;
+    }
+    .case-card:hover { box-shadow: 0 8px 24px rgba(0,0,0,0.1); }
+    .case-card-img { width: 100%; aspect-ratio: 16/9; background: var(--light-gray); display: flex; align-items: center; justify-content: center; }
+    .case-card-body { padding: 1rem; }
+    .case-card-title { font-weight: 700; font-size: 1rem; margin: 0.5rem 0 0.4rem; }
+    .case-card-org { font-size: 0.75rem; color: var(--medium-gray); margin-bottom: 0.5rem; }
+    .case-card-summary { font-size: 0.875rem; color: var(--medium-gray); line-height: 1.5; display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; }
+    .read-more { color: var(--red); font-size: 0.8rem; font-weight: 600; text-decoration: none; display: inline-block; margin-top: 0.5rem; }
+
+    /* ─── TOAST ─────────────────────────────────── */
+    .toast {
+      position: fixed; bottom: 80px; left: 50%; transform: translateX(-50%);
+      background: var(--near-black); color: var(--white); padding: 0.75rem 1.5rem;
+      border-radius: 4px; font-size: 0.875rem; z-index: 9999;
+      opacity: 0; transition: opacity 0.3s; pointer-events: none; white-space: nowrap;
+    }
+    .toast.show { opacity: 1; }
+    @media (min-width: 768px) { .toast { bottom: 2rem; } }
+
+    /* ─── MISC ──────────────────────────────────── */
+    .empty-state { text-align: center; padding: 3rem 1rem; color: var(--medium-gray); }
+    .empty-state svg { margin-bottom: 1rem; opacity: 0.3; }
+    .empty-state h3 { font-size: 1.1rem; font-weight: 700; color: var(--near-black); margin-bottom: 0.5rem; }
+    .success-screen { text-align: center; padding: 3rem 1rem; }
+    .success-icon { font-size: 3rem; margin-bottom: 1rem; }
+    .success-title { font-size: 1.5rem; font-weight: 700; margin-bottom: 0.75rem; }
+    .success-msg { color: var(--medium-gray); margin-bottom: 1.5rem; }
+
+    input[type="search"]::-webkit-search-cancel-button { cursor: pointer; }
+    @media (prefers-reduced-motion: reduce) { *, ::before, ::after { animation: none !important; transition: none !important; } }
+  </style>
+</head>
+<body>
+
+<!-- ════════════════════════════════════════
+     NAVBAR
+════════════════════════════════════════ -->
+<nav class="navbar" role="navigation" aria-label="Main navigation">
+  <div class="navbar-inner">
+    <a class="navbar-logo" href="#" onclick="showPage('home')" aria-label="Humanova Home">Humanova</a>
+    <nav class="navbar-desktop-links">
+      <a href="#" onclick="showPage('tools')">Tools</a>
+      <a href="#" onclick="showPage('case-studies')">Case Studies</a>
+      <a href="#" onclick="showPage('about')">About</a>
+      <a href="#" onclick="showPage('community')">Community</a>
+    </nav>
+    <div class="navbar-actions">
+      <button class="navbar-icon-btn" onclick="showPage('search')" aria-label="Search">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+      </button>
+      <button class="navbar-icon-btn mobile-only" onclick="showPage('auth-login')" aria-label="Login">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+      </button>
+    </div>
+  </div>
+</nav>
+
+<!-- FIND YOUR TOOL BAR -->
+<button class="find-bar" onclick="openFindOverlay()" aria-label="Open Find Your Tool">
+  <span>▸ FIND YOUR TOOL</span>
+</button>
+
+<!-- ════════════════════════════════════════
+     FIND YOUR TOOL OVERLAY
+════════════════════════════════════════ -->
+<div class="find-overlay" id="findOverlay" role="dialog" aria-modal="true" aria-label="Find Your Tool">
+  <div class="find-overlay-header">
+    <h2>Find Your Tool</h2>
+    <button class="close-btn" onclick="closeFindOverlay()" aria-label="Close">✕</button>
+  </div>
+  <div class="find-content">
+    <p class="find-intro"><span>I want to…</span></p>
+    <div id="findCategories"></div>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════
+     PAGES CONTAINER
+════════════════════════════════════════ -->
+
+<!-- ── HOME PAGE ───────────────────────── -->
+<div id="page-home" class="page active page-pad">
+  <!-- HERO -->
+  <section class="hero">
+    <div class="hero-content">
+      <h1>Humanova has been specially designed for practitioners to invent, adopt or adapt ideas that can deliver better results</h1>
+      <p>The tools presented here are grounded in existing theories and practices of innovation, design and social development</p>
+      <a href="#" class="btn btn-outline" onclick="showPage('about');return false;">FIND OUT MORE</a>
+    </div>
+  </section>
+
+  <!-- STATS BAR -->
+  <section class="stats-bar" aria-label="Platform statistics">
+    <div class="stats-grid">
+      <div>
+        <div class="stat-number">30</div>
+        <div class="stat-label">Total Tools</div>
+      </div>
+      <div>
+        <div class="stat-number">120+</div>
+        <div class="stat-label">Contributors</div>
+      </div>
+      <div>
+        <div class="stat-number">8.4K</div>
+        <div class="stat-label">Downloads</div>
+      </div>
+      <div>
+        <div class="stat-number">54</div>
+        <div class="stat-label">Organizations</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FEATURED TOOLS -->
+  <section class="section">
+    <div class="container">
+      <h2 class="section-title">Featured Tools</h2>
+      <div class="scroll-row" id="featuredTools" aria-label="Featured toolkits"></div>
+    </div>
+  </section>
+
+  <!-- INTENT CATEGORIES -->
+  <section class="section section-gray">
+    <div class="container">
+      <h2 class="section-title">Find Your Tool</h2>
+      <div class="cat-grid" id="catGrid" aria-label="Tool categories"></div>
+    </div>
+  </section>
+
+  <!-- HOW IT WORKS -->
+  <section class="section">
+    <div class="container">
+      <h2 class="section-title">How It Works</h2>
+      <div class="steps-grid">
+        <div class="step-item">
+          <div class="step-num">1</div>
+          <div class="step-title">Browse</div>
+          <p class="step-desc">Explore our library of 30+ toolkits across 8 categories, designed for creative practitioners and NGOs.</p>
+        </div>
+        <div class="step-item">
+          <div class="step-num">2</div>
+          <div class="step-title">Use</div>
+          <p class="step-desc">Download PDF worksheets, open interactive Miro boards, or follow step-by-step guides in your own work.</p>
+        </div>
+        <div class="step-item">
+          <div class="step-num">3</div>
+          <div class="step-title">Submit</div>
+          <p class="step-desc">Have a toolkit that's worked for you? Share it with the global community and help others do better work.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- RECENTLY SUBMITTED -->
+  <section class="section section-gray">
+    <div class="container">
+      <h2 class="section-title">Recently Submitted</h2>
+      <div class="tools-grid" id="recentTools" aria-label="Recently submitted toolkits"></div>
+    </div>
+  </section>
+
+  <!-- SUBMIT CTA -->
+  <div class="cta-banner">
+    <div class="container">
+      <h2>Have a toolkit to share?</h2>
+      <p>Submit your toolkit and help practitioners around the world</p>
+      <button class="btn btn-white" onclick="showPage('submit')">Submit a Toolkit</button>
+    </div>
+  </div>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="container">
+      <div class="footer-grid">
+        <div>
+          <div class="footer-logo">Humanova</div>
+          <p class="footer-tagline">A DIY Toolkit platform for creative industry practitioners and NGOs.</p>
+        </div>
+        <div class="footer-col">
+          <div class="footer-col-title">Tools</div>
+          <ul>
+            <li><a href="#" onclick="showPage('tools')">All Tools</a></li>
+            <li><a href="#" onclick="showPage('categories')">Categories</a></li>
+            <li><a href="#" onclick="openFindOverlay()">Find Your Tool</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <div class="footer-col-title">Resources</div>
+          <ul>
+            <li><a href="#" onclick="showPage('case-studies')">Case Studies</a></li>
+            <li><a href="#" onclick="showPage('submit')">Submit a Toolkit</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <div class="footer-col-title">Community</div>
+          <ul>
+            <li><a href="#" onclick="showPage('community')">Community</a></li>
+            <li><a href="#" onclick="showPage('auth-register')">Join</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <div class="footer-col-title">About</div>
+          <ul>
+            <li><a href="#" onclick="showPage('about')">About Humanova</a></li>
+            <li><a href="#" onclick="showPage('about')">Contact</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        Licensed under Creative Commons CC BY-NC-SA 4.0 · © 2025 Humanova
+      </div>
+    </div>
+  </footer>
+</div>
+
+<!-- ── TOOLS PAGE ───────────────────────── -->
+<div id="page-tools" class="page page-pad">
+  <section class="section">
+    <div class="container">
+      <h1 style="font-size:2rem;font-weight:800;margin-bottom:0.25rem;">Tools</h1>
+      <p style="color:var(--medium-gray);margin-bottom:1.5rem;" id="toolsCount">30 toolkits available</p>
+      <div class="tools-page-layout">
+        <aside class="filters-sidebar">
+          <h3 style="font-weight:700;margin-bottom:1rem;">Filters</h3>
+          <input type="search" class="filter-search" placeholder="Search toolkits…" id="toolSearchInput" oninput="filterTools()" aria-label="Search toolkits" />
+          <div class="filter-group">
+            <div class="filter-group-title">Intent Category</div>
+            <div id="catFilters"></div>
+          </div>
+          <div class="filter-group">
+            <div class="filter-group-title">Difficulty</div>
+            <div>
+              <label class="filter-item"><input type="checkbox" value="Beginner" onchange="filterTools()" class="diff-filter" /> <span>Beginner</span></label>
+              <label class="filter-item"><input type="checkbox" value="Intermediate" onchange="filterTools()" class="diff-filter" /> <span>Intermediate</span></label>
+              <label class="filter-item"><input type="checkbox" value="Advanced" onchange="filterTools()" class="diff-filter" /> <span>Advanced</span></label>
+            </div>
+          </div>
+          <div class="filter-group">
+            <div class="filter-group-title">Sort</div>
+            <div>
+              <label class="filter-item"><input type="radio" name="sort" value="popular" checked onchange="filterTools()" /> <span>Most Popular</span></label>
+              <label class="filter-item"><input type="radio" name="sort" value="newest" onchange="filterTools()" /> <span>Newest</span></label>
+              <label class="filter-item"><input type="radio" name="sort" value="rated" onchange="filterTools()" /> <span>Highest Rated</span></label>
+            </div>
+          </div>
+          <button class="clear-filters" onclick="clearFilters()">Clear all filters</button>
+        </aside>
+        <main>
+          <div class="tools-grid" id="toolsGrid" aria-label="Toolkit results"></div>
+        </main>
+      </div>
+    </div>
+  </section>
+</div>
+
+<!-- ── TOOL DETAIL PAGE ─────────────────── -->
+<div id="page-tool-detail" class="page page-pad">
+  <section class="section">
+    <div class="container" style="max-width:800px;">
+      <div id="toolDetailContent"></div>
+    </div>
+  </section>
+</div>
+
+<!-- ── CATEGORIES PAGE ─────────────────── -->
+<div id="page-categories" class="page page-pad">
+  <section class="section">
+    <div class="container">
+      <h1 style="font-size:2rem;font-weight:800;margin-bottom:1.5rem;">Categories</h1>
+      <div class="cat-grid" id="bigCatGrid" style="grid-template-columns:1fr;gap:1.25rem;"></div>
+    </div>
+  </section>
+</div>
+
+<!-- ── CASE STUDIES PAGE ────────────────── -->
+<div id="page-case-studies" class="page page-pad">
+  <section class="section">
+    <div class="container">
+      <h1 style="font-size:2rem;font-weight:800;margin-bottom:1.5rem;">Case Studies</h1>
+      <div class="tools-grid" id="caseStudiesGrid"></div>
+    </div>
+  </section>
+</div>
+
+<!-- ── ABOUT PAGE ───────────────────────── -->
+<div id="page-about" class="page page-pad">
+  <div class="about-hero">
+    <div class="container">
+      <h1>About Humanova</h1>
+      <p>Empowering practitioners to invent, adopt, and adapt ideas that deliver better results</p>
+    </div>
+  </div>
+  <section class="section">
+    <div class="container">
+      <p style="font-size:1.5rem;font-weight:700;text-align:center;max-width:700px;margin:0 auto 3rem;">
+        "The tools presented here are grounded in existing theories and practices of innovation, design and social development."
+      </p>
+      <div class="two-col">
+        <div>
+          <h2 style="font-size:1.5rem;font-weight:700;margin-bottom:1rem;">What is Humanova?</h2>
+          <p style="color:#374151;margin-bottom:0.75rem;">Humanova is a DIY toolkit platform designed for creative industry practitioners and NGOs who want to do better, more impactful work. Every toolkit in our library is practical, field-tested, and freely available to download and adapt.</p>
+          <p style="color:#374151;">Whether you're running a community workshop, designing a new service, or building a business case — Humanova has a toolkit to help you think more clearly, collaborate more effectively, and create more lasting impact.</p>
+        </div>
+        <div style="background:var(--light-gray);border-radius:4px;display:flex;align-items:center;justify-content:center;min-height:200px;padding:2rem;text-align:center;">
+          <div>
+            <div style="font-size:3rem;margin-bottom:0.5rem;">🛠️</div>
+            <p style="color:var(--medium-gray);">Practical tools for real-world impact</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  <section class="section section-gray">
+    <div class="container">
+      <h2 class="section-title">Who Is It For?</h2>
+      <div class="two-col">
+        <div style="background:var(--white);border-radius:4px;padding:1.5rem;border:1px solid #E5E7EB;">
+          <h3 style="font-size:1.1rem;font-weight:700;color:var(--red);margin-bottom:0.75rem;">Creative Industry</h3>
+          <p style="font-size:0.875rem;color:#374151;margin-bottom:0.75rem;">Designers, communicators, artists, and creative entrepreneurs who want structured approaches to their work.</p>
+          <ul style="padding-left:1.25rem;font-size:0.875rem;color:#374151;">
+            <li>Design researchers and strategists</li>
+            <li>Social entrepreneurs</li>
+            <li>Cultural institutions</li>
+            <li>Creative agencies</li>
+          </ul>
+        </div>
+        <div style="background:var(--white);border-radius:4px;padding:1.5rem;border:1px solid #E5E7EB;">
+          <h3 style="font-size:1.1rem;font-weight:700;color:var(--red);margin-bottom:0.75rem;">NGO & Social Sector</h3>
+          <p style="font-size:0.875rem;color:#374151;margin-bottom:0.75rem;">Non-profits, civil society organizations, and development practitioners working with communities.</p>
+          <ul style="padding-left:1.25rem;font-size:0.875rem;color:#374151;">
+            <li>Program managers and field staff</li>
+            <li>Community organizers</li>
+            <li>Impact evaluators</li>
+            <li>Development consultants</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+  <div class="contact-form-section">
+    <div class="contact-form container">
+      <h2 class="section-title" style="text-align:center;">Contact Us</h2>
+      <div class="form-group">
+        <label class="form-label" for="contactName">Your Name</label>
+        <input class="form-input" type="text" id="contactName" placeholder="Your name" aria-label="Your name" />
+      </div>
+      <div class="form-group">
+        <label class="form-label" for="contactEmail">Email</label>
+        <input class="form-input" type="email" id="contactEmail" placeholder="you@example.com" aria-label="Email address" />
+      </div>
+      <div class="form-group">
+        <label class="form-label" for="contactMsg">Message</label>
+        <textarea class="form-textarea" id="contactMsg" placeholder="Your message…" aria-label="Message"></textarea>
+      </div>
+      <button class="btn btn-red btn-full" onclick="showToast('Message sent! We\'ll get back to you shortly.')">Send Message</button>
+    </div>
+  </div>
+</div>
+
+<!-- ── COMMUNITY PAGE ───────────────────── -->
+<div id="page-community" class="page page-pad">
+  <section class="section" style="background:var(--red);padding-top:3rem;padding-bottom:3rem;">
+    <div class="container" style="text-align:center;">
+      <h1 style="color:var(--white);font-size:2rem;font-weight:800;margin-bottom:0.75rem;">Community</h1>
+      <p style="color:rgba(255,255,255,0.85);">Connect with practitioners around the world who are using Humanova toolkits to create impact.</p>
+    </div>
+  </section>
+  <section class="section">
+    <div class="container">
+      <h2 class="section-title">Most Active Contributors</h2>
+      <ul class="leaderboard" id="leaderboard" aria-label="Top contributors"></ul>
+    </div>
+  </section>
+  <section class="section section-gray">
+    <div class="container">
+      <h2 class="section-title">Recently Submitted Toolkits</h2>
+      <div class="tools-grid" id="communityTools"></div>
+    </div>
+  </section>
+  <div class="cta-banner">
+    <div class="container">
+      <h2>Have a toolkit to share?</h2>
+      <p>Submit your toolkit and help practitioners around the world</p>
+      <button class="btn btn-white" onclick="showPage('submit')">Submit a Toolkit</button>
+    </div>
+  </div>
+</div>
+
+<!-- ── SUBMIT PAGE ──────────────────────── -->
+<div id="page-submit" class="page page-pad">
+  <section class="section">
+    <div class="container" style="max-width:680px;">
+      <h1 style="font-size:2rem;font-weight:800;margin-bottom:0.5rem;">Submit a Toolkit</h1>
+      <p style="color:var(--medium-gray);margin-bottom:2rem;">Share your toolkit with the global Humanova community.</p>
+
+      <!-- Progress -->
+      <div class="wizard-progress" id="wizardProgress"></div>
+
+      <!-- Step panels -->
+      <div id="stepContent"></div>
+
+      <div class="wizard-nav">
+        <button class="btn btn-outline" style="color:var(--near-black);border-color:#D1D5DB;" id="prevBtn" onclick="wizardPrev()" style="display:none;">← Back</button>
+        <button class="btn btn-red" id="nextBtn" onclick="wizardNext()">Next →</button>
+      </div>
+    </div>
+  </section>
+</div>
+
+<!-- ── SEARCH PAGE ──────────────────────── -->
+<div id="page-search" class="page page-pad">
+  <div class="search-hero">
+    <div class="container">
+      <input type="search" class="search-big-input" id="mainSearchInput" placeholder="Search toolkits…" oninput="doSearch(this.value)" aria-label="Search toolkits" autofocus />
+    </div>
+  </div>
+  <section class="section">
+    <div class="container">
+      <p style="margin-bottom:1.5rem;color:var(--medium-gray);" id="searchStatus">Type to search…</p>
+      <div class="tools-grid" id="searchResults" aria-label="Search results"></div>
+    </div>
+  </section>
+</div>
+
+<!-- ── AUTH LOGIN ───────────────────────── -->
+<div id="page-auth-login" class="page">
+  <div class="auth-page">
+    <div class="auth-card">
+      <span class="auth-logo">Humanova</span>
+      <h1 class="auth-title">Welcome back</h1>
+      <div class="form-group">
+        <label class="form-label" for="loginEmail">Email</label>
+        <input class="form-input" type="email" id="loginEmail" placeholder="you@example.com" aria-label="Email" />
+      </div>
+      <div class="form-group">
+        <label class="form-label" for="loginPw">Password</label>
+        <div class="pw-input-wrap">
+          <input class="form-input" type="password" id="loginPw" placeholder="••••••••" aria-label="Password" />
+          <button class="pw-toggle" onclick="togglePw('loginPw',this)" type="button">Show</button>
+        </div>
+      </div>
+      <a href="#" style="font-size:0.8rem;color:var(--red);display:block;margin-bottom:1rem;text-align:right;" onclick="showPage('auth-forgot')">Forgot password?</a>
+      <button class="btn btn-red btn-full" onclick="showToast('Demo mode — auth not connected yet.')">Log In</button>
+      <div class="auth-divider">or</div>
+      <button class="btn btn-full" style="border:1px solid #D1D5DB;background:var(--white);" onclick="showToast('Google auth coming soon!')">
+        <svg width="18" height="18" viewBox="0 0 24 24" style="margin-right:0.5rem;"><path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/><path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/><path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l3.66-2.84z"/><path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/></svg>
+        Continue with Google
+      </button>
+      <p class="auth-link">Don't have an account? <a href="#" onclick="showPage('auth-register')">Sign up</a></p>
+    </div>
+  </div>
+</div>
+
+<!-- ── AUTH REGISTER ────────────────────── -->
+<div id="page-auth-register" class="page">
+  <div class="auth-page">
+    <div class="auth-card">
+      <span class="auth-logo">Humanova</span>
+      <h1 class="auth-title">Create your account</h1>
+      <div class="form-group">
+        <label class="form-label" for="regName">Full Name</label>
+        <input class="form-input" type="text" id="regName" placeholder="Your full name" aria-label="Full name" />
+      </div>
+      <div class="form-group">
+        <label class="form-label" for="regUsername">Username</label>
+        <input class="form-input" type="text" id="regUsername" placeholder="@username" aria-label="Username" />
+      </div>
+      <div class="form-group">
+        <label class="form-label" for="regEmail">Email</label>
+        <input class="form-input" type="email" id="regEmail" placeholder="you@example.com" aria-label="Email" />
+      </div>
+      <div class="form-group">
+        <label class="form-label" for="regPw">Password</label>
+        <div class="pw-input-wrap">
+          <input class="form-input" type="password" id="regPw" placeholder="••••••••" aria-label="Password" />
+          <button class="pw-toggle" onclick="togglePw('regPw',this)" type="button">Show</button>
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="form-label" for="regOrg">Organization (optional)</label>
+        <input class="form-input" type="text" id="regOrg" placeholder="Your organization" aria-label="Organization" />
+      </div>
+      <div class="form-group">
+        <label class="form-label">Role</label>
+        <div class="radio-group">
+          <label class="radio-option"><input type="radio" name="regRole" value="creative" checked /> Creative Industry</label>
+          <label class="radio-option"><input type="radio" name="regRole" value="ngo" /> NGO</label>
+          <label class="radio-option"><input type="radio" name="regRole" value="both" /> Both</label>
+        </div>
+      </div>
+      <label class="filter-item" style="margin-bottom:1rem;font-size:0.875rem;">
+        <input type="checkbox" /> <span>I agree to the Terms of Service and Privacy Policy</span>
+      </label>
+      <button class="btn btn-red btn-full" onclick="showToast('Demo mode — auth not connected yet.')">Create Account</button>
+      <p class="auth-link">Already have an account? <a href="#" onclick="showPage('auth-login')">Log in</a></p>
+    </div>
+  </div>
+</div>
+
+<!-- ── AUTH FORGOT ──────────────────────── -->
+<div id="page-auth-forgot" class="page">
+  <div class="auth-page">
+    <div class="auth-card">
+      <span class="auth-logo">Humanova</span>
+      <h1 class="auth-title">Reset Password</h1>
+      <p style="font-size:0.875rem;color:var(--medium-gray);margin-bottom:1.5rem;">Enter your email and we'll send you a reset link.</p>
+      <div class="form-group">
+        <label class="form-label" for="forgotEmail">Email</label>
+        <input class="form-input" type="email" id="forgotEmail" placeholder="you@example.com" aria-label="Email" />
+      </div>
+      <button class="btn btn-red btn-full" onclick="showToast('Reset link sent! Check your email.')">Send Reset Link</button>
+      <p class="auth-link"><a href="#" onclick="showPage('auth-login')">← Back to Login</a></p>
+    </div>
+  </div>
+</div>
+
+<!-- ── DASHBOARD PAGE ───────────────────── -->
+<div id="page-dashboard" class="page page-pad">
+  <section class="section">
+    <div class="container">
+      <h1 style="font-size:2rem;font-weight:800;margin-bottom:1.5rem;">My Dashboard</h1>
+      <div class="dash-tabs" role="tablist">
+        <button class="dash-tab active" role="tab" onclick="switchDashTab('saved',this)">Saved Toolkits</button>
+        <button class="dash-tab" role="tab" onclick="switchDashTab('submissions',this)">My Submissions</button>
+        <button class="dash-tab" role="tab" onclick="switchDashTab('activity',this)">Activity</button>
+        <button class="dash-tab" role="tab" onclick="switchDashTab('settings',this)">Settings</button>
+      </div>
+      <div class="dash-panel active" id="dp-saved">
+        <div class="empty-state">
+          <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="m19 21-7-4-7 4V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v16z"/></svg>
+          <h3>No saved toolkits yet</h3>
+          <p>Bookmark tools you want to revisit later.</p>
+          <button class="btn btn-red" style="margin-top:1rem;" onclick="showPage('tools')">Browse Tools</button>
+        </div>
+      </div>
+      <div class="dash-panel" id="dp-submissions">
+        <div class="empty-state">
+          <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+          <h3>No submissions yet</h3>
+          <p>Submit a toolkit to share with the community.</p>
+          <button class="btn btn-red" style="margin-top:1rem;" onclick="showPage('submit')">Submit a Toolkit</button>
+        </div>
+      </div>
+      <div class="dash-panel" id="dp-activity">
+        <div class="empty-state">
+          <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+          <h3>No activity yet</h3>
+          <p>Your ratings, comments and saves will appear here.</p>
+        </div>
+      </div>
+      <div class="dash-panel" id="dp-settings">
+        <div style="max-width:480px;">
+          <div class="form-group"><label class="form-label">Full Name</label><input class="form-input" type="text" placeholder="Your full name" /></div>
+          <div class="form-group"><label class="form-label">Username</label><input class="form-input" type="text" placeholder="@username" /></div>
+          <div class="form-group"><label class="form-label">Bio</label><textarea class="form-textarea" placeholder="About you…" style="min-height:80px;"></textarea></div>
+          <div class="form-group"><label class="form-label">Organization</label><input class="form-input" type="text" placeholder="Your organization" /></div>
+          <div class="form-group"><label class="form-label">Website</label><input class="form-input" type="url" placeholder="https://" /></div>
+          <button class="btn btn-red" onclick="showToast('Profile saved!')">Save Changes</button>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>
+
+<!-- ── ADMIN PAGE ───────────────────────── -->
+<div id="page-admin" class="page page-pad">
+  <section class="section">
+    <div class="container">
+      <h1 style="font-size:2rem;font-weight:800;margin-bottom:1.5rem;">Admin Panel</h1>
+      <div class="admin-layout">
+        <nav class="admin-sidebar" aria-label="Admin navigation">
+          <button class="admin-nav-item active" onclick="switchAdminTab('adash',this)">📊 Dashboard</button>
+          <button class="admin-nav-item" onclick="switchAdminTab('apending',this)">⏳ Pending</button>
+          <button class="admin-nav-item" onclick="switchAdminTab('atools',this)">🔧 All Toolkits</button>
+          <button class="admin-nav-item" onclick="switchAdminTab('ausers',this)">👥 Users</button>
+          <button class="admin-nav-item" onclick="switchAdminTab('acases',this)">📝 Case Studies</button>
+        </nav>
+        <main>
+          <div id="ap-adash">
+            <div class="admin-stat-cards">
+              <div class="admin-stat-card"><div class="admin-stat-num">30</div><div class="admin-stat-label">Total Toolkits</div></div>
+              <div class="admin-stat-card"><div class="admin-stat-num">3</div><div class="admin-stat-label">Pending Review</div></div>
+              <div class="admin-stat-card"><div class="admin-stat-num">120</div><div class="admin-stat-label">Total Users</div></div>
+              <div class="admin-stat-card"><div class="admin-stat-num">8.4K</div><div class="admin-stat-label">Downloads</div></div>
+            </div>
+            <h3 style="font-weight:700;margin-bottom:1rem;">Recent Submissions</h3>
+            <div class="table-wrap">
+              <table class="data-table">
+                <thead><tr><th>Title</th><th>Submitted By</th><th>Date</th><th>Status</th></tr></thead>
+                <tbody id="adminRecentTable"></tbody>
+              </table>
+            </div>
+          </div>
+          <div id="ap-apending" style="display:none;">
+            <h3 style="font-weight:700;margin-bottom:1rem;">Pending Submissions</h3>
+            <div class="empty-state"><h3>No pending submissions</h3><p>All toolkits have been reviewed.</p></div>
+          </div>
+          <div id="ap-atools" style="display:none;">
+            <h3 style="font-weight:700;margin-bottom:1rem;">All Toolkits</h3>
+            <div class="table-wrap">
+              <table class="data-table">
+                <thead><tr><th>Title</th><th>Category</th><th>Difficulty</th><th>Downloads</th><th>Status</th></tr></thead>
+                <tbody id="adminAllTable"></tbody>
+              </table>
+            </div>
+          </div>
+          <div id="ap-ausers" style="display:none;">
+            <h3 style="font-weight:700;margin-bottom:1rem;">Users</h3>
+            <div class="empty-state"><h3>Connect Supabase to manage users</h3></div>
+          </div>
+          <div id="ap-acases" style="display:none;">
+            <h3 style="font-weight:700;margin-bottom:1rem;">Case Studies</h3>
+            <div class="empty-state"><h3>No case studies yet</h3><button class="btn btn-red" style="margin-top:1rem;" onclick="showToast('Case study editor coming soon!')">Create New</button></div>
+          </div>
+        </main>
+      </div>
+    </div>
+  </section>
+</div>
+
+<!-- ── PROFILE PAGE ─────────────────────── -->
+<div id="page-profile" class="page page-pad">
+  <div class="profile-banner"></div>
+  <div class="profile-header container">
+    <div class="profile-avatar-wrap">
+      <div class="profile-avatar" aria-label="User avatar">U</div>
+    </div>
+    <div class="profile-name">Demo User</div>
+    <div class="profile-username">@demouser · NGO</div>
+    <p style="font-size:0.875rem;color:#374151;margin:0.5rem 0;">Passionate about social innovation and community-led solutions.</p>
+    <div class="profile-stats">
+      <div class="profile-stat"><div class="profile-stat-num">0</div><div class="profile-stat-label">Toolkits</div></div>
+      <div class="profile-stat"><div class="profile-stat-num">0</div><div class="profile-stat-label">Downloads</div></div>
+      <div class="profile-stat"><div class="profile-stat-num">—</div><div class="profile-stat-label">Avg Rating</div></div>
+    </div>
+  </div>
+  <section class="section">
+    <div class="container">
+      <h2 class="section-title">Submitted Toolkits</h2>
+      <div class="empty-state">
+        <h3>No published toolkits yet</h3>
+        <p>Submit a toolkit to start building your profile.</p>
+        <button class="btn btn-red" style="margin-top:1rem;" onclick="showPage('submit')">Submit a Toolkit</button>
+      </div>
+    </div>
+  </section>
+</div>
+
+<!-- TOAST -->
+<div class="toast" id="toast" role="alert" aria-live="polite"></div>
+
+<!-- BOTTOM NAV -->
+<nav class="bottom-nav" aria-label="Mobile navigation">
+  <button class="bottom-nav-item active" onclick="showPage('home');setActiveNav(this)" aria-label="Home">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+    Home
+  </button>
+  <button class="bottom-nav-item" onclick="showPage('tools');setActiveNav(this)" aria-label="Tools">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></svg>
+    Tools
+  </button>
+  <button class="bottom-nav-item" onclick="showPage('search');setActiveNav(this)" aria-label="Search">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+    Search
+  </button>
+  <button class="bottom-nav-item" onclick="showPage('submit');setActiveNav(this)" aria-label="Submit">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="16"/><line x1="8" y1="12" x2="16" y2="12"/></svg>
+    Submit
+  </button>
+  <button class="bottom-nav-item" onclick="showPage('auth-login');setActiveNav(this)" aria-label="Profile">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+    Profile
+  </button>
+</nav>
+
+<!-- ════════════════════════════════════════
+     DATA & LOGIC
+════════════════════════════════════════ -->
+<script>
+// ─── DATA ──────────────────────────────────────
+const CATEGORIES = [
+  { id:'look-ahead', name:'Look Ahead', icon:'🔭', desc:'Understand what you need to do to bring your idea to life.' },
+  { id:'develop-plan', name:'Develop a Clear Plan', icon:'📋', desc:'Map out how to grow your idea into something bigger.' },
+  { id:'clarify', name:'Clarify My Priorities', icon:'🎯', desc:'Focus on the key critical issues that matter most.' },
+  { id:'collect-inputs', name:'Collect Inputs from Others', icon:'💬', desc:'Uncover perspectives and insights from the people around you.' },
+  { id:'know-people', name:'Know the People I\'m Working With', icon:'🤝', desc:'Better understand and define who you are trying to reach.' },
+  { id:'generate-ideas', name:'Generate New Ideas', icon:'💡', desc:'Think differently and work together to spark new approaches.' },
+  { id:'test-improve', name:'Test and Improve', icon:'🔬', desc:'Collect useful feedback and understand what\'s most effective.' },
+  { id:'sustain', name:'Sustain & Implement', icon:'🚀', desc:'Execute your plan and grow what you do.' }
+];
+
+const TOOLKITS = [
+  // LOOK AHEAD
+  { id:1, slug:'innovation-flowchart', title:'Innovation Flowchart', category:'look-ahead', catName:'Look Ahead', intent:'understand what I need to do to bring my idea to life', tags:['planning','innovation','strategy'], difficulty:'Beginner', involvement:'Works best alone, around an hour', downloads:312, rating:4.2, ratingCount:18, desc:'A step-by-step visual guide that helps you map the journey from raw idea to actionable innovation, identifying key milestones and decisions along the way.', descWhat:'The Innovation Flowchart is a practical visual tool that guides you through the complex process of turning an idea into a workable innovation. It breaks down the journey into clear stages — from initial concept through research, prototyping, testing, and implementation — helping you see the full path ahead before you take your first step. By mapping out the process visually, you gain a clear sense of what resources, skills, and decisions will be required at each stage, reducing uncertainty and building confidence in your approach.', descHow:'Start by writing your idea in the center of the flowchart. Then work through each branch systematically: identify what problem you are solving, who you are solving it for, what alternatives already exist, what resources you have, and what you still need. For each stage, mark what you know and what requires more research. Work alone or with a small team. Revisit the completed flowchart regularly as your project evolves — it serves as both a planning tool and a living reference document.' },
+  { id:2, slug:'evidence-planning', title:'Evidence Planning', category:'look-ahead', catName:'Look Ahead', intent:'define the outcomes from my work', tags:['outcomes','evidence','planning'], difficulty:'Intermediate', involvement:'Requires some dialogue, half a day', downloads:198, rating:4.0, ratingCount:11, desc:'A structured framework for defining measurable outcomes and building an evidence base that demonstrates the real-world impact of your work.', descWhat:'Evidence Planning helps you think rigorously about what success looks like for your work, and how you will know when you have achieved it. Rather than working backwards from outputs, this tool encourages you to start with outcomes — the tangible differences your work makes in people\'s lives — and then design the activities and measurements that will produce those outcomes. It is especially useful for NGOs and social enterprises that need to demonstrate impact to funders, partners, or communities.', descHow:'Begin by stating your long-term goal in one clear sentence. Then work backwards to identify intermediate outcomes, and the short-term changes that will contribute to them. For each outcome, brainstorm what evidence you would accept as proof that the change has occurred. Assign indicators, data sources, and responsible team members. Hold a half-day session with your core team to complete the framework collaboratively, incorporating diverse perspectives on what meaningful impact looks like.' },
+  // DEVELOP A CLEAR PLAN
+  { id:3, slug:'swot-analysis', title:'SWOT Analysis', category:'develop-plan', catName:'Develop a Clear Plan', intent:'evaluate how I am doing and what my options are', tags:['strategy','analysis','evaluation'], difficulty:'Beginner', involvement:'Works best alone or with small group', downloads:589, rating:4.4, ratingCount:34, desc:'A classic strategic framework that helps you evaluate Strengths, Weaknesses, Opportunities and Threats to make better decisions about your path forward.', descWhat:'The SWOT Analysis is one of the most widely used strategic planning tools in the world — and for good reason. By mapping internal strengths and weaknesses against external opportunities and threats, it gives you a balanced, honest picture of where you stand. When done well, a SWOT is not just a list of attributes — it generates insights by looking at how strengths can be leveraged to capture opportunities, or how weaknesses might leave you exposed to threats. It is a powerful conversation starter for teams and a clarity tool for individuals.', descHow:'Draw a 2×2 grid on paper or a whiteboard. Label the four quadrants: Strengths (internal positives), Weaknesses (internal negatives), Opportunities (external positives), Threats (external negatives). Spend 5–10 minutes brainstorming each quadrant independently, then review and discuss as a group. Look for connections: which strengths can help you seize which opportunities? Which weaknesses make which threats more dangerous? Identify 2–3 strategic priorities that emerge from the analysis.' },
+  { id:4, slug:'business-model-canvas', title:'Business Model Canvas', category:'develop-plan', catName:'Develop a Clear Plan', intent:'grow my idea into something bigger', tags:['business','model','growth'], difficulty:'Advanced', involvement:'More complex tool, needs consultation over a few days', downloads:724, rating:4.6, ratingCount:52, desc:'The globally recognised one-page framework for describing, designing, and challenging business models — adapted for creative organisations and NGOs.', descWhat:'The Business Model Canvas provides a shared language for describing, visualising, and assessing business models. It maps nine fundamental building blocks: Customer Segments, Value Propositions, Channels, Customer Relationships, Revenue Streams, Key Resources, Key Activities, Key Partnerships, and Cost Structure. For creative organisations and NGOs, the canvas is adapted to account for non-financial value, mission alignment, and community relationships — making it as relevant for social enterprises as for commercial ventures.', descHow:'Start with your Value Proposition — what problem are you solving and for whom? Then map your Customer Segments (or beneficiary groups), followed by the Channels through which you reach them. Work through Customer Relationships, Revenue Streams, Key Activities, Key Resources, and Key Partners. Finally, map your Cost Structure. Complete the canvas in a facilitated workshop with your leadership team over one or two days. Use sticky notes so you can easily revise and iterate.' },
+  { id:5, slug:'building-partnerships-map', title:'Building Partnerships Map', category:'develop-plan', catName:'Develop a Clear Plan', intent:'identify other groups working on the same issue', tags:['partnerships','mapping','collaboration'], difficulty:'Intermediate', involvement:'Requires dialogue with colleagues', downloads:234, rating:3.9, ratingCount:14, desc:'A visual mapping tool that helps you identify, evaluate, and plan for strategic partnerships with organisations that share your goals.', descWhat:'Partnerships are often the difference between good work and great work. The Building Partnerships Map helps you take a systematic look at the landscape of organisations and individuals working on similar issues, identifying where your interests overlap and where collaboration could multiply impact. It goes beyond a simple stakeholder list to examine the nature and depth of relationships, the potential for joint working, and the conditions needed for successful partnership.', descHow:'Start by placing your organisation at the centre of a large piece of paper. Draw circles radiating outward representing proximity of relationship — close partners, known organisations, and peripheral actors. Plot organisations and individuals across the map based on current relationship strength. Then use a second colour to indicate where you believe deeper partnerships could benefit both parties. For each potential partnership, note what both parties would gain and what would need to be true for it to work.' },
+  { id:6, slug:'learning-loop', title:'Learning Loop', category:'develop-plan', catName:'Develop a Clear Plan', intent:'improve upon what I\'ve done before', tags:['learning','iteration','improvement'], difficulty:'Beginner', involvement:'Works best alone', downloads:156, rating:4.1, ratingCount:9, desc:'A reflective practice tool that helps you build continuous learning into your work cycle, ensuring each project makes you more effective.', descWhat:'The Learning Loop is grounded in the principles of reflective practice and action learning. It provides a simple but powerful framework for systematically learning from experience — moving through cycles of Plan, Act, Observe, and Reflect. Rather than treating each project as a one-off, the Learning Loop helps you identify patterns, build institutional knowledge, and continuously improve your practice. It is especially valuable for practitioners who work on iterative projects or who want to build a culture of learning in their organisations.', descHow:'After completing a project or significant phase of work, set aside one to two hours for a Learning Loop session. Work through four questions: What did you plan to do and why? What actually happened? What have you learned from the difference? What will you do differently next time? Record your answers clearly and store them in a shared space where future team members can access them. Revisit previous Learning Loops at the start of similar projects.' },
+  // CLARIFY MY PRIORITIES
+  { id:7, slug:'experience-tour', title:'Experience Tour', category:'clarify', catName:'Clarify My Priorities', intent:'learn from first hand experiences', tags:['research','fieldwork','empathy'], difficulty:'Intermediate', involvement:'Requires field time, half to full day', downloads:189, rating:4.3, ratingCount:16, desc:'A structured field research method that takes you out of the office and into the lived experience of the people you are working for.', descWhat:'The Experience Tour is an immersive research method inspired by ethnography and design thinking. It challenges practitioners to step out of familiar environments and spend time in the spaces, contexts, and situations of the people they serve. Unlike interviews or focus groups, the Experience Tour generates insights from direct observation and embodied participation — revealing tacit knowledge, invisible barriers, and unspoken needs that other methods miss.', descHow:'Identify two or three locations or contexts that are relevant to your work. Plan visits of at least two hours each. Before you go, develop a set of open observation questions — not survey questions, but lenses to guide your attention. During the visit, observe and participate as much as possible, taking photos (with permission), field notes, and audio recordings. Debrief with your team immediately after each visit while memories are fresh. Synthesise findings across visits to identify patterns and insights.' },
+  { id:8, slug:'problem-definition', title:'Problem Definition', category:'clarify', catName:'Clarify My Priorities', intent:'focus on key critical issues', tags:['problem','definition','focus'], difficulty:'Beginner', involvement:'Works alone or small group', downloads:445, rating:4.5, ratingCount:28, desc:'A structured approach to defining and reframing problems so you can be confident you are solving the right issue before investing resources in solutions.', descWhat:'One of the most common mistakes in design, social change, and business is solving the wrong problem. Problem Definition is a discipline — not just a step — that ensures you deeply understand the issue before jumping to solutions. This toolkit guides you through techniques for unpacking assumptions, reframing challenges, and arriving at a crisp, actionable problem statement that reflects the real needs of the people you are working with. A well-defined problem is already half solved.', descHow:'Begin by writing your initial problem statement. Then apply three lenses: ask "why" five times to get to root causes; ask "who is really affected and how?" to centre lived experience; and ask "what if the opposite were true?" to challenge assumptions. Rewrite your problem statement after each lens. Finally, test your refined problem statement with two or three people from the affected community to see if it resonates. The final problem statement should be specific, human-centred, and free of embedded solutions.' },
+  { id:9, slug:'causes-diagram', title:'Causes Diagram', category:'clarify', catName:'Clarify My Priorities', intent:'break down a complex issue', tags:['analysis','causes','systems'], difficulty:'Intermediate', involvement:'Requires dialogue, few hours', downloads:267, rating:4.0, ratingCount:19, desc:'A systems-thinking tool that helps you map the causes and contributing factors behind a complex problem, revealing where intervention will have the most impact.', descWhat:'Complex social problems rarely have single causes — they are the result of interconnected systems, historical patterns, and reinforcing loops. The Causes Diagram (also known as a causal loop diagram or fishbone diagram) helps you map this complexity visually, identifying root causes, contributing factors, and the relationships between them. By making the system visible, the diagram reveals leverage points — places in the system where a small change can produce large effects.', descHow:'Write the central problem in the middle of a large sheet of paper. Draw branches outward representing major contributing categories — often framed as People, Process, Environment, Resources, and Policy, though you can adapt these. Under each category, brainstorm contributing causes. Then look for connections between causes on different branches — draw dotted lines to show these links. Identify clusters where multiple causes converge, as these often represent high-leverage intervention points.' },
+  { id:10, slug:'theory-of-change', title:'Theory of Change', category:'clarify', catName:'Clarify My Priorities', intent:'define my goals and the path to reach them', tags:['strategy','impact','goals'], difficulty:'Intermediate', involvement:'Requires dialogue over a day', downloads:398, rating:4.4, ratingCount:25, desc:'A strategic planning framework that maps the causal pathway from your activities to your long-term goals, making your assumptions and logic explicit.', descWhat:'A Theory of Change is both a planning tool and a communication tool. It makes explicit your assumptions about how and why your work will lead to the changes you are seeking. By mapping the causal chain from inputs and activities through outputs, outcomes, and impact, it helps you test the logic of your approach, identify gaps, and communicate your strategy to others. Funders increasingly require a Theory of Change, but more importantly, it is an invaluable discipline for any organisation serious about creating lasting change.', descHow:'Start with your long-term goal — the change in the world you are ultimately working toward. Then ask: "What conditions must be in place for this to happen?" These are your outcomes. For each outcome, ask the same question again, working backwards until you reach your planned activities. For each causal link, write down your assumption about why this step will lead to the next. Review assumptions critically — which ones are best supported by evidence? Which are most uncertain? This reveals where you need more research or pilot testing.' },
+  // COLLECT INPUTS
+  { id:11, slug:'shadowing', title:'Shadowing', category:'collect-inputs', catName:'Collect Inputs from Others', intent:'observe and learn from everyday life', tags:['research','observation','empathy'], difficulty:'Intermediate', involvement:'Field-based, half to full day', downloads:143, rating:3.8, ratingCount:8, desc:'An immersive observation method where you accompany people through their daily routines to understand their lived experience from the inside.', descWhat:'Shadowing is a qualitative research technique drawn from ethnography and service design. Unlike interviews that rely on what people say, shadowing focuses on what people do — capturing the gap between stated preferences and actual behaviour, and revealing the informal workarounds, pain points, and moments of delight that shape daily experience. It generates rich, contextual data that cannot be captured by surveys or focus groups alone.', descHow:'Identify one to three people whose experience is directly relevant to your work. Explain the purpose of the shadowing session and obtain informed consent, including consent for photos or audio recording. Spend at least two to four hours following each person through a typical work or daily routine. Focus on observing, not interpreting — take detailed field notes on what you see, hear, and sense. After the session, spend 30 minutes debriefing with your subject to check your observations and ask about anything you did not understand. Synthesise findings across sessions.' },
+  { id:12, slug:'interview-guide', title:'Interview Guide', category:'collect-inputs', catName:'Collect Inputs from Others', intent:'uncover their perspective in a conversation', tags:['interview','research','qualitative'], difficulty:'Beginner', involvement:'One-on-one, 1-2 hours per session', downloads:512, rating:4.5, ratingCount:38, desc:'A practical framework for planning and conducting qualitative research interviews that uncover deep insights, not just surface-level answers.', descWhat:'A good interview is a disciplined art. The Interview Guide helps you design, prepare for, and conduct qualitative interviews that generate genuine insight rather than confirmation of what you already think. It covers question design, sequencing, active listening techniques, and ways to probe beneath surface answers. The guide is built around the principle that the best interviews feel like natural conversations — but are actually carefully structured to surface specific types of information.', descHow:'Start by clarifying your research question — what do you most need to learn? Then design five to seven open-ended questions that approach this question from different angles, ordering them from general to specific. Include at least two probe questions for each main question (e.g. "Can you give me an example?" or "What did you do next?"). Practice the interview with a colleague first. During the real interview, listen more than you speak, tolerate silence, and follow up on unexpected threads. Transcribe or review recordings within 24 hours while details are fresh.' },
+  { id:13, slug:'question-ladder', title:'Question Ladder', category:'collect-inputs', catName:'Collect Inputs from Others', intent:'get to the heart of what motivates people', tags:['questions','motivation','insight'], difficulty:'Beginner', involvement:'Works alone, under an hour', downloads:287, rating:4.2, ratingCount:21, desc:'A systematic question-building tool that helps you move from surface-level observations to deep motivational insights.', descWhat:'The Question Ladder is a structured technique for improving the quality of your questions. It works on the principle that most initial questions are too shallow, too closed, or too focused on problems rather than possibilities. By climbing a ladder from observable facts through behaviours, attitudes, and values to deep motivations, you progressively reach the level of insight that drives real understanding and enables genuinely useful responses. The technique is useful both for research and for facilitation.', descHow:'Start with your initial question written at the bottom of the ladder. Ask yourself: "Is this question about what people do, think, feel, or believe?" Then rewrite the question one rung higher each time, moving from observable behaviours toward underlying motivations. At the top of the ladder, you should have a question that opens up values, beliefs, and aspirations. Use the bottom questions for surveys, the middle for interviews, and the top for in-depth dialogue sessions.' },
+  { id:14, slug:'storyworld', title:'Storyworld', category:'collect-inputs', catName:'Collect Inputs from Others', intent:'ensure my work is relevant to the people I\'m working for', tags:['storytelling','personas','relevance'], difficulty:'Intermediate', involvement:'Requires dialogue, half a day', downloads:178, rating:4.1, ratingCount:13, desc:'A narrative research method that uses storytelling to surface the context, relationships, and lived realities of the people you are designing for.', descWhat:'Storyworld is a qualitative research tool that harnesses the power of narrative to understand the complex social contexts in which people live and work. Rather than asking abstract questions, it invites participants to tell stories about specific situations, relationships, and experiences. Stories reveal the texture of lived experience — the tensions, trade-offs, and small victories that shape everyday life. This makes Storyworld especially valuable for understanding communities whose experiences differ significantly from those of the researcher.', descHow:'Invite four to eight participants who represent the diversity of your target community. Begin with a warm-up exercise where everyone shares a short, positive story related to the topic. Then introduce a set of story prompts related to your research questions — for example, "Tell me about a time when you felt supported in your work" or "Describe a typical Tuesday in your life." Facilitate a discussion drawing connections across stories. Look for shared themes, contrasting experiences, and surprising details.' },
+  // KNOW THE PEOPLE
+  { id:15, slug:'people-connections-map', title:'People & Connections Map', category:'know-people', catName:'Know the People I\'m Working With', intent:'clarify relationships between stakeholders', tags:['stakeholders','mapping','relationships'], difficulty:'Intermediate', involvement:'Requires dialogue, few hours', downloads:234, rating:4.0, ratingCount:15, desc:'A visual mapping tool that helps you understand the network of people, organisations, and relationships around your work.', descWhat:'The People & Connections Map brings clarity to the often complex web of stakeholders, partners, beneficiaries, and influencers surrounding a project or organisation. By mapping relationships visually, it helps teams develop a shared understanding of who matters, how different actors relate to each other, and where the critical dependencies and power dynamics lie. It is particularly valuable at the start of a project or when entering a new community context.', descHow:'Place your organisation or project at the centre of a large sheet. Identify all relevant actors: direct beneficiaries, partner organisations, funders, government bodies, community leaders, competitors, and influencers. Plot each actor on the map based on their level of involvement (proximity to centre) and their attitude toward your work (position on a positive-negative axis if helpful). Draw lines between actors to show key relationships, using different line styles to indicate relationship quality. Use the completed map to identify gaps, risks, and opportunities.' },
+  { id:16, slug:'target-group', title:'Target Group', category:'know-people', catName:'Know the People I\'m Working With', intent:'better define who I am trying to reach', tags:['audience','targeting','segmentation'], difficulty:'Beginner', involvement:'Works alone or small group', downloads:367, rating:4.3, ratingCount:22, desc:'A foundational tool for precisely defining and understanding the primary group of people your work is designed to benefit.', descWhat:'Many projects fail not because the solution is wrong, but because the target group was never properly defined. The Target Group tool guides you through a process of moving from a vague general audience to a precisely defined primary beneficiary group — one that you can genuinely research, understand, and design for. A clear target group definition makes every subsequent decision — from communication to service design — much more grounded and effective.', descHow:'Start by writing your initial target group description. Then apply five lenses to deepen the definition: Geography (where do they live and work?), Demographics (age, gender, education, income), Psychographics (values, attitudes, aspirations), Behaviour (how do they currently address the problem?), and Context (what are the conditions and constraints of their lives?). For each lens, be as specific as possible, drawing on real research where you have it. Revisit and refine the definition as you learn more from research.' },
+  { id:17, slug:'personas', title:'Personas', category:'know-people', catName:'Know the People I\'m Working With', intent:'visualise their key characteristics', tags:['personas','user research','design'], difficulty:'Intermediate', involvement:'Requires input from others, half a day', downloads:421, rating:4.4, ratingCount:31, desc:'Research-based fictional profiles that bring your target users to life, helping teams make more empathetic and user-centred decisions.', descWhat:'Personas are research-based composite profiles of your key user groups that translate abstract research findings into vivid, relatable characters. A well-crafted persona includes a name, photo, biographical details, day-in-the-life description, goals, frustrations, and relevant behaviours. Personas serve as a shared reference point for teams — making it easier to ask "What would Maria do?" rather than debating abstractions. They are most powerful when grounded in real research and revisited regularly.', descHow:'Begin by reviewing all your research data — interviews, observations, surveys. Identify patterns and cluster users into two to four distinct groups based on shared behaviours, needs, and contexts. For each cluster, create a one-page persona: give them a name and find a representative photo, write a brief biographical sketch, describe their relationship to the problem you are solving, identify their primary goals and biggest frustrations, and add two or three direct quotes from your research. Display personas prominently in your workspace.' },
+  { id:18, slug:'promises-potential-map', title:'Promises & Potential Map', category:'know-people', catName:'Know the People I\'m Working With', intent:'define how my offering is new to them', tags:['value proposition','positioning','audience'], difficulty:'Intermediate', involvement:'Requires dialogue', downloads:156, rating:3.9, ratingCount:10, desc:'A value proposition tool that helps you articulate what is genuinely new, different, and meaningful about what you offer to your audience.', descWhat:'The Promises & Potential Map helps you define your value proposition in terms that are genuinely meaningful to your target audience, not just to your own team. It challenges you to distinguish between what you promise (the explicit commitments you make to your audience) and the underlying potential (the deeper transformation or aspiration those promises tap into). By mapping these two dimensions, you can craft communications and offerings that resonate more deeply.', descHow:'Start by listing all the explicit promises you currently make to your audience — what you say you will deliver. Then, for each promise, ask: "What deeper aspiration or potential does this promise tap into?" Map promises on one axis and potential on another. Look for gaps: Are there important aspirations you could be addressing that your current promises do not reach? Are there promises that do not connect to meaningful potential? Use the map to redesign your value proposition and communications.' },
+  // GENERATE IDEAS
+  { id:19, slug:'creative-workshop', title:'Creative Workshop', category:'generate-ideas', catName:'Generate New Ideas', intent:'work together with people who experience and solve problems', tags:['workshop','ideation','co-design'], difficulty:'Advanced', involvement:'Group session, full day', downloads:289, rating:4.5, ratingCount:27, desc:'A full facilitation guide for running collaborative ideation workshops that bring together diverse perspectives to generate breakthrough solutions.', descWhat:'The Creative Workshop guide provides everything you need to design and facilitate a high-quality collaborative ideation session. Drawing on principles from design thinking, co-design, and participatory action research, it covers room setup, warm-up exercises, ideation methods, synthesis techniques, and ways to ensure equitable participation. The guide recognises that the best ideas emerge from the intersection of diverse perspectives — especially when those perspectives include the people who will be affected by any solution.', descHow:'Plan at least six weeks in advance. Define your challenge question carefully — it should be specific enough to focus energy but open enough to allow creative responses. Invite eight to fifteen participants representing diverse roles, backgrounds, and perspectives, including people with lived experience of the problem. Design a sequence of activities: warm-up, context-sharing, divergent ideation, convergent selection, and prototyping. Provide a skilled facilitator who can hold the space, manage energy, and ensure all voices are heard.' },
+  { id:20, slug:'fast-idea-generator', title:'Fast Idea Generator', category:'generate-ideas', catName:'Generate New Ideas', intent:'think differently', tags:['ideation','creativity','brainstorming'], difficulty:'Beginner', involvement:'Works alone or group, under an hour', downloads:456, rating:4.3, ratingCount:29, desc:'A rapid brainstorming technique that breaks habitual thinking patterns and generates a large volume of diverse ideas in a short time.', descWhat:'The Fast Idea Generator is based on the principle that quantity enables quality — that generating a large number of diverse ideas is the most reliable path to finding truly innovative solutions. It combines several proven creativity techniques (random stimulus, assumption reversal, analogical thinking) into a rapid-fire sequence that systematically disrupts habitual thinking patterns and forces your brain into unfamiliar territory. The tool is deliberately fast-paced to prevent over-analysis during the generative phase.', descHow:'Set a timer for 45 minutes. Work through five rounds of five minutes each, generating as many ideas as possible in response to different prompts: Round 1 — conventional ideas; Round 2 — ideas from adjacent industries; Round 3 — what if you reversed a key assumption?; Round 4 — what if budget were unlimited?; Round 5 — what if the problem were completely different? Write every idea down without evaluation. After all rounds, review all ideas and identify the three most interesting for further development.' },
+  { id:21, slug:'thinking-hats', title:'Thinking Hats', category:'generate-ideas', catName:'Generate New Ideas', intent:'frame a constructive discussion with my team', tags:['decision making','discussion','team'], difficulty:'Intermediate', involvement:'Group session, few hours', downloads:334, rating:4.2, ratingCount:24, desc:'Edward de Bono\'s classic parallel thinking technique that helps teams explore issues from multiple perspectives and reach better collective decisions.', descWhat:'The Six Thinking Hats technique, developed by Edward de Bono, provides a structured way for teams to explore issues without falling into the traps of ego-driven debate, groupthink, or premature closure. Each hat represents a different mode of thinking: White (data and facts), Red (emotions and intuition), Black (caution and critique), Yellow (optimism and benefits), Green (creativity and alternatives), and Blue (process and facilitation). By separating these modes of thinking, teams can be more thorough and less conflictual in their discussions.', descHow:'Introduce the six hats and their meanings to the group. Present the topic or decision to be explored. Work through each hat in sequence, spending five to ten minutes on each: start with White to establish facts, then Red to acknowledge feelings, Blue to clarify the process, Green for creative alternatives, Yellow for positive aspects, and Black for critical concerns. Ensure everyone contributes to each hat, even if it feels unnatural. Conclude with a Blue hat review to summarise insights and next steps.' },
+  { id:22, slug:'value-mapping', title:'Value Mapping', category:'generate-ideas', catName:'Generate New Ideas', intent:'align our work based on shared values', tags:['values','alignment','strategy'], difficulty:'Intermediate', involvement:'Requires group dialogue', downloads:212, rating:4.0, ratingCount:16, desc:'A facilitated dialogue tool for surfacing, discussing, and aligning the values that guide your team or organisation\'s work.', descWhat:'Value Mapping is more than a team-building exercise — it is a strategic alignment tool. When teams and organisations have different (or unexplored) values, those differences create friction, misalignment, and inconsistency. Value Mapping creates a structured space for surfacing individual values, finding shared ground, and making collective commitments about how those values will be expressed in day-to-day work. It is particularly valuable for new teams, cross-cultural partnerships, and organisations going through change.', descHow:'Begin with an individual exercise: ask each participant to write down their five most important values (personal or professional) on separate cards, without discussion. Then share and group similar values on a large surface. Facilitate a discussion around the clusters: What do these values mean to different people? Where is there genuine alignment? Where are there tensions? From the discussion, identify three to five shared values that the team commits to, and for each, discuss what living that value looks like in practice.' },
+  // TEST AND IMPROVE
+  { id:23, slug:'improvement-triggers', title:'Improvement Triggers', category:'test-improve', catName:'Test and Improve', intent:'understand what is most effective in my work', tags:['evaluation','improvement','effectiveness'], difficulty:'Intermediate', involvement:'Works alone, few hours', downloads:167, rating:4.1, ratingCount:12, desc:'A reflective evaluation tool that helps you systematically identify what is working, what is not, and what needs to change to improve effectiveness.', descWhat:'Improvement Triggers is a systematic self-evaluation tool that goes beyond simple reflection to identify specific, actionable changes that will improve effectiveness. It is built around the idea that improvement requires not just knowing what is working and what is not, but understanding why — and then designing targeted interventions to shift the conditions that are holding performance back. The tool works well for both individual practitioners and small teams.', descHow:'Set aside two to three hours for an honest evaluation session. Work through four sections: Performance Review (what did you set out to achieve and what happened?), Root Cause Analysis (for areas where performance fell short, why did that happen?), Bright Spots (what worked better than expected, and why?), and Improvement Actions (specific, measurable changes you will make). For each improvement action, assign a responsible person, a timeline, and a way to measure whether the change has worked.' },
+  { id:24, slug:'prototype-testing-plan', title:'Prototype Testing Plan', category:'test-improve', catName:'Test and Improve', intent:'collect useful feedback at different phases', tags:['testing','prototype','feedback'], difficulty:'Intermediate', involvement:'Requires engagement with others', downloads:198, rating:4.2, ratingCount:18, desc:'A structured framework for planning and conducting prototype tests that generate actionable feedback at every stage of development.', descWhat:'Testing prototypes — whether of products, services, programmes, or communications — is only valuable if it is done in a way that generates honest, specific, and actionable feedback. The Prototype Testing Plan helps you design tests that are appropriate to the current stage of development, avoid common biases, and produce insights that actually inform the next iteration. It covers test design, participant recruitment, facilitation, and synthesis.', descHow:'Start by defining what you are testing and at what fidelity — a concept sketch, a working prototype, or a near-final product each requires a different approach. Define your key learning questions: what specific things do you need to find out? Design tasks that will generate observable evidence about those questions — not abstract feedback requests. Recruit participants who represent your target users. After testing, synthesise findings using an affinity diagram, grouping observations into themes. Prioritise which themes to act on based on frequency and severity.' },
+  { id:25, slug:'experience-map', title:'Experience Map', category:'test-improve', catName:'Test and Improve', intent:'create an overview of how I engage with stakeholders', tags:['journey map','experience','stakeholders'], difficulty:'Intermediate', involvement:'Requires dialogue, half a day', downloads:289, rating:4.3, ratingCount:21, desc:'A visualisation tool that maps the full journey of your stakeholders\' experience, revealing pain points and opportunities for improvement.', descWhat:'An Experience Map is a visual representation of the end-to-end journey that a person goes through when engaging with your organisation, programme, or service. Unlike a process map (which focuses on your systems), an Experience Map centres the human journey — capturing what people do, think, and feel at each stage. By making the full experience visible, it enables teams to identify inconsistencies, pain points, and moments that matter most.', descHow:'Choose one primary stakeholder group to map. Identify the key stages of their journey from initial awareness through engagement to ongoing relationship. For each stage, document: What is the person doing? What are they thinking? What are they feeling? What channels or touchpoints are they using? Validate your map with real stakeholders — either through interviews or a collaborative mapping session. Identify the highest-priority pain points and design targeted improvements.' },
+  { id:26, slug:'blueprint', title:'Blueprint', category:'test-improve', catName:'Test and Improve', intent:'craft a detailed overview of operations and resources', tags:['operations','service design','planning'], difficulty:'Advanced', involvement:'Complex tool, multi-day with team', downloads:145, rating:4.0, ratingCount:11, desc:'A comprehensive service design tool that maps both visible and invisible components of your operations to optimise delivery and resource use.', descWhat:'A Service Blueprint is the most detailed mapping tool in the service design toolkit. Unlike an Experience Map (which focuses on the user) or a process map (which focuses on internal workflows), a Blueprint integrates both perspectives — showing how visible customer interactions are supported by invisible backstage processes and infrastructure. It is invaluable for organisations that want to improve operational efficiency, ensure consistency, or redesign complex services.', descHow:'Start with your Experience Map if you have one. Add a layer below the user journey showing the "line of interaction" (points where users directly engage with your organisation). Below that, add the "line of visibility" separating what users see from what happens behind the scenes. Map all backstage activities that support each user interaction. Add a layer for supporting systems and tools. Identify failure points — where backstage processes are most likely to break down and affect the user experience. Prioritise these for improvement.' },
+  // SUSTAIN & IMPLEMENT
+  { id:27, slug:'marketing-mix', title:'Marketing Mix', category:'sustain', catName:'Sustain & Implement', intent:'better engage people that can benefit from my work', tags:['marketing','outreach','communications'], difficulty:'Intermediate', involvement:'Works alone or small group', downloads:345, rating:4.1, ratingCount:23, desc:'An adapted version of the classic 4Ps marketing framework, redesigned for creative organisations and NGOs working for social impact.', descWhat:'The Marketing Mix — traditionally framed as the 4Ps of Product, Price, Place, and Promotion — is a foundational strategic tool for thinking about how you bring your work to the people who need it. For creative organisations and NGOs, the framework is adapted to add Purpose and People, reflecting the importance of mission alignment and community relationships. By working through each element systematically, you can identify gaps in your current approach and develop a more coherent outreach strategy.', descHow:'Work through each element of the mix in turn: Product/Programme (what exactly are you offering and what problems does it solve?), Price/Access (what does it cost participants and how can you reduce barriers?), Place/Channels (where and how do you reach your audience?), Promotion/Communications (what messages resonate and which channels are most effective?), People (who delivers your work and how do they represent your values?), Purpose (how does your mission inform and differentiate your approach?). For each element, identify what is working well and what could be improved.' },
+  { id:28, slug:'critical-tasks-list', title:'Critical Tasks List', category:'sustain', catName:'Sustain & Implement', intent:'execute my plan without being overwhelmed', tags:['tasks','planning','execution'], difficulty:'Beginner', involvement:'Works alone, under an hour', downloads:523, rating:4.4, ratingCount:35, desc:'A simple but powerful prioritisation tool that helps you identify and focus on the handful of tasks that will make the biggest difference.', descWhat:'When you are managing a complex project, the sheer volume of tasks can be paralysing. The Critical Tasks List is a prioritisation method based on a simple but powerful insight: not all tasks are equal. A small number of tasks — usually three to five — will account for the majority of your results. By systematically identifying these critical tasks and protecting time for them, you can make dramatically more progress with the same or less effort. The tool is grounded in the Pareto Principle and research on high-performance work habits.', descHow:'List everything you need to do on a project or within the next week. Then apply three filters: Impact (how much will completing this task move you toward your goal?), Urgency (what are the consequences of not doing this today?), and Dependencies (are other tasks blocked until this is done?). Score each task on these three dimensions. Identify the top three to five highest-scoring tasks — these are your critical tasks. Schedule time for them first, before anything else. Review and reset your critical tasks list weekly.' },
+  { id:29, slug:'business-plan', title:'Business Plan', category:'sustain', catName:'Sustain & Implement', intent:'launch or grow what I do', tags:['business plan','launch','growth'], difficulty:'Advanced', involvement:'Complex, requires consultation over several days', downloads:612, rating:4.5, ratingCount:42, desc:'A comprehensive planning framework for social enterprises, creative organisations, and NGOs that want to build sustainable and scalable operations.', descWhat:'A Business Plan is more than a document for funders — it is a thinking tool that forces clarity about what you are doing, why it matters, who it is for, how you will deliver it, and how you will sustain it financially. This adapted framework is designed for social enterprises, creative organisations, and NGOs, incorporating both social impact and financial sustainability. It covers market analysis, theory of change, operational model, team and governance, financial projections, and risk management.', descHow:'Work through the plan in seven sections, spending time on each before moving to the next: Executive Summary, Problem and Solution, Market Analysis, Theory of Change, Operational Model, Team and Governance, and Financial Plan. Do not write the Executive Summary first — write it last, once you have clarity on everything else. For the Financial Plan, build at least three scenarios: conservative, baseline, and optimistic. Share drafts with trusted advisors and potential stakeholders to stress-test your assumptions before finalising.' },
+  { id:30, slug:'scaling-plan', title:'Scaling Plan', category:'sustain', catName:'Sustain & Implement', intent:'explore different ways to increase scale', tags:['scaling','growth','strategy'], difficulty:'Advanced', involvement:'Requires team dialogue, multi-day', downloads:178, rating:4.2, ratingCount:14, desc:'A strategic framework for evaluating and planning different pathways to scale your impact beyond your current geographic or operational reach.', descWhat:'Scaling impact is fundamentally different from scaling a commercial business, and many organisations get into difficulty by applying the wrong model. The Scaling Plan framework distinguishes between different approaches to scale — direct expansion, replication, influencing policy, building platforms, and creating movements — and helps organisations evaluate which approach (or combination) is most aligned with their model, values, and context. It also addresses the organisational capabilities and financial requirements of each scaling pathway.', descHow:'Begin by defining what you are trying to scale: your reach (more people), your depth (deeper impact), your breadth (new geographies), or your policy influence. Evaluate each of the five scaling pathways against your organisational strengths, financial model, and mission. For your chosen pathway, map the key milestones, resources, and capabilities needed over a three-to-five year horizon. Identify your biggest risks and how you will mitigate them. Review and update the plan annually as you learn from implementation.' }
+];
+
+const CASE_STUDIES = [
+  { id:1, title:'Using Theory of Change to Guide a Community Renewal Programme', toolkit:'Theory of Change', org:'Urban Futures Foundation', summary:'How a London-based NGO used the Theory of Change toolkit to restructure their five-year strategic plan, resulting in clearer outcomes and increased funder confidence.' },
+  { id:2, title:'Co-designing a Social Enterprise with the Business Model Canvas', toolkit:'Business Model Canvas', org:'Social Ventures Lab', summary:'A team of social entrepreneurs in Nairobi used the Business Model Canvas over three intensive days to pivot their water access venture, leading to their first major impact investment.' },
+  { id:3, title:'Running a Creative Workshop to Redesign a Youth Programme', toolkit:'Creative Workshop', org:'NextGen Creative Trust', summary:'An arts organisation facilitated a full-day co-design workshop with young participants and staff, generating 40+ ideas and a completely redesigned summer programme.' }
+];
+
+const CONTRIBUTORS = [
+  { name:'Amara Diallo', org:'Creative Futures Lab', toolkits:5, downloads:1240 },
+  { name:'Ben Okello', org:'Social Ventures KE', toolkits:4, downloads:980 },
+  { name:'Clara Medina', org:'Design Impact CL', toolkits:3, downloads:756 },
+  { name:'David Chen', org:'Innovation Commons', toolkits:3, downloads:645 },
+  { name:'Elena Rossi', org:'Makers for Change', toolkits:2, downloads:534 },
+  { name:'Fatima Hassan', org:'NGO Network Africa', toolkits:2, downloads:412 },
+  { name:'George Okonkwo', org:'Social Design Hub', toolkits:2, downloads:389 },
+  { name:'Hiroshi Tanaka', org:'Creative Lab Tokyo', toolkits:1, downloads:312 },
+  { name:'Isabel Santos', org:'Impact Studio BR', toolkits:1, downloads:278 },
+  { name:'James Mwangi', org:'Open Source Africa', toolkits:1, downloads:234 }
+];
+
+// ─── PAGE NAVIGATION ───────────────────────────
+function showPage(pageId) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  const pg = document.getElementById('page-' + pageId);
+  if (pg) {
+    pg.classList.add('active');
+    window.scrollTo(0, 0);
+  }
+  if (pageId === 'tools') renderToolsPage();
+  if (pageId === 'categories') renderCategoriesPage();
+  if (pageId === 'case-studies') renderCaseStudies();
+  if (pageId === 'community') renderCommunity();
+  if (pageId === 'admin') renderAdmin();
+  if (pageId === 'submit') initWizard();
+}
+
+function setActiveNav(el) {
+  document.querySelectorAll('.bottom-nav-item').forEach(b => b.classList.remove('active'));
+  el.classList.add('active');
+}
+
+// ─── FIND OVERLAY ──────────────────────────────
+function openFindOverlay() {
+  const overlay = document.getElementById('findOverlay');
+  overlay.classList.add('open');
+  document.body.style.overflow = 'hidden';
+  renderFindCategories();
+}
+function closeFindOverlay() {
+  document.getElementById('findOverlay').classList.remove('open');
+  document.body.style.overflow = '';
+}
+
+function renderFindCategories() {
+  const container = document.getElementById('findCategories');
+  container.innerHTML = CATEGORIES.map(cat => {
+    const tools = TOOLKITS.filter(t => t.category === cat.id);
+    return `<div class="find-category">
+      <div class="find-cat-header">
+        <div class="find-cat-icon" aria-hidden="true">${cat.icon}</div>
+        <div class="find-cat-name">${cat.name}</div>
+      </div>
+      <div class="find-sep"></div>
+      ${tools.map(t => `<div class="find-tool-item" onclick="closeFindOverlay();openToolDetail('${t.slug}')" role="button" tabindex="0">
+        <div class="find-tool-intent">…${t.intent}.</div>
+        <div class="find-tool-name">${t.title}</div>
+      </div>`).join('')}
+    </div>`;
+  }).join('');
+}
+
+// ─── TOOL CARD ─────────────────────────────────
+function renderToolCard(t, clickable = true) {
+  const onclick = clickable ? `onclick="openToolDetail('${t.slug}')"` : '';
+  return `<article class="tool-card" ${onclick} role="${clickable ? 'button' : 'article'}" tabindex="${clickable ? '0' : '-1'}">
+    <div class="tool-card-img-placeholder">
+      <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="#D1D5DB" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg>
+      <div class="tool-card-badge-wrap"><span class="badge badge-red">${t.catName}</span></div>
+    </div>
+    <div class="tool-card-body">
+      <div class="tool-card-name">${t.title}</div>
+      <p class="tool-card-desc">${t.desc}</p>
+      <div class="tool-card-tags">${t.tags.slice(0,3).map(tag => `<span class="tag-pill">${tag}</span>`).join('')}</div>
+      <div class="tool-card-footer">
+        <div class="tool-card-stats">
+          <span class="tool-card-stat"><span>⭐</span> ${t.rating.toFixed(1)}</span>
+          <span class="tool-card-stat"><span>⬇</span> ${t.downloads}</span>
+          <span class="badge ${t.difficulty === 'Beginner' ? 'badge-green' : t.difficulty === 'Advanced' ? 'badge-red' : 'badge-gray'}">${t.difficulty}</span>
+        </div>
+        <button class="bookmark-btn" onclick="event.stopPropagation();showToast('Login required to save toolkits')" aria-label="Save ${t.title}">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m19 21-7-4-7 4V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v16z"/></svg>
+        </button>
+      </div>
+    </div>
+  </article>`;
+}
+
+// ─── HOME PAGE RENDER ──────────────────────────
+function renderHome() {
+  // Featured tools (first 6)
+  const featured = TOOLKITS.slice(0, 6);
+  document.getElementById('featuredTools').innerHTML = featured.map(t => renderToolCard(t)).join('');
+
+  // Category grid
+  document.getElementById('catGrid').innerHTML = CATEGORIES.map(cat => {
+    const count = TOOLKITS.filter(t => t.category === cat.id).length;
+    return `<div class="cat-card" onclick="showPage('categories')" role="button" tabindex="0">
+      <div class="cat-card-icon" aria-hidden="true">${cat.icon}</div>
+      <div class="cat-card-name">${cat.name}</div>
+      <div class="cat-card-count">${count} toolkit${count !== 1 ? 's' : ''}</div>
+      <a class="cat-card-link" href="#">See all tools →</a>
+    </div>`;
+  }).join('');
+
+  // Recent tools (last 3)
+  const recent = TOOLKITS.slice(-3);
+  document.getElementById('recentTools').innerHTML = recent.map(t => renderToolCard(t)).join('');
+}
+
+// ─── TOOLS PAGE ────────────────────────────────
+let filteredTools = [...TOOLKITS];
+
+function renderToolsPage() {
+  // Category filter checkboxes
+  const catFilterContainer = document.getElementById('catFilters');
+  if (catFilterContainer && !catFilterContainer.hasChildNodes()) {
+    catFilterContainer.innerHTML = CATEGORIES.map(c => `
+      <label class="filter-item"><input type="checkbox" value="${c.id}" onchange="filterTools()" class="cat-filter" /> <span>${c.name}</span></label>
+    `).join('');
+  }
+  filterTools();
+}
+
+function filterTools() {
+  const query = (document.getElementById('toolSearchInput')?.value || '').toLowerCase();
+  const selectedCats = Array.from(document.querySelectorAll('.cat-filter:checked')).map(el => el.value);
+  const selectedDiffs = Array.from(document.querySelectorAll('.diff-filter:checked')).map(el => el.value);
+
+  filteredTools = TOOLKITS.filter(t => {
+    const matchQuery = !query || t.title.toLowerCase().includes(query) || t.desc.toLowerCase().includes(query) || t.tags.some(tag => tag.includes(query));
+    const matchCat = selectedCats.length === 0 || selectedCats.includes(t.category);
+    const matchDiff = selectedDiffs.length === 0 || selectedDiffs.includes(t.difficulty);
+    return matchQuery && matchCat && matchDiff;
+  });
+
+  const sort = document.querySelector('input[name="sort"]:checked')?.value || 'popular';
+  if (sort === 'popular') filteredTools.sort((a, b) => b.downloads - a.downloads);
+  else if (sort === 'rated') filteredTools.sort((a, b) => b.rating - a.rating);
+
+  const grid = document.getElementById('toolsGrid');
+  const count = document.getElementById('toolsCount');
+  if (count) count.textContent = `${filteredTools.length} toolkit${filteredTools.length !== 1 ? 's' : ''} found`;
+  if (grid) {
+    if (filteredTools.length === 0) {
+      grid.innerHTML = `<div class="empty-state" style="grid-column:1/-1;">
+        <h3>No toolkits found</h3>
+        <p>Try adjusting your search or filters.</p>
+        <button class="btn btn-red" style="margin-top:1rem;" onclick="clearFilters()">Clear Filters</button>
+      </div>`;
+    } else {
+      grid.innerHTML = filteredTools.map(t => renderToolCard(t)).join('');
+    }
+  }
+}
+
+function clearFilters() {
+  document.getElementById('toolSearchInput').value = '';
+  document.querySelectorAll('.cat-filter,.diff-filter').forEach(el => el.checked = false);
+  document.querySelector('input[name="sort"][value="popular"]').checked = true;
+  filterTools();
+}
+
+// ─── TOOL DETAIL ───────────────────────────────
+function openToolDetail(slug) {
+  const tool = TOOLKITS.find(t => t.slug === slug);
+  if (!tool) return;
+  showPage('tool-detail');
+
+  const relatedTools = TOOLKITS.filter(t => t.category === tool.category && t.slug !== tool.slug).slice(0, 4);
+
+  document.getElementById('toolDetailContent').innerHTML = `
+    <div class="breadcrumb">
+      <a href="#" onclick="showPage('home')">HOME</a>
+      <span class="breadcrumb-sep">›</span>
+      <a href="#" onclick="showPage('tools')">TOOLS</a>
+      <span class="breadcrumb-sep">›</span>
+      <span>${tool.title.toUpperCase()}</span>
+    </div>
+
+    <p class="intent-stmt"><strong>I want to</strong> ${tool.catName.toLowerCase()} ${tool.intent}.</p>
+    <h1 class="tool-title">${tool.title}</h1>
+
+    <div class="tool-cover-placeholder">
+      <svg width="80" height="80" viewBox="0 0 24 24" fill="none" stroke="#D1D5DB" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg>
+    </div>
+
+    <div class="download-section">
+      <button class="download-btn" onclick="toggleDownload()" aria-expanded="false" id="dlBtn">
+        ⬇ DOWNLOAD TOOLKIT <span id="dlArrow">▾</span>
+      </button>
+      <div class="download-options" id="downloadOptions">
+        <p>English Version</p>
+        <div class="download-links">
+          <a class="download-link" href="#" onclick="showToast('Downloading A4 PDF…');return false;">A4</a>
+          <a class="download-link" href="#" onclick="showToast('Downloading A3 PDF…');return false;">A3</a>
+          <a class="download-link" href="#" onclick="showToast('Downloading A2 PDF…');return false;">A2</a>
+          <a class="download-link" href="#" onclick="showToast('Downloading A1 PDF…');return false;">A1</a>
+        </div>
+        <p style="margin-top:0.75rem;">Digital Worksheet</p>
+        <div class="download-links">
+          <a class="download-link" href="#" onclick="showToast('Opening Miro board…');return false;">Open in Miro</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="tool-meta">
+      <div class="meta-row">
+        <span class="badge badge-red">${tool.catName}</span>
+        <span class="badge ${tool.difficulty === 'Beginner' ? 'badge-green' : tool.difficulty === 'Advanced' ? 'badge-red' : 'badge-gray'}">${tool.difficulty}</span>
+      </div>
+      <div class="tool-card-tags" style="margin:0.5rem 0;">
+        ${tool.tags.map(tag => `<span class="tag-pill" style="cursor:pointer;" onclick="showPage('search')">${tag}</span>`).join('')}
+      </div>
+      <div class="involvement-box">
+        <div class="involvement-label">Level of Involvement</div>
+        <p style="font-size:0.875rem;color:#374151;margin-top:0.25rem;">${tool.involvement}</p>
+      </div>
+    </div>
+
+    <div class="content-section">
+      <h3>What is it & why should I do it?</h3>
+      <p>${tool.descWhat}</p>
+    </div>
+
+    <div class="content-section">
+      <h3>How do I use it?</h3>
+      <p>${tool.descHow}</p>
+    </div>
+
+    <div class="interaction-row">
+      <div>
+        <div style="font-size:0.8rem;font-weight:600;margin-bottom:0.35rem;color:var(--medium-gray);">RATE THIS TOOL</div>
+        <div class="stars" role="group" aria-label="Rate this toolkit">
+          ${[1,2,3,4,5].map(i => `<span class="star ${i <= Math.round(tool.rating) ? 'active' : ''}" onclick="rateToolkit(${i})" role="button" tabindex="0" aria-label="${i} star${i!==1?'s':''}">★</span>`).join('')}
+        </div>
+        <div style="font-size:0.75rem;color:var(--medium-gray);margin-top:0.25rem;">${tool.rating.toFixed(1)} · ${tool.ratingCount} ratings</div>
+      </div>
+      <button class="btn btn-red" onclick="showToast('Login required to save toolkits')">
+        ♡ Save
+      </button>
+    </div>
+
+    <div class="share-row">
+      <button class="share-btn" onclick="showToast('Link copied!')">📋 Copy Link</button>
+      <button class="share-btn" onclick="showToast('Opening X/Twitter…')">𝕏 Share</button>
+      <button class="share-btn" onclick="showToast('Opening LinkedIn…')">in Share</button>
+    </div>
+
+    <div class="comments-section">
+      <h3 style="font-weight:700;margin-bottom:1rem;">Discussion (3)</h3>
+      <div class="comment-form" style="margin-bottom:1.5rem;">
+        <textarea placeholder="Add a comment… (login required)" style="width:100%;min-height:80px;padding:0.75rem;border:1px solid #D1D5DB;border-radius:4px;font-family:'Inter',sans-serif;font-size:0.9rem;resize:vertical;" onclick="showToast('Login required to comment')"></textarea>
+        <button class="btn btn-red" style="margin-top:0.5rem;" onclick="showToast('Login required to comment')">Post Comment</button>
+      </div>
+      ${[
+        { name:'Sarah K.', date:'3 days ago', text:'Used this with my team last week — really helped us get unstuck on a project we\'d been avoiding for months. Highly recommend the half-day format.' },
+        { name:'Marcus T.', date:'1 week ago', text:'Great tool. Would love to see a digital version of the worksheet that can be filled in collaboratively online.' },
+        { name:'Priya N.', date:'2 weeks ago', text:'This is exactly what I needed. Clear, practical, and not overwhelming. Shared it with three colleagues already.' }
+      ].map(c => `<div class="comment-item">
+        <div class="avatar" aria-hidden="true">${c.name[0]}</div>
+        <div class="comment-body">
+          <div class="comment-meta"><strong>${c.name}</strong> · ${c.date}</div>
+          <p class="comment-text">${c.text}</p>
+          <button style="background:none;border:none;color:var(--medium-gray);font-size:0.75rem;cursor:pointer;margin-top:0.25rem;font-family:'Inter',sans-serif;" onclick="showToast('Login required to reply')">Reply</button>
+        </div>
+      </div>`).join('')}
+    </div>
+
+    ${relatedTools.length > 0 ? `
+    <div style="margin-top:2rem;">
+      <h3 style="font-weight:700;margin-bottom:1rem;">Related Tools</h3>
+      <div class="scroll-row">${relatedTools.map(t => renderToolCard(t)).join('')}</div>
+    </div>` : ''}
+  `;
+}
+
+function toggleDownload() {
+  const opts = document.getElementById('downloadOptions');
+  const arrow = document.getElementById('dlArrow');
+  opts.classList.toggle('open');
+  arrow.textContent = opts.classList.contains('open') ? '▴' : '▾';
+}
+
+function rateToolkit(rating) {
+  document.querySelectorAll('.star').forEach((s, i) => {
+    s.classList.toggle('active', i < rating);
+  });
+  showToast(`Rated ${rating} star${rating !== 1 ? 's' : ''}! (Login required to save)`);
+}
+
+// ─── CATEGORIES PAGE ───────────────────────────
+function renderCategoriesPage() {
+  const grid = document.getElementById('bigCatGrid');
+  grid.style.cssText = 'display:grid;grid-template-columns:1fr;gap:1.25rem;';
+  if (window.innerWidth >= 600) grid.style.gridTemplateColumns = '1fr 1fr';
+  if (window.innerWidth >= 1024) grid.style.gridTemplateColumns = 'repeat(2,1fr)';
+
+  grid.innerHTML = CATEGORIES.map(cat => {
+    const tools = TOOLKITS.filter(t => t.category === cat.id);
+    return `<div class="big-cat-card" onclick="showPage('tools')" role="button" tabindex="0">
+      <div class="big-cat-num">${tools.length}</div>
+      <div class="big-cat-name">${cat.name}</div>
+      <p class="big-cat-desc">${cat.desc}</p>
+      <ul class="big-cat-tools">
+        ${tools.slice(0,4).map(t => `<li><a href="#" onclick="event.stopPropagation();openToolDetail('${t.slug}')">${t.title}</a></li>`).join('')}
+      </ul>
+      <a class="cat-card-link" href="#">See all ${tools.length} tools →</a>
+    </div>`;
+  }).join('');
+}
+
+// ─── CASE STUDIES ──────────────────────────────
+function renderCaseStudies() {
+  const grid = document.getElementById('caseStudiesGrid');
+  grid.innerHTML = CASE_STUDIES.map(cs => `
+    <div class="case-card" onclick="showToast('Full case study coming soon!')" role="button" tabindex="0">
+      <div class="case-card-img">
+        <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="#D1D5DB" stroke-width="1.5"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+      </div>
+      <div class="case-card-body">
+        <span class="badge badge-red">${cs.toolkit}</span>
+        <div class="case-card-title">${cs.title}</div>
+        <div class="case-card-org">${cs.org}</div>
+        <p class="case-card-summary">${cs.summary}</p>
+        <a class="read-more" href="#">Read more →</a>
+      </div>
+    </div>
+  `).join('');
+}
+
+// ─── COMMUNITY ─────────────────────────────────
+function renderCommunity() {
+  const lb = document.getElementById('leaderboard');
+  lb.innerHTML = CONTRIBUTORS.map((c, i) => `
+    <li>
+      <div class="leaderboard-rank">${i + 1}</div>
+      <div class="avatar" aria-hidden="true">${c.name[0]}</div>
+      <div class="leaderboard-info">
+        <div class="leaderboard-name">${c.name}</div>
+        <div class="leaderboard-org">${c.org}</div>
+      </div>
+      <div class="leaderboard-stats">${c.toolkits} toolkits<br>${c.downloads} downloads</div>
+    </li>
+  `).join('');
+
+  const ct = document.getElementById('communityTools');
+  ct.innerHTML = TOOLKITS.slice(-6).map(t => renderToolCard(t)).join('');
+}
+
+// ─── ADMIN ─────────────────────────────────────
+function renderAdmin() {
+  const tbody = document.getElementById('adminRecentTable');
+  if (tbody) {
+    tbody.innerHTML = TOOLKITS.slice(0, 10).map(t => `
+      <tr>
+        <td>${t.title}</td>
+        <td style="color:var(--medium-gray)">contributor@example.com</td>
+        <td style="color:var(--medium-gray)">May 2025</td>
+        <td><span class="badge badge-green">Published</span></td>
+      </tr>
+    `).join('');
+  }
+
+  const allTbody = document.getElementById('adminAllTable');
+  if (allTbody) {
+    allTbody.innerHTML = TOOLKITS.map(t => `
+      <tr>
+        <td>${t.title}</td>
+        <td style="color:var(--medium-gray)">${t.catName}</td>
+        <td><span class="badge ${t.difficulty === 'Beginner' ? 'badge-green' : t.difficulty === 'Advanced' ? 'badge-red' : 'badge-gray'}">${t.difficulty}</span></td>
+        <td>${t.downloads}</td>
+        <td><span class="badge badge-green">Published</span></td>
+      </tr>
+    `).join('');
+  }
+}
+
+function switchAdminTab(id, btn) {
+  document.querySelectorAll('[id^="ap-"]').forEach(p => p.style.display = 'none');
+  document.getElementById('ap-' + id).style.display = 'block';
+  document.querySelectorAll('.admin-nav-item').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+}
+
+// ─── SUBMIT WIZARD ─────────────────────────────
+let wizardStep = 1;
+const WIZARD_STEPS = ['Basic Information', 'Content', 'Media & Files', 'Attribution', 'Review & Submit'];
+
+function initWizard() {
+  wizardStep = 1;
+  renderWizard();
+}
+
+function renderWizard() {
+  const prog = document.getElementById('wizardProgress');
+  prog.innerHTML = WIZARD_STEPS.map((s, i) => {
+    const num = i + 1;
+    const cls = num < wizardStep ? 'wizard-step done' : num === wizardStep ? 'wizard-step active' : 'wizard-step';
+    return `<div class="${cls}">
+      <div class="wizard-step-num">${num < wizardStep ? '✓' : num}</div>
+      <div style="font-size:0.65rem;">${s}</div>
+    </div>`;
+  }).join('');
+
+  const content = document.getElementById('stepContent');
+  const prevBtn = document.getElementById('prevBtn');
+  const nextBtn = document.getElementById('nextBtn');
+
+  prevBtn.style.display = wizardStep > 1 ? 'inline-flex' : 'none';
+  nextBtn.textContent = wizardStep === WIZARD_STEPS.length ? 'Submit Toolkit' : 'Next →';
+
+  const stepContents = {
+    1: `<h2 style="font-size:1.25rem;font-weight:700;margin-bottom:1.5rem;">Basic Information</h2>
+      <div class="form-group"><label class="form-label">Toolkit Title *</label><input class="form-input" type="text" placeholder="e.g. Community Mapping Workshop" /></div>
+      <div class="form-group"><label class="form-label">Intent Category *</label>
+        <select class="form-select">
+          ${CATEGORIES.map(c => `<option value="${c.id}">${c.name}</option>`).join('')}
+        </select>
+      </div>
+      <div class="form-group"><label class="form-label">Intent Statement *</label><input class="form-input" type="text" placeholder="…by doing something specific." /></div>
+      <div class="form-group"><label class="form-label">Short Description * <span style="color:var(--medium-gray)">(max 200 chars)</span></label><textarea class="form-textarea" maxlength="200" style="min-height:80px;" oninput="document.getElementById('descCount').textContent=this.value.length+'/200'"></textarea><div class="char-count" id="descCount">0/200</div></div>
+      <div class="form-group"><label class="form-label">Sector</label>
+        <div class="radio-group">
+          <label class="radio-option"><input type="radio" name="sector" value="creative" checked /> Creative Industry</label>
+          <label class="radio-option"><input type="radio" name="sector" value="ngo" /> NGO</label>
+          <label class="radio-option"><input type="radio" name="sector" value="general" /> General</label>
+        </div>
+      </div>
+      <div class="form-group"><label class="form-label">Difficulty</label>
+        <div class="radio-group">
+          <label class="radio-option"><input type="radio" name="difficulty" value="beginner" checked /> Beginner</label>
+          <label class="radio-option"><input type="radio" name="difficulty" value="intermediate" /> Intermediate</label>
+          <label class="radio-option"><input type="radio" name="difficulty" value="advanced" /> Advanced</label>
+        </div>
+      </div>`,
+    2: `<h2 style="font-size:1.25rem;font-weight:700;margin-bottom:1.5rem;">Content</h2>
+      <div class="form-group">
+        <label class="form-label">What is it & why should I do it? * <span style="color:var(--medium-gray)">(min 100 chars)</span></label>
+        <textarea class="form-textarea" style="min-height:160px;" placeholder="Describe what this toolkit is and why practitioners should use it…"></textarea>
+      </div>
+      <div class="form-group">
+        <label class="form-label">How do I use it? * <span style="color:var(--medium-gray)">(min 100 chars)</span></label>
+        <textarea class="form-textarea" style="min-height:160px;" placeholder="Describe step by step how to use this toolkit…"></textarea>
+      </div>`,
+    3: `<h2 style="font-size:1.25rem;font-weight:700;margin-bottom:1.5rem;">Media & Files</h2>
+      <div class="form-group">
+        <label class="form-label">Cover Image *</label>
+        <div style="border:2px dashed #D1D5DB;border-radius:4px;padding:2rem;text-align:center;cursor:pointer;color:var(--medium-gray);" onclick="showToast('File upload requires backend integration')">
+          <div style="font-size:2rem;margin-bottom:0.5rem;">🖼️</div>
+          <p style="font-size:0.875rem;">Drag & drop or click to upload<br><span style="font-size:0.75rem;">JPG/PNG, max 2MB</span></p>
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="form-label">PDF — A4 *</label>
+        <div style="border:2px dashed #D1D5DB;border-radius:4px;padding:1.5rem;text-align:center;cursor:pointer;color:var(--medium-gray);" onclick="showToast('File upload requires backend integration')">
+          <p style="font-size:0.875rem;">📄 Click to upload PDF (max 10MB)</p>
+        </div>
+      </div>
+      <div class="form-group"><label class="form-label">Miro Board URL (optional)</label><input class="form-input" type="url" placeholder="https://miro.com/app/board/…" /></div>
+      <div class="form-group"><label class="form-label">Video URL (optional)</label><input class="form-input" type="url" placeholder="YouTube or Vimeo URL" /></div>`,
+    4: `<h2 style="font-size:1.25rem;font-weight:700;margin-bottom:1.5rem;">Attribution</h2>
+      <div class="form-group"><label class="form-label">Credit / Source</label><input class="form-input" type="text" placeholder="e.g. Osterwalder A., Pigneur Y (2010)" /></div>
+      <div class="form-group"><label class="form-label">Credit URL (optional)</label><input class="form-input" type="url" placeholder="https://…" /></div>
+      <div class="form-group"><label class="form-label">License</label>
+        <select class="form-select">
+          <option>CC BY</option><option>CC BY-SA</option><option selected>CC BY-NC-SA</option><option>Original Work</option>
+        </select>
+      </div>`,
+    5: `<h2 style="font-size:1.25rem;font-weight:700;margin-bottom:1.5rem;">Review & Submit</h2>
+      <div style="background:var(--light-gray);border-radius:4px;padding:1.25rem;margin-bottom:1.5rem;">
+        <p style="font-size:0.875rem;color:var(--medium-gray);margin-bottom:0.5rem;">Preview — complete the previous steps to see your toolkit preview here.</p>
+      </div>
+      <label class="filter-item" style="margin-bottom:1.5rem;font-size:0.875rem;align-items:flex-start;gap:0.6rem;">
+        <input type="checkbox" style="margin-top:0.2rem;" />
+        <span>I confirm this toolkit is original or properly licensed and I have the right to submit it.</span>
+      </label>`
+  };
+  content.innerHTML = stepContents[wizardStep] || '';
+}
+
+function wizardNext() {
+  if (wizardStep === WIZARD_STEPS.length) {
+    // Submit
+    document.getElementById('stepContent').innerHTML = `
+      <div class="success-screen">
+        <div class="success-icon">🎉</div>
+        <div class="success-title">Toolkit Submitted!</div>
+        <p class="success-msg">Your toolkit is under review. We'll notify you once it's approved.</p>
+        <button class="btn btn-red" onclick="showPage('tools')">Browse Tools</button>
+      </div>`;
+    document.getElementById('wizardProgress').style.display = 'none';
+    document.getElementById('prevBtn').style.display = 'none';
+    document.getElementById('nextBtn').style.display = 'none';
+    return;
+  }
+  wizardStep = Math.min(wizardStep + 1, WIZARD_STEPS.length);
+  renderWizard();
+}
+
+function wizardPrev() {
+  wizardStep = Math.max(wizardStep - 1, 1);
+  renderWizard();
+}
+
+// ─── DASHBOARD TABS ────────────────────────────
+function switchDashTab(id, btn) {
+  document.querySelectorAll('.dash-panel').forEach(p => p.classList.remove('active'));
+  document.getElementById('dp-' + id).classList.add('active');
+  document.querySelectorAll('.dash-tab').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+}
+
+// ─── SEARCH ────────────────────────────────────
+let searchTimeout;
+function doSearch(query) {
+  clearTimeout(searchTimeout);
+  searchTimeout = setTimeout(() => {
+    const results = TOOLKITS.filter(t =>
+      t.title.toLowerCase().includes(query.toLowerCase()) ||
+      t.desc.toLowerCase().includes(query.toLowerCase()) ||
+      t.tags.some(tag => tag.toLowerCase().includes(query.toLowerCase()))
+    );
+    const status = document.getElementById('searchStatus');
+    const grid = document.getElementById('searchResults');
+    if (!query) {
+      status.textContent = 'Type to search…';
+      grid.innerHTML = '';
+      return;
+    }
+    status.textContent = `${results.length} result${results.length !== 1 ? 's' : ''} for "${query}"`;
+    if (results.length === 0) {
+      grid.innerHTML = `<div class="empty-state" style="grid-column:1/-1;">
+        <h3>No results found for "${query}"</h3>
+        <p>Try a different search term or browse all tools.</p>
+        <button class="btn btn-red" style="margin-top:1rem;" onclick="showPage('tools')">Browse All Tools</button>
+      </div>`;
+    } else {
+      grid.innerHTML = results.map(t => renderToolCard(t)).join('');
+    }
+  }, 300);
+}
+
+// ─── UTILITIES ─────────────────────────────────
+let toastTimeout;
+function showToast(msg) {
+  const toast = document.getElementById('toast');
+  toast.textContent = msg;
+  toast.classList.add('show');
+  clearTimeout(toastTimeout);
+  toastTimeout = setTimeout(() => toast.classList.remove('show'), 2800);
+}
+
+function togglePw(inputId, btn) {
+  const input = document.getElementById(inputId);
+  if (input.type === 'password') {
+    input.type = 'text';
+    btn.textContent = 'Hide';
+  } else {
+    input.type = 'password';
+    btn.textContent = 'Show';
+  }
+}
+
+// ─── KEYBOARD ACCESSIBILITY ────────────────────
+document.addEventListener('keydown', (e) => {
+  if (e.key === 'Escape') closeFindOverlay();
+  if (e.key === 'Enter' && e.target.getAttribute('role') === 'button') {
+    e.target.click();
+  }
+});
+
+// ─── INIT ──────────────────────────────────────
+document.addEventListener('DOMContentLoaded', () => {
+  renderHome();
+});
+</script>
+</body>
+</html>
