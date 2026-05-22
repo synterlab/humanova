@@ -1561,21 +1561,17 @@ const CAT_PATTERNS = {
   'sustain':       `<path d="M100,10 L190,100 L100,130 L10,100 Z" fill="none" stroke="rgba(255,255,255,0.07)" stroke-width="1.5"/><path d="M60,85 Q100,20 140,85" fill="none" stroke="rgba(255,255,255,0.06)" stroke-width="1.5"/>`,
 };
 
+function getCoverBg(category) {
+  const col = CAT_COLORS[category] || { a:'#1a1a1a', b:'#333' };
+  return `linear-gradient(135deg, ${col.a} 0%, ${col.b} 100%)`;
+}
+
 function getCoverSVG(category, title) {
-  const col = CAT_COLORS[category] || { a:'#1a1a1a', b:'#333', c:'#666' };
   const pat = CAT_PATTERNS[category] || '';
   const init = title.split(' ').slice(0,2).map(w => w[0]).join('').toUpperCase();
-  const gid = 'g' + category.replace(/-/g,'') + Math.random().toString(36).slice(2,5);
-  return `<svg viewBox="0 0 200 130" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:100%;display:block;" preserveAspectRatio="xMidYMid slice">
-    <defs>
-      <linearGradient id="${gid}" x1="0%" y1="0%" x2="100%" y2="100%">
-        <stop offset="0%" style="stop-color:${col.a}"/>
-        <stop offset="100%" style="stop-color:${col.b}"/>
-      </linearGradient>
-    </defs>
-    <rect width="200" height="130" fill="url(#${gid})"/>
+  return `<svg viewBox="0 0 200 130" xmlns="http://www.w3.org/2000/svg" style="position:absolute;inset:0;width:100%;height:100%;display:block;" preserveAspectRatio="xMidYMid slice">
     ${pat}
-    <text x="12" y="118" font-family="Inter,system-ui,sans-serif" font-size="72" font-weight="900" fill="rgba(255,255,255,0.07)" letter-spacing="-3">${init}</text>
+    <text x="12" y="118" font-family="Inter,system-ui,sans-serif" font-size="72" font-weight="900" fill="rgba(255,255,255,0.1)" letter-spacing="-3">${init}</text>
   </svg>`;
 }
 
@@ -1583,7 +1579,7 @@ function getCoverSVG(category, title) {
 function renderToolCard(t, clickable = true) {
   const onclick = clickable ? `onclick="openToolDetail('${t.slug}')"` : '';
   return `<article class="tool-card" ${onclick} role="${clickable ? 'button' : 'article'}" tabindex="${clickable ? '0' : '-1'}">
-    <div class="tool-card-cover-wrap">
+    <div class="tool-card-cover-wrap" style="background:${getCoverBg(t.category)};">
       ${getCoverSVG(t.category, t.title)}
       <div class="tool-card-badge-wrap"><span class="badge badge-red">${t.catName}</span></div>
     </div>
@@ -1700,7 +1696,7 @@ function openToolDetail(slug) {
     <p class="intent-stmt"><strong>I want to</strong> ${tool.catName.toLowerCase()} ${tool.intent}.</p>
     <h1 class="tool-title">${tool.title}</h1>
 
-    <div class="tool-cover-placeholder" style="padding:0;background:none;border-radius:4px;overflow:hidden;aspect-ratio:16/9;width:100%;margin-bottom:1.5rem;">
+    <div class="tool-cover-placeholder" style="padding:0;border-radius:4px;overflow:hidden;aspect-ratio:16/9;width:100%;margin-bottom:1.5rem;position:relative;background:${getCoverBg(tool.category)};">
       ${getCoverSVG(tool.category, tool.title)}
     </div>
 
@@ -1834,7 +1830,7 @@ function renderCaseStudies() {
   const grid = document.getElementById('caseStudiesGrid');
   grid.innerHTML = CASE_STUDIES.map(cs => `
     <div class="case-card" onclick="showToast('Full case study coming soon!')" role="button" tabindex="0">
-      <div class="case-card-img">
+      <div class="case-card-img" style="position:relative;background:${getCoverBg(cs.toolkitCategory || 'sustain')};">
         ${getCoverSVG(cs.toolkitCategory || 'sustain', cs.title)}
       </div>
       <div class="case-card-body">
