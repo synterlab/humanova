@@ -4,6 +4,10 @@
 
 🌐 Live: [humanova.run](https://humanova.run)
 
+<a href="https://orynth.dev/projects/humanova-foundatio" target="_blank" rel="noopener">
+  <img src="https://orynth.dev/api/badge/humanova-foundatio?theme=light&style=default" alt="Featured on Orynth" width="260" height="80" />
+</a>
+
 ## What is Humanova?
 
 Humanova is a curated library of 30+ practical toolkits grounded in innovation, design thinking, and social development. Browse, use, and submit toolkits to help practitioners invent, adopt, and adapt ideas that deliver better results.
